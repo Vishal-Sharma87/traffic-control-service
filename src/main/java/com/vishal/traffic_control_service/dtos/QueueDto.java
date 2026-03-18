@@ -1,4 +1,4 @@
-package com.vishal.traffic_control_service.dto;
+package com.vishal.traffic_control_service.dtos;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

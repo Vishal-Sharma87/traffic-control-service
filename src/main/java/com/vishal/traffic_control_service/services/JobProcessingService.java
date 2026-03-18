@@ -1,6 +1,6 @@
-package com.vishal.traffic_control_service.service;
+package com.vishal.traffic_control_service.services;
 
-import com.vishal.traffic_control_service.dto.QueueDto;
+import com.vishal.traffic_control_service.dtos.QueueDto;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
