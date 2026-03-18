@@ -4,10 +4,10 @@ import com.vishal.traffic_control_service.dto.QueueDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+@Service
 @RequiredArgsConstructor
 public class QueueService {
 
