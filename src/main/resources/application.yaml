@@ -1,3 +1,13 @@
 spring:
   application:
     name: traffic-control-service
+
+  profiles:
+    active: local
+
+#traffic-control:
+#  queue:
+#    main:
+#      capacity: 5
+#      error:
+#        queue-full: "Request cannot be accepted at the moment due to high load. Please try again later."

@@ -32,7 +32,7 @@ public class JobProcessingService {
 //                    TODO process the job
 
 //                    TODO save the processed result to the result storage
-                    resultService.save(jobDto);
+                    resultService.saveJobResult(jobDto);
 
 //                    TODO update status of this job as COMPLETED
                     jobMetadataService.updateJobStatus(jobDto.getJobId(), JobStatus.COMPLETED);

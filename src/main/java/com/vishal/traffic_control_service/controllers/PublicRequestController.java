@@ -28,29 +28,22 @@ public class PublicRequestController {
     @PostMapping
     public ResponseEntity<ApiResponseDto<JobRequestResponseDto>> acceptRequest(){
 
-        String jobId = publicControllerService.tryAcceptRequest();
+        String jobId = publicControllerService.submitJob();
 
         //         we will reach the following line if and only if the request is accepted,
         //         and we will definitely have a valid jobId we can return it directly to the user
-
-        return new ResponseEntity<>(new ApiResponseDto<>(new JobRequestResponseDto(jobId, JobStatus.PENDING)), HttpStatus.ACCEPTED);
-
+        return ResponseEntity
+                .status(HttpStatus.ACCEPTED)
+                .body(new ApiResponseDto<>(new JobRequestResponseDto(jobId, JobStatus.PENDING))
+                );
     }
 
     @GetMapping("/poll")
     public ResponseEntity<ApiResponseDto<JobPollResponseDto>> getResult(@RequestParam String jobId) {
-        JobStatus currentJobStatus = publicControllerService.fetchJobStatus(jobId);
+        String jobResponse = publicControllerService.tryFetchResult(jobId);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body( new ApiResponseDto<>(new JobPollResponseDto(jobId, JobStatus.COMPLETED, jobResponse),Instant.now())                );
 
-//       if we are reaching this line it means no exception occurred
-//       the job is completed with the associated job ID so we can directly return it to the user
-
-        if (JobStatus.NOT_EXISTS.equals(currentJobStatus)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body( new ApiResponseDto<>(new JobPollResponseDto(jobId, currentJobStatus, null), Instant.now()));
-        } else if (JobStatus.COMPLETED.equals(currentJobStatus)) {
-            return ResponseEntity.status(HttpStatus.OK).body( new ApiResponseDto<>(new JobPollResponseDto(jobId, JobStatus.COMPLETED, publicControllerService.fetchResult(jobId)), Instant.now()));
-        } else {
-            return ResponseEntity.status(HttpStatus.OK).body( new ApiResponseDto<>(new JobPollResponseDto(jobId, JobStatus.PENDING, null), Instant.now()));
-        }
     }
-
 }
