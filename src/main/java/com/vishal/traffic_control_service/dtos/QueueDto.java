@@ -1,17 +1,19 @@
 package com.vishal.traffic_control_service.dtos;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Data
+@Builder
 public class QueueDto {
 
-    private String key;
-    private String value;
+    private String jobId;
+    private String result;
 
     public QueueDto(String jobId, String s) {
-        key = jobId;
-        value = s;
+        this.jobId = jobId;
+        result = s;
     }
 }

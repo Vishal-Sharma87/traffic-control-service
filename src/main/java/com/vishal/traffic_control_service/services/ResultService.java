@@ -15,7 +15,7 @@ public class ResultService {
 
 
     public void save(QueueDto dto){
-        result.put(dto.getKey(), dto.getValue());
+        result.put(dto.getJobId(), dto.getResult());
     }
 
 

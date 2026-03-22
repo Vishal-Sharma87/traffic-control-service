@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.time.Instant;
 
 @RestController
 @RequestMapping("/public")
@@ -38,16 +38,19 @@ public class PublicRequestController {
     }
 
     @GetMapping("/poll")
-    public ResponseEntity<ApiResponseDto<JobPollResponseDto>> getResult(@RequestParam String jobId){
-        String jobResponse = publicControllerService.tryFetchResult(jobId);
+    public ResponseEntity<ApiResponseDto<JobPollResponseDto>> getResult(@RequestParam String jobId) {
+        JobStatus currentJobStatus = publicControllerService.fetchJobStatus(jobId);
 
 //       if we are reaching this line it means no exception occurred
 //       the job is completed with the associated job ID so we can directly return it to the user
 
-        return new ResponseEntity<>(
-                new ApiResponseDto<>(
-                        new JobPollResponseDto(jobId, jobResponse))
-                , HttpStatus.OK
-        );
+        if (JobStatus.NOT_EXISTS.equals(currentJobStatus)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body( new ApiResponseDto<>(new JobPollResponseDto(jobId, currentJobStatus, null), Instant.now()));
+        } else if (JobStatus.COMPLETED.equals(currentJobStatus)) {
+            return ResponseEntity.status(HttpStatus.OK).body( new ApiResponseDto<>(new JobPollResponseDto(jobId, JobStatus.COMPLETED, publicControllerService.fetchResult(jobId)), Instant.now()));
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body( new ApiResponseDto<>(new JobPollResponseDto(jobId, JobStatus.PENDING, null), Instant.now()));
+        }
     }
+
 }
