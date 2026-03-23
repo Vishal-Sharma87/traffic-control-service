@@ -1,7 +1,6 @@
 package com.vishal.traffic_control_service.advices;
 
 import com.vishal.traffic_control_service.advices.exceptions.JobExpiredOrNotExistsException;
-import com.vishal.traffic_control_service.advices.exceptions.JobNotFinishedException;
 import com.vishal.traffic_control_service.advices.exceptions.MainQueueIsFullException;
 import com.vishal.traffic_control_service.enums.ErrorCode;
 import org.springframework.http.HttpStatus;
@@ -34,18 +33,6 @@ public class GlobalExceptionHandler {
                         .message(e.getMessage())
                         .timestamp(Instant.now())
                         .errorCode(ErrorCode.JOB_EXPIRED_OR_NOT_EXISTS.toString())
-                        .build()
-                );
-    }
-
-    @ExceptionHandler(JobNotFinishedException.class)
-    public ResponseEntity<ApiError> handleJobNotFinishedException(JobNotFinishedException e){
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(ApiError.builder()
-                        .message(e.getMessage())
-                        .timestamp(Instant.now())
-                        .errorCode(ErrorCode.JOB_NOT_FINISHED.toString())
                         .build()
                 );
     }

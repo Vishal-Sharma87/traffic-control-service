@@ -1,6 +1,7 @@
 package com.vishal.traffic_control_service.services;
 
 import com.vishal.traffic_control_service.dtos.QueueDto;
+import com.vishal.traffic_control_service.dtos.responseDtos.JobPollResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class PublicControllerService {
         return jobId;
     }
 
-    public String tryFetchResult(String jobId) {
+    public JobPollResponseDto tryFetchResponse(String jobId) {
         return resultService.tryFetch(jobId);
     }
 }

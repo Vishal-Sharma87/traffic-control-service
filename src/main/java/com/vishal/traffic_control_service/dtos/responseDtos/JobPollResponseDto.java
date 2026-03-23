@@ -9,16 +9,17 @@ import lombok.NoArgsConstructor;
 
 
 @Data
-@NoArgsConstructor
 @Builder
 public class JobPollResponseDto {
     private String jobId;
     private JobStatus currentJobStatus;
     private String jobResponse;
+    private String message;
 
-    public JobPollResponseDto(String jobId, JobStatus jobStatus, @Nullable String jobResponse){
+    public JobPollResponseDto(String jobId, JobStatus jobStatus, @Nullable String jobResponse, String message){
         this.jobId = jobId;
         this.currentJobStatus = jobStatus;
         this.jobResponse = jobResponse;
+        this.message = message;
     }
 }

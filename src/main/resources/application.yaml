@@ -5,9 +5,51 @@ spring:
   profiles:
     active: local
 
-#traffic-control:
-#  queue:
-#    main:
-#      capacity: 5
-#      error:
-#        queue-full: "Request cannot be accepted at the moment due to high load. Please try again later."
+
+# =========================================================
+# Traffic Control Service Configuration
+# =========================================================
+traffic-control:
+
+  # -------------------------------------------------------
+  # Queue Configuration
+  # -------------------------------------------------------
+  queue:
+    main:
+      # Maximum number of jobs allowed in main queue
+      capacity: "${MAIN_QUEUE_CAPACITY:5}"
+
+      error:
+        # Message returned when queue is full (503 Service Unavailable)
+        queue-full: "${MAIN_QUEUE_FULL_ERROR_MESSAGE:Request cannot be accepted at the moment due to high load. Please try again later.}"
+
+
+  # -------------------------------------------------------
+  # Job Metadata & Polling Response Messages
+  # -------------------------------------------------------
+  metadata-status:
+    response:
+
+      # -------------------------------
+      # Error Responses
+      # -------------------------------
+      error:
+        # Returned when jobId does not exist or is expired (404 Not Found)
+        expired-or-not-exists: "${JOB_EXPIRED_OR_NOT_EXISTS_ERROR_MESSAGE:Job is either expired or does not exist}"
+
+
+      # -------------------------------
+      # Success Responses (Polling)
+      # -------------------------------
+      success:
+        # Job completed successfully
+        completed: "${JOB_COMPLETED_MESSAGE:Job completed successfully}"
+
+        # Job is accepted but not yet picked by worker
+        pending: "${JOB_PENDING_MESSAGE:Job is pending and will be processed shortly}"
+
+        # Job is currently being processed by worker
+        processing: "${JOB_PROCESSING_MESSAGE:Job is currently being processed}"
+
+        # Job processing failed after retries
+        failed: "${JOB_FAILED_MESSAGE:Job processing failed. Please retry later}"

@@ -10,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Instant;
-
 @RestController
 @RequestMapping("/public")
 @RequiredArgsConstructor
@@ -40,10 +38,10 @@ public class PublicRequestController {
 
     @GetMapping("/poll")
     public ResponseEntity<ApiResponseDto<JobPollResponseDto>> getResult(@RequestParam String jobId) {
-        String jobResponse = publicControllerService.tryFetchResult(jobId);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body( new ApiResponseDto<>(new JobPollResponseDto(jobId, JobStatus.COMPLETED, jobResponse),Instant.now())                );
+
+        JobPollResponseDto responseDto = publicControllerService.tryFetchResponse(jobId);
+
+        return ResponseEntity.ok(new ApiResponseDto<>(responseDto));
 
     }
 }
