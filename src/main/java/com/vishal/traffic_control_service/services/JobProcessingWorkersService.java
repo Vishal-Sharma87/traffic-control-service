@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor
 public class JobProcessingWorkersService implements ApplicationRunner {
 
     private final QueueService queueService;
@@ -22,8 +22,19 @@ public class JobProcessingWorkersService implements ApplicationRunner {
     private final JobMetadataService jobMetadataService;
     private final ExecutorService worker;
 
-    @Value("${threads.processing-thread.threadCount}")
-    private int THREAD_COUNT;
+    private final int THREAD_COUNT;
+
+    public JobProcessingWorkersService(@Value("${threads.count.job-worker-count}")  int threadCount,
+                                       JobMetadataService jobMetadataService,
+                                       ResultService resultService,
+                                       QueueService queueService) {
+
+        this.THREAD_COUNT = threadCount;
+        this.worker = Executors.newFixedThreadPool(THREAD_COUNT);
+        this.jobMetadataService = jobMetadataService;
+        this.resultService = resultService;
+        this.queueService = queueService;
+    }
 
     @Override
     public void run(ApplicationArguments args) {
