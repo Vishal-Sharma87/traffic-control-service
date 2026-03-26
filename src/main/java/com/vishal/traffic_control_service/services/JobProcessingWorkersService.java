@@ -2,6 +2,7 @@ package com.vishal.traffic_control_service.services;
 
 import com.vishal.traffic_control_service.dtos.QueueDto;
 import com.vishal.traffic_control_service.enums.JobStatus;
+import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Slf4j
@@ -19,20 +21,36 @@ public class JobProcessingWorkersService implements ApplicationRunner {
     private final QueueService queueService;
     private final ResultService resultService;
     private final JobMetadataService jobMetadataService;
-    private final ExecutorService worker;
-
+    private final ExecutorService workerService;
+    private final WorkerHeartBeatService heartBeatService;
     private final int THREAD_COUNT;
 
     public JobProcessingWorkersService(@Value("${threads.count.job-worker-count}")  int threadCount,
                                        JobMetadataService jobMetadataService,
                                        ResultService resultService,
-                                       QueueService queueService) {
+                                       QueueService queueService,
+                                       WorkerHeartBeatService heartBeatService) {
 
         this.THREAD_COUNT = threadCount;
-        this.worker = Executors.newFixedThreadPool(THREAD_COUNT);
+        this.workerService = Executors.newFixedThreadPool(THREAD_COUNT);
         this.jobMetadataService = jobMetadataService;
         this.resultService = resultService;
         this.queueService = queueService;
+        this.heartBeatService = heartBeatService;
+    }
+
+    @PreDestroy
+    public void cleanWorkerThreads(){
+        workerService.shutdown();
+        try
+        {
+            if(!workerService.awaitTermination(5, TimeUnit.SECONDS)){
+                workerService.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            workerService.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
     }
 
     @Override
@@ -40,7 +58,7 @@ public class JobProcessingWorkersService implements ApplicationRunner {
         log.info("Starting {} worker threads...", THREAD_COUNT);
 
         for (int i = 0; i < THREAD_COUNT; i++) {
-            worker.submit(this::consumeJobs);
+            workerService.submit(this::consumeJobs);
         }
     }
 
@@ -67,6 +85,9 @@ public class JobProcessingWorkersService implements ApplicationRunner {
         try {
             log.info("Worker [{}] picked jobId={}", Thread.currentThread().getName(), jobId);
 
+//            TODO start heart beat of this job id
+            heartBeatService.startHeartBeat(jobId);
+
             // TODO: add this jobDto into the processing queue and then update it's status as PROCESSING
             jobMetadataService.updateJobStatus(jobId, JobStatus.PROCESSING);
 
@@ -79,7 +100,7 @@ public class JobProcessingWorkersService implements ApplicationRunner {
             // TODO update status of this job as COMPLETED
             jobMetadataService.updateJobStatus(jobId, JobStatus.COMPLETED);
 
-            log.info("Worker [{}] completed jobId={}", Thread.currentThread().getName(), jobId);
+            heartBeatService.stopHeartBeat(jobId);
 
             // TODO: remove job from processing queue
 
