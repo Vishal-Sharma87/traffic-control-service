@@ -2,7 +2,6 @@ package com.vishal.traffic_control_service.services;
 
 import com.vishal.traffic_control_service.dtos.QueueDto;
 import com.vishal.traffic_control_service.enums.JobStatus;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
