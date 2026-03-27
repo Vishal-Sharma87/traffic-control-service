@@ -11,20 +11,22 @@ import java.util.concurrent.*;
 @Service
 public class WorkerHeartBeatService{
 
-    private final ExecutorService heartbeatService;
+    private final ScheduledExecutorService heartbeatService;
 
-    private final Map<String, Future<?>> jobIdToThreadMap;
+    private final Map<String, ScheduledFuture<?>> jobIdToThreadMap;
 
 
     public WorkerHeartBeatService( @Value("${threads.count.heartbeat-count}") int heartBeatThreads ){
 
-        this.heartbeatService = Executors.newFixedThreadPool(heartBeatThreads);
+        this.heartbeatService = Executors.newScheduledThreadPool(heartBeatThreads); //  .newFixedThreadPool(heartBeatThreads);
         this.jobIdToThreadMap = new ConcurrentHashMap<>();
 
     }
 
     @PreDestroy
     public void cleanHeartBeatThreads(){
+//        destroy all heartbeat threads before shutting the JVM down
+        jobIdToThreadMap.forEach((jobId, scheduledFuture) -> scheduledFuture.cancel(true));
         heartbeatService.shutdown();
         try
         {
@@ -39,31 +41,35 @@ public class WorkerHeartBeatService{
 
 
     public void startHeartBeat(String jobId){
-        Future<?> future = heartbeatService.submit(() -> start(jobId));
+//        TODO case: when a job is retried there might be a ScheduledFuture with that jobId in jobIdToThread map, first clean it up if it exists before registering new thread
+        stopHeartBeat(jobId);
+
+//        Refactored:
+//        Changed Executor service to Scheduled ExecutorService
+//        pros: Built for scheduled tasks, more precise and readable
+        ScheduledFuture<?> future = heartbeatService.scheduleAtFixedRate(() -> sendHeartBeat(jobId) ,
+                0,
+                200,
+                TimeUnit.MILLISECONDS
+        ); // .submit(() -> start(jobId));
 
         jobIdToThreadMap.put(jobId, future);
     }
 
     public void stopHeartBeat(String jobId){
-        Future<?> desiredThread = jobIdToThreadMap.remove(jobId);
+        ScheduledFuture<?> desiredThread = jobIdToThreadMap.remove(jobId);
         if(desiredThread != null){
             desiredThread.cancel(true);
         }
 
     }
 
-    private void start(String jobId){
-
-        int count = 0;
-
-        try{
-            while(!Thread.currentThread().isInterrupted()){
-                log.info("HeartBeat started jobId: {} worker detail: {} count: {}", jobId, Thread.currentThread().hashCode(), count++);
-                Thread.sleep(2000);
-            }
-        }catch (InterruptedException e){
-            log.info("heartbeat stopped, jobId: {}, worker:{}", jobId, Thread.currentThread().hashCode());
-            Thread.currentThread().interrupt();
+    private void sendHeartBeat(String jobId){
+        try {
+            log.info("HeartBeat started jobId: {} worker detail: {}", jobId, Thread.currentThread().hashCode());
+    //        heartbeat logic
+        } catch (Exception e) {
+            log.error("HeartBeat stopped jobId:{}, heartbeatThread:{}", jobId, Thread.currentThread().getName());
         }
     }
 }
