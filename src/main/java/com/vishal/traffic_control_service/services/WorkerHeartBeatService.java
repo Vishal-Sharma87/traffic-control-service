@@ -11,65 +11,75 @@ import java.util.concurrent.*;
 @Service
 public class WorkerHeartBeatService{
 
-    private final ScheduledExecutorService heartbeatService;
+    private final int HEARTBEAT_INITIAL_DELAY;
+    private final int HEARTBEAT_INTERVAL;
 
+
+    private final ScheduledExecutorService asyncHeartbeatService;
+    private final CurrentProcessingJobService currentProcessingJobService;
     private final Map<String, ScheduledFuture<?>> jobIdToThreadMap;
 
 
-    public WorkerHeartBeatService( @Value("${threads.count.heartbeat-count}") int heartBeatThreads ){
+    public WorkerHeartBeatService( @Value("${threads.count.heartbeat-count}") int heartBeatThreads,
+                                   @Value("${threads.heartbeat.initial-delay}") int heartbeatInitialDelay,
+                                   @Value("${threads.heartbeat.interval}") int heartbeatInterval,
+                                   CurrentProcessingJobService currentProcessingJobService){
 
-        this.heartbeatService = Executors.newScheduledThreadPool(heartBeatThreads); //  .newFixedThreadPool(heartBeatThreads);
+        this.HEARTBEAT_INITIAL_DELAY = heartbeatInitialDelay;
+        this.HEARTBEAT_INTERVAL = heartbeatInterval;
+
         this.jobIdToThreadMap = new ConcurrentHashMap<>();
 
+        this.asyncHeartbeatService = Executors.newScheduledThreadPool(heartBeatThreads);//  .newFixedThreadPool(heartBeatThreads);
+        this.currentProcessingJobService = currentProcessingJobService;
     }
 
     @PreDestroy
     public void cleanHeartBeatThreads(){
 //        destroy all heartbeat threads before shutting the JVM down
         jobIdToThreadMap.forEach((jobId, scheduledFuture) -> scheduledFuture.cancel(true));
-        heartbeatService.shutdown();
+        asyncHeartbeatService.shutdown();
         try
         {
-            if(!heartbeatService.awaitTermination(5, TimeUnit.SECONDS)){
-                heartbeatService.shutdownNow();
+            if(!asyncHeartbeatService.awaitTermination(5, TimeUnit.SECONDS)){
+                asyncHeartbeatService.shutdownNow();
             }
         } catch (InterruptedException e) {
-            heartbeatService.shutdownNow();
+            asyncHeartbeatService.shutdownNow();
             Thread.currentThread().interrupt();
         }
     }
 
 
     public void startHeartBeat(String jobId){
-//        TODO case: when a job is retried there might be a ScheduledFuture with that jobId in jobIdToThread map, first clean it up if it exists before registering new thread
+//         there might be a ScheduledFuture with that jobId in jobIdToThread map,
+//         first clean it up if it exists before registering new thread
         stopHeartBeat(jobId);
 
-//        Refactored:
-//        Changed Executor service to Scheduled ExecutorService
-//        pros: Built for scheduled tasks, more precise and readable
-        ScheduledFuture<?> future = heartbeatService.scheduleAtFixedRate(() -> sendHeartBeat(jobId) ,
-                0,
-                200,
+        log.info("HeartBeat started jobId: {} worker detail: {}", jobId, Thread.currentThread().hashCode());
+
+        ScheduledFuture<?> future = asyncHeartbeatService.scheduleAtFixedRate(() -> sendHeartBeat(jobId) ,
+                HEARTBEAT_INITIAL_DELAY,
+                HEARTBEAT_INTERVAL,
                 TimeUnit.MILLISECONDS
-        ); // .submit(() -> start(jobId));
-
+        );
         jobIdToThreadMap.put(jobId, future);
-    }
-
-    public void stopHeartBeat(String jobId){
-        ScheduledFuture<?> desiredThread = jobIdToThreadMap.remove(jobId);
-        if(desiredThread != null){
-            desiredThread.cancel(true);
-        }
-
     }
 
     private void sendHeartBeat(String jobId){
         try {
-            log.info("HeartBeat started jobId: {} worker detail: {}", jobId, Thread.currentThread().hashCode());
-    //        heartbeat logic
+            currentProcessingJobService.updateHeartBeat(jobId);
         } catch (Exception e) {
             log.error("HeartBeat stopped jobId:{}, heartbeatThread:{}", jobId, Thread.currentThread().getName());
+        }
+    }
+
+    public void stopHeartBeat(String jobId){
+//        Stopping a thread associated with job means calling cancle() method of that thread reference
+        ScheduledFuture<?> desiredThread = jobIdToThreadMap.remove(jobId);
+        if(desiredThread != null){
+            desiredThread.cancel(true);
+            log.info("HeartBeat stopped jobId: {} worker detail: {}", jobId, Thread.currentThread().hashCode());
         }
     }
 }

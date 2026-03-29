@@ -1,7 +1,7 @@
 package com.vishal.traffic_control_service.services;
 
-import com.vishal.traffic_control_service.advices.exceptions.MainQueueIsFullException;
-import com.vishal.traffic_control_service.dtos.QueueDto;
+import com.vishal.traffic_control_service.advices.exceptions.MainQueueFullException;
+import com.vishal.traffic_control_service.models.JobRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,31 +15,36 @@ public class QueueService {
 
     private final int QUEUE_CAPACITY;
     private final String QUEUE_FULL_ERROR_MESSAGE;
+    private final BlockingQueue<JobRequest> queue;
 
-    private final BlockingQueue<QueueDto> queue;
-
-//    Custom constructor which guarantees the parameters are not null, it should be fetched from the .yml file
-//    Initially was using @Value directly on field that cause half-baked state for field causing Placeholder Parsing Exception
     public QueueService(
             @Value("${traffic-control.queue.main.capacity}") int QUEUE_CAPACITY,
             @Value("${traffic-control.queue.main.error.queue-full}") String QUEUE_FULL_ERROR_MESSAGE) {
 
+//        TODO create a queue of size more than pre defined queue capacity so that retried job can be added
+        int buffer = QUEUE_CAPACITY;
+
         this.QUEUE_CAPACITY = QUEUE_CAPACITY;
         this.QUEUE_FULL_ERROR_MESSAGE = QUEUE_FULL_ERROR_MESSAGE;
-
-        this.queue = new ArrayBlockingQueue<>(this.QUEUE_CAPACITY);
+        this.queue = new ArrayBlockingQueue<>(this.QUEUE_CAPACITY + buffer);
     }
 
-    public void addJob(QueueDto dto){
+
+
+    public void addJob(JobRequest jobRequest){
         if(queue.size() < QUEUE_CAPACITY){
-            queue.add(dto);
+            queue.add(jobRequest);
             return;
         }
-        throw new MainQueueIsFullException(QUEUE_FULL_ERROR_MESSAGE);
+        throw new MainQueueFullException(QUEUE_FULL_ERROR_MESSAGE);
     }
 
 
-    public QueueDto getJob() throws InterruptedException {
+    public JobRequest getJob() throws InterruptedException {
         return queue.take();
+    }
+
+    public void retryJob(String jobId) {
+        queue.add(new JobRequest(jobId));
     }
 }

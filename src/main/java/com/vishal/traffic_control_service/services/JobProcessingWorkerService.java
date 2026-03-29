@@ -1,6 +1,6 @@
 package com.vishal.traffic_control_service.services;
 
-import com.vishal.traffic_control_service.dtos.QueueDto;
+import com.vishal.traffic_control_service.models.JobRequest;
 import com.vishal.traffic_control_service.enums.JobStatus;
 import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
@@ -16,27 +16,36 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 @Slf4j
-public class JobProcessingWorkersService implements ApplicationRunner {
+public class JobProcessingWorkerService implements ApplicationRunner {
+
+
+    private final int THREAD_COUNT;
 
     private final QueueService queueService;
     private final ResultService resultService;
     private final JobMetadataService jobMetadataService;
     private final ExecutorService workerService;
     private final WorkerHeartBeatService heartBeatService;
-    private final int THREAD_COUNT;
+    private final CurrentProcessingJobService currentProcessingJobService;
+    private final JobService jobService;
 
-    public JobProcessingWorkersService(@Value("${threads.count.job-worker-count}")  int threadCount,
-                                       JobMetadataService jobMetadataService,
-                                       ResultService resultService,
-                                       QueueService queueService,
-                                       WorkerHeartBeatService heartBeatService) {
+    public JobProcessingWorkerService(@Value("${threads.count.job-worker-count}")  int threadCount,
+                                      JobMetadataService jobMetadataService,
+                                      ResultService resultService,
+                                      QueueService queueService,
+                                      WorkerHeartBeatService heartBeatService,
+                                      CurrentProcessingJobService currentProcessingJobService,
+                                      JobService jobService) {
 
         this.THREAD_COUNT = threadCount;
+
         this.workerService = Executors.newFixedThreadPool(THREAD_COUNT);
         this.jobMetadataService = jobMetadataService;
         this.resultService = resultService;
         this.queueService = queueService;
         this.heartBeatService = heartBeatService;
+        this.jobService = jobService;
+        this.currentProcessingJobService = currentProcessingJobService;
     }
 
     @PreDestroy
@@ -65,7 +74,13 @@ public class JobProcessingWorkersService implements ApplicationRunner {
     private void consumeJobs() {
         while (!Thread.currentThread().isInterrupted()) {
             try {
-                QueueDto job = queueService.getJob(); // blocking
+//                Step 1: pick a job
+                JobRequest job = queueService.getJob(); // blocking
+
+//                Step 2: add job in ProcessingQueue storage
+                currentProcessingJobService.addJob(job.getJobId());
+
+//  TODO: Step 1 and Step 2 must be atomic
 
                 processSingleJob(job);
 
@@ -79,40 +94,40 @@ public class JobProcessingWorkersService implements ApplicationRunner {
         }
     }
 
-    private void processSingleJob(QueueDto job) {
+    private void processSingleJob(JobRequest job) {
         final String jobId = job.getJobId();
 
         try {
             log.info("Worker [{}] picked jobId={}", Thread.currentThread().getName(), jobId);
 
-//            TODO start heart beat of this job id
+//            start heart beat of this job
             heartBeatService.startHeartBeat(jobId);
 
-            // TODO: add this jobDto into the processing queue and then update it's status as PROCESSING
+            // update Job status as PROCESSING
             jobMetadataService.updateJobStatus(jobId, JobStatus.PROCESSING);
 
-            // TODO process the job
-            Thread.sleep(10000);
+            // process the job
+            String result = jobService.processJob();
 
-            // TODO save the processed result to the result storage
-            resultService.saveJobResult(job);
+            // save the processed result to the result storage
+            resultService.saveJobResult(jobId, result);
 
-            // TODO update status of this job as COMPLETED
+//            update status of this job as COMPLETED
             jobMetadataService.updateJobStatus(jobId, JobStatus.COMPLETED);
 
+//            Stop the heartbeat of this job
             heartBeatService.stopHeartBeat(jobId);
 
-            // TODO: remove job from processing queue
-
-        } catch (InterruptedException e) {
-            log.warn("Job interrupted, jobId={}", jobId);
-            Thread.currentThread().interrupt();
+            // remove job from processing queue
+            currentProcessingJobService.removeJob(jobId);
 
         } catch (Exception e) {
             log.error("Failed processing jobId={}", jobId, e);
 
             // DO NOT remove from processing queue
-            // Scheduler will handle retry
+
+//          Stop the heartbeat so that schedular can retry the job if needed
+            heartBeatService.stopHeartBeat(jobId);
         }
     }
 }

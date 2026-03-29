@@ -39,7 +39,7 @@ public class PublicRequestController {
     @GetMapping("/poll")
     public ResponseEntity<ApiResponseDto<JobPollResponseDto>> getResult(@RequestParam String jobId) {
 
-        JobPollResponseDto responseDto = publicControllerService.tryFetchResponse(jobId);
+        JobPollResponseDto responseDto = publicControllerService.getJobResult(jobId);
 
         return ResponseEntity.ok(new ApiResponseDto<>(responseDto));
 

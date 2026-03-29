@@ -1,16 +1,32 @@
 package com.vishal.traffic_control_service.models;
 
 import com.vishal.traffic_control_service.enums.JobStatus;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+import java.util.concurrent.atomic.AtomicInteger;
+
+
 public class JobMetadata {
-    private String jobId;
-    private JobStatus status;
+
+    @Getter
+    private volatile JobStatus status;
+
+    private final AtomicInteger retryCount;
+
+    public JobMetadata(){
+        this.status = JobStatus.PENDING;
+        this.retryCount = new AtomicInteger(0);
+    }
+
+    public void updateStatus(JobStatus status){
+        this.status =status;
+    }
+
+    public void incrementRetryCount() {
+        this.retryCount.incrementAndGet();
+    }
+
+    public int getRetryCount() {
+        return this.retryCount.get();
+    }
 }

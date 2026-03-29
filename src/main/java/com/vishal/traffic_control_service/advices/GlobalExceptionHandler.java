@@ -1,7 +1,7 @@
 package com.vishal.traffic_control_service.advices;
 
 import com.vishal.traffic_control_service.advices.exceptions.JobExpiredOrNotExistsException;
-import com.vishal.traffic_control_service.advices.exceptions.MainQueueIsFullException;
+import com.vishal.traffic_control_service.advices.exceptions.MainQueueFullException;
 import com.vishal.traffic_control_service.enums.ErrorCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +13,8 @@ import java.time.Instant;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(MainQueueIsFullException.class)
-    public ResponseEntity<ApiError> handleMainQueueIsFullException(MainQueueIsFullException e){
+    @ExceptionHandler(MainQueueFullException.class)
+    public ResponseEntity<ApiError> handleMainQueueIsFullException(MainQueueFullException e){
         return ResponseEntity
                 .status(HttpStatus.SERVICE_UNAVAILABLE)
                 .body(ApiError.builder()
