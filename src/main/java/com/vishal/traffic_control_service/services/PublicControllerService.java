@@ -20,7 +20,7 @@ public class PublicControllerService {
     public String submitJob() {
         String jobId = UUID.randomUUID().toString();
 
-        queueService.addJob(new JobRequest(jobId));
+        queueService.addJob(jobId);
 //        Reaching this line indicates we have successfully inserted the job into the main queue
 //        put the jobId and request to perform inside the metadata storage for lookup using metadata storage instead of DB directly
         jobMetadataService.addJobMetadata(jobId);

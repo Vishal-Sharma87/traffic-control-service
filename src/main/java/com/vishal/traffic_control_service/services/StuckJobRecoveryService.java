@@ -4,8 +4,6 @@ import com.vishal.traffic_control_service.enums.JobStatus;
 import com.vishal.traffic_control_service.models.ProcessingInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +12,6 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
-@EnableScheduling
-@Configuration
 public class StuckJobRecoveryService {
 
     private final long MAX_PROCESSING_TIME_ALLOWED;

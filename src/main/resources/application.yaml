@@ -17,11 +17,11 @@ traffic-control:
   queue:
     main:
       # Maximum number of jobs allowed in main queue
-      capacity: "${MAIN_QUEUE_CAPACITY:5}"
+      capacity: "${MAIN_QUEUE_CAPACITY:}"
 
       error:
         # Message returned when queue is full (503 Service Unavailable)
-        queue-full: "${MAIN_QUEUE_FULL_ERROR_MESSAGE:Request cannot be accepted at the moment due to high load. Please try again later.}"
+        queue-full: "${MAIN_QUEUE_FULL_ERROR_MESSAGE:}"
 
 
   # -------------------------------------------------------
@@ -35,7 +35,7 @@ traffic-control:
       # -------------------------------
       error:
         # Returned when jobId does not exist or is expired (404 Not Found)
-        expired-or-not-exists: "${JOB_EXPIRED_OR_NOT_EXISTS_ERROR_MESSAGE:Job is either expired or does not exist}"
+        expired-or-not-exists: "${JOB_EXPIRED_OR_NOT_EXISTS_ERROR_MESSAGE:}"
 
 
       # -------------------------------
@@ -43,13 +43,54 @@ traffic-control:
       # -------------------------------
       success:
         # Job completed successfully
-        completed: "${JOB_COMPLETED_MESSAGE:Job completed successfully}"
+        completed: "${JOB_COMPLETED_MESSAGE:}"
 
         # Job is accepted but not yet picked by worker
-        pending: "${JOB_PENDING_MESSAGE:Job is pending and will be processed shortly}"
+        pending: "${JOB_PENDING_MESSAGE:}"
 
         # Job is currently being processed by worker
-        processing: "${JOB_PROCESSING_MESSAGE:Job is currently being processed}"
+        processing: "${JOB_PROCESSING_MESSAGE:}"
 
         # Job processing failed after retries
-        failed: "${JOB_FAILED_MESSAGE:Job processing failed. Please retry later}"
+        failed: "${JOB_FAILED_MESSAGE:}"
+
+
+  # -------------------------------------------------------
+  # Job Processing Configuration
+  # -------------------------------------------------------
+  job:
+    # Maximum time a job is allowed to be in PROCESSING state (ms)
+    max-processing-time: "${MAX_PROCESSING_TIME:}"
+
+    # Maximum time allowed between heartbeats before job is considered dead (ms)
+    heartbeat-timeout: "${MAX_HEARTBEAT_TIMEOUT:}"
+
+    # Maximum number of retry attempts per job
+    max-retries: "${MAX_RETRIES_PER_JOB:}"
+
+
+  # -------------------------------------------------------
+  # Scheduler Configuration
+  # -------------------------------------------------------
+  scheduler:
+    # Interval between stuck job recovery runs (ms)
+    interval: "${SCHEDULER_INTERVAL:}"
+
+
+# =========================================================
+# Thread Pool Configuration
+# =========================================================
+threads:
+  count:
+    # Number of job worker threads
+    job-worker-count: "${JOB_WORKERS_COUNT:}"
+
+    # Number of heartbeat threads (must equal job-worker-count)
+    heartbeat-count: "${HEARTBEAT_WORKER_COUNT:}"
+
+  heartbeat:
+    # Delay before first heartbeat fires (ms)
+    initial-delay: "${HEARTBEAT_INITIAL_DELAY:}"
+
+    # Interval between heartbeat fires (ms)
+    interval: "${HEARTBEAT_INTERVAL:}"
