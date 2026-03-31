@@ -46,4 +46,14 @@ public class JobMetadataService {
             return metadata;
         });
     }
+
+    public void markStatusProcessing(String jobId) {
+        metadataStorage.computeIfPresent(jobId, (id, metadata) ->{
+            if(metadata.getRetryCount() == 0){
+                metadata.initializeFirstTriedAt();
+            }
+            metadata.updateStatus(JobStatus.PROCESSING);
+            return metadata;
+        });
+    }
 }

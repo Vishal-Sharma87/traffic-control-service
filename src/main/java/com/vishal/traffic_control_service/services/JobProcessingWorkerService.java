@@ -103,8 +103,8 @@ public class JobProcessingWorkerService implements ApplicationRunner {
 //            start heart beat of this job
             heartBeatService.startHeartBeat(jobId);
 
-            // update Job status as PROCESSING
-            jobMetadataService.updateJobStatus(jobId, JobStatus.PROCESSING);
+            // mark Job status as PROCESSING
+            jobMetadataService.markStatusProcessing(jobId);
 
             // process the job
             String result = jobService.processJob();
