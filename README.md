@@ -1,20 +1,20 @@
 # 🚦 Traffic Control Service
 
-A distributed API traffic control system built with **Spring Boot** and **Redis**, designed to provide rate limiting, IP-based DDoS protection, and soft throttling using queue-based backpressure.
+An asynchronous job processing system built with **Spring Boot**, designed to handle job submission, queuing, background processing, retry logic, and result retrieval with high reliability.
 
-This project is designed as an infrastructure-level backend component suitable for high-throughput microservice environments.
+Built as an infrastructure-level backend component suitable for high-throughput microservice environments.
 
 ---
 
 ## 🎯 Objective
 
-To build a scalable and extensible traffic control layer that:
+To build a scalable and extensible async job processing layer that:
 
-* Controls request flow using token-based rate limiting
-* Prevents IP-based abuse and DDoS patterns
-* Supports distributed deployment
-* Implements soft throttling via queueing
-* Maintains high-performance request filtering
+- Accepts jobs from clients and returns immediately (non-blocking)
+- Processes jobs in the background using a configurable worker pool
+- Retries stuck or failed jobs automatically via a recovery scheduler
+- Tracks job lifecycle from submission to completion or permanent failure
+- Provides observability through a Dead Letter Queue (DLQ) for permanently failed jobs
 
 ---
 
@@ -23,164 +23,205 @@ To build a scalable and extensible traffic control layer that:
 ```
 Client Request
       ↓
-Traffic Filter Layer
+PublicControllerService  ←→  JobMetadataService (status tracking)
       ↓
- ┌───────────────┐
- │ Rate Limiter  │ ← Redis-backed token bucket
- └───────────────┘
+   QueueService          ←  Semaphore (soft cap) + ArrayBlockingQueue
       ↓
- ┌───────────────┐
- │ DDoS Guard    │ ← IP request counters
- └───────────────┘
+JobProcessingWorkersService  (ExecutorService fixed thread pool)
       ↓
- ┌───────────────┐
- │ Soft Queue    │ ← Redis List/Stream
- └───────────────┘
+  Worker Thread
       ↓
-Request Processing
+ ┌─────────────────────────────────────────┐
+ │  CurrentProcessingJobService            │  ← ProcessingInfo tracking
+ │  WorkerHeartBeatService                 │  ← 10ms heartbeat per job
+ │  ResultService                          │  ← result storage
+ │  JobMetadataService                     │  ← status updates
+ └─────────────────────────────────────────┘
+      ↓ (on failure / timeout)
+StuckJobRecoveryService  (@Scheduled recovery)
+      ↓
+  retry → QueueService
+  discard → DlqService
 ```
 
 ---
 
 ## ⚙️ Core Features
 
-### 1️⃣ Token Bucket Rate Limiting
+### 1️⃣ Non-Blocking Job Submission
 
-* Redis-backed distributed counter
-* Atomic operations (Lua support planned)
-* Configurable refill strategy
-* Per-IP / Per-API key limiting
+- Client submits a job and receives HTTP 202 + jobId immediately
+- Job pushed to an in-memory priority queue
+- Client polls for result using jobId
 
----
+### 2️⃣ Configurable Worker Pool
 
-### 2️⃣ IP-Based DDoS Protection
+- Fixed thread pool via `ExecutorService`
+- Workers block on `queue.take()` — no polling or sleep loops
+- Worker count configurable via `application.yml`
 
-* Sliding window request counting
-* Auto-block via TTL
-* Temporary IP blacklist support
-* Fast rejection path
+### 3️⃣ Heartbeat System
 
----
+- Each active job sends a heartbeat every 10ms via `ScheduledExecutorService`
+- Heartbeat updates `lastHeartBeatTime` in the processing store
+- Recovery scheduler detects missed heartbeats and triggers retry
 
-### 3️⃣ Soft Throttling via Queue
+### 4️⃣ Automatic Retry & Recovery
 
-* Overflow requests pushed to Redis queue
-* Background worker drains queue
-* Prevents hard drops during traffic spikes
+- `@Scheduled` recovery runs every 750ms
+- Detects stuck jobs via: heartbeat timeout OR max processing time exceeded
+- Retries job if `retryCount < maxRetries`, else permanently fails it
+- Correct operation order: `incrementRetryCount → PENDING → enqueue → remove from processing store`
 
----
+### 5️⃣ Dead Letter Queue (DLQ)
 
-### 4️⃣ High Performance Processing
+- Permanently failed jobs written to DLQ (write-only from system)
+- Each entry captures: `jobId`, tier, `retryCount`, `firstTriedAt`, `discardedAt`, `failureCause`
+- `failureCause` is an enum: `MAX_TIME_EXCEEDED` or `HEARTBEAT_STOPPED`
+- In-memory storage now; DB migration planned
 
-* Minimal blocking operations
-* Reduced Redis round-trips
-* Optimized key structure
-* Fast-path approval when tokens available
+### 6️⃣ Queue Capacity Management
 
----
-
-## 🧱 Technology Stack
-
-* **Java 21**
-* **Spring Boot**
-* **Redis**
-* **Maven**
-* **Docker (for Redis)**
+- `Semaphore` enforces soft cap for new jobs atomically
+- `ArrayBlockingQueue` capacity = `softCap + workerCount` (provable upper bound)
+- Retried jobs bypass semaphore — system has committed to user via jobId, must honor contract
 
 ---
 
-## 🔑 Redis Key Design (Planned)
+## 🗂️ Key Classes
 
-| Purpose        | Key Pattern              |
-| -------------- | ------------------------ |
-| Token Bucket   | `rate:ip:{client-ip}`    |
-| Sliding Window | `window:ip:{client-ip}`  |
-| Blocklist      | `blocked:ip:{client-ip}` |
-| Queue          | `queue:traffic`          |
+| Class | Purpose |
+|---|---|
+| `PublicControllerService` | Job submission and result polling |
+| `QueueService` | Semaphore + ArrayBlockingQueue wrapper |
+| `JobMetadataService` | ConcurrentHashMap jobId → JobMetadata |
+| `ResultService` | ConcurrentHashMap jobId → result |
+| `JobProcessingWorkersService` | ApplicationRunner + ExecutorService |
+| `WorkerHeartBeatService` | ScheduledExecutorService, 10ms heartbeat |
+| `CurrentProcessingJobService` | ConcurrentHashMap-backed processing store |
+| `StuckJobRecoveryService` | @Scheduled recovery and retry/discard logic |
+| `DlqService` | Write-only Dead Letter Queue |
 
 ---
 
-## 🚀 Getting Started
-
-### 1️⃣ Start Redis
-
-Using Docker:
+## 📦 Package Structure
 
 ```
-docker run -p 6379:6379 redis
-```
-
----
-
-### 2️⃣ Configure Environment Variables
-
-```
-export REDIS_HOST=localhost
-export REDIS_PORT=6379
+controllers/     → API layer
+services/        → business logic
+models/          → internal domain objects (NOT DTOs)
+dtos/            → API boundary objects only (request/response)
+entity/          → JPA/DB entities (future)
+advices/         → exception handling, global errors
+enums/           → JobStatus, FailureCause, JobTier
 ```
 
 ---
 
-### 3️⃣ Run Application
+## ⏱️ Timing Configuration
 
-```
-mvn spring-boot:run
-```
+| Parameter | Value | Rationale |
+|---|---|---|
+| Heartbeat interval | 10ms | 1/3 of avg job time (40ms) |
+| Heartbeat timeout | 30ms | 3x heartbeat interval, survives GC pauses |
+| Max processing time | 100ms | 2.5x avg job time |
+| Scheduler interval | 750ms | 7.5x max processing time |
 
 ---
 
 ## 📌 Configuration
 
-`application.yml` uses environment placeholders:
-
 ```yaml
-spring:
-  redis:
-    host: ${REDIS_HOST}
-    port: ${REDIS_PORT}
-```
+traffic-control:
+  queue:
+    main:
+      capacity: "${MAIN_QUEUE_CAPACITY:5}"
 
-Local environment-specific YAML files are intentionally excluded from version control.
+  job:
+    max-processing-time: "${MAX_PROCESSING_TIME:100}"
+    heartbeat-timeout: "${MAX_HEARTBEAT_TIMEOUT:30}"
+    max-retries: "${MAX_RETRIES_PER_JOB:3}"
+
+  scheduler:
+    interval: "${SCHEDULER_INTERVAL:750}"
+
+threads:
+  count:
+    job-worker-count: "${JOB_WORKERS_COUNT:3}"
+    heartbeat-count: "${HEARTBEAT_WORKER_COUNT:3}"
+  heartbeat:
+    initial-delay: "${HEARTBEAT_INITIAL_DELAY:0}"
+    interval: "${HEARTBEAT_INTERVAL:10}"
+```
 
 ---
 
-## 🧠 Design Goals
+## 🧠 Key Design Principles
 
-* Horizontally scalable
-* Safe for distributed deployments
-* Minimal shared memory reliance
-* Clean separation of traffic control from business logic
-* Interview-ready system design demonstration
+- **At-least-once execution** — idempotent retries using same jobId
+- **Metadata = source of truth** — processing store is transient
+- **`volatile` for visibility, `AtomicInteger` for read-modify-write, `final` for immutable**
+- **`computeIfPresent()` for atomic check+update on ConcurrentHashMap**
+- **Single responsibility per service** — QueueService never calls JobMetadataService
+- **Service owns flag/state creation** — callers never set internal flags directly
+- **YAGNI** — complexity added only when needed, not in anticipation
+
+---
+
+## 🚀 Getting Started
+
+### Run Application
+
+```
+mvn spring-boot:run
+```
+
+### Submit a Job
+
+```
+POST /public/
+```
+
+Response:
+```json
+{ "jobId": "abc-123" }
+```
+
+### Poll for Result
+
+```
+GET /public/poll?jobId={jobId}
+```
 
 ---
 
 ## 🛣️ Roadmap
 
-* [ ] Lua-based atomic token handling
-* [ ] Sliding window algorithm implementation
-* [ ] Distributed instance simulation
-* [ ] Circuit breaker integration
-* [ ] Metrics & observability (Micrometer)
-* [ ] Prometheus integration
-* [ ] Dashboard for traffic visualization
+- [x] Async job submission and polling
+- [x] Configurable worker thread pool
+- [x] Heartbeat system
+- [x] Automatic retry and recovery scheduler
+- [x] Dead Letter Queue (DLQ)
+- [ ] Tier-based priority queue (PAID > UNPAID > PUBLIC)
+- [ ] Redis migration for metadata store
+- [ ] TTL cleanup on metadata
+- [ ] Metrics & observability (Micrometer / Prometheus)
 
 ---
 
-## 📚 Learning Focus
+## 🧱 Technology Stack
 
-This project explores:
-
-* Distributed rate limiting patterns
-* Redis atomic operations
-* High-concurrency request management
-* Backend infrastructure design
-* Defensive system architecture
+- **Java 21**
+- **Spring Boot**
+- **Maven**
+- **Redis** (planned for metadata store migration)
 
 ---
 
 ## 👨‍💻 Author
 
 Vishal Sharma
+
 ---
 
 ## 📄 License
