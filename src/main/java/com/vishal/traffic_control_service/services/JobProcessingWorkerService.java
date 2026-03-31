@@ -96,9 +96,6 @@ public class JobProcessingWorkerService implements ApplicationRunner {
 
     private void processSingleJob(JobRequest job) {
         final String jobId = job.getJobId();
-
-        boolean flag = true;
-
         try {
             log.info("Worker [{}] picked jobId={}", Thread.currentThread().getName(), jobId);
 
@@ -114,12 +111,7 @@ public class JobProcessingWorkerService implements ApplicationRunner {
             // save the processed result to the result storage
             resultService.saveJobResult(jobId, result);
 
-            if(flag) {
-                throw new Exception("Testing DLQ workflow");
-            }
-
 //            update status of this job as COMPLETED
-
             jobMetadataService.updateJobStatus(jobId, JobStatus.COMPLETED);
 
 //            Stop the heartbeat of this job
