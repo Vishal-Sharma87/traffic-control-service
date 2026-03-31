@@ -14,6 +14,7 @@ public class JobMetadata {
 
     private final AtomicInteger retryCount;
 
+    @Getter
     private Instant firstTriedAt;
 
     public JobMetadata(){

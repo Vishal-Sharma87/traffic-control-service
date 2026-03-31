@@ -3,6 +3,8 @@ package com.vishal.traffic_control_service.services;
 import com.vishal.traffic_control_service.enums.JobStatus;
 import com.vishal.traffic_control_service.models.JobMetadata;
 import org.springframework.stereotype.Service;
+
+import java.time.Instant;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -56,4 +58,9 @@ public class JobMetadataService {
             return metadata;
         });
     }
+
+    public Instant getFirstTriedAt(String jobId){
+        return metadataStorage.get(jobId).getFirstTriedAt();
+    }
+
 }
