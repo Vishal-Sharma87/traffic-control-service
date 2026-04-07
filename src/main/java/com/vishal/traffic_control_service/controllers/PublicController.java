@@ -1,10 +1,10 @@
 package com.vishal.traffic_control_service.controllers;
 
 import com.vishal.traffic_control_service.dtos.responseDtos.ApiResponseDto;
-import com.vishal.traffic_control_service.dtos.responseDtos.JobPollResponseDto;
 import com.vishal.traffic_control_service.dtos.responseDtos.JobRequestResponseDto;
 import com.vishal.traffic_control_service.enums.JobStatus;
-import com.vishal.traffic_control_service.services.PublicControllerService;
+import com.vishal.traffic_control_service.enums.JobTier;
+import com.vishal.traffic_control_service.services.RequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/public")
 @RequiredArgsConstructor
-public class PublicRequestController {
+public class PublicController {
 
-    private final PublicControllerService publicControllerService;
+    private final RequestService requestService;
 
     @GetMapping("/health")
     public String getHealth(){
@@ -23,10 +23,10 @@ public class PublicRequestController {
     }
 
 
-    @PostMapping
+    @PostMapping("/submit")
     public ResponseEntity<ApiResponseDto<JobRequestResponseDto>> acceptRequest(){
 
-        String jobId = publicControllerService.submitJob();
+        String jobId = requestService.submitJob(JobTier.PUBLIC);
 
         //         we will reach the following line if and only if the request is accepted,
         //         and we will definitely have a valid jobId we can return it directly to the user
@@ -34,14 +34,5 @@ public class PublicRequestController {
                 .status(HttpStatus.ACCEPTED)
                 .body(new ApiResponseDto<>(new JobRequestResponseDto(jobId, JobStatus.PENDING))
                 );
-    }
-
-    @GetMapping("/poll")
-    public ResponseEntity<ApiResponseDto<JobPollResponseDto>> getResult(@RequestParam String jobId) {
-
-        JobPollResponseDto responseDto = publicControllerService.getJobResult(jobId);
-
-        return ResponseEntity.ok(new ApiResponseDto<>(responseDto));
-
     }
 }

@@ -12,15 +12,20 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
 public class StuckJobRecoveryService {
 
-    private final long MAX_PROCESSING_TIME_ALLOWED;
-    private final int HEARTBEAT_INTERVAL_ALLOWED;
-    private final int MAX_RETRIES_ALLOWED;
+
+//    Shifting from Hardcoded values to tier based limit map
+    private final Map<JobTier, Integer> maxRetryAllowedMap;
+    private final Map<JobTier, Integer> maxProcessingTimeAllowedMap;
+    private final Map<JobTier, Integer> heartbeatTimeoutMap;
+
 
     private final CurrentProcessingJobService currentProcessingJobService;
     private final JobMetadataService jobMetadataService;
@@ -28,22 +33,58 @@ public class StuckJobRecoveryService {
     private final DlqService dlqService;
 
     public StuckJobRecoveryService(
-            @Value("${traffic-control.job.max-processing-time}") long maxProcessingTimeAllowed,
-            @Value("${traffic-control.job.heartbeat-timeout}") int maxHeartbeatIntervalAllowed,
-            @Value("${traffic-control.job.max-retries}") int maxRetriesAllowed,
+            @Value("${traffic-control.job.tier.paid.max-processing-time}") int maxTimePaid,
+            @Value("${traffic-control.job.tier.paid.max-retries}") int maxRetriesPaid,
+            @Value("${traffic-control.job.tier.paid.heartbeat-timeout}") int heartbeatTimeoutPaid,
+
+            @Value("${traffic-control.job.tier.unpaid.max-processing-time}") int maxTimeUnpaid,
+            @Value("${traffic-control.job.tier.unpaid.max-retries}") int maxRetriesUnpaid,
+            @Value("${traffic-control.job.tier.unpaid.heartbeat-timeout}") int heartbeatTimeoutUnpaid,
+
+            @Value("${traffic-control.job.tier.public.max-processing-time}") int maxTimePublic,
+            @Value("${traffic-control.job.tier.public.max-retries}") int maxRetriesPublic,
+            @Value("${traffic-control.job.tier.public.heartbeat-timeout}") int heartbeatTimeoutPublic,
             CurrentProcessingJobService currentProcessingJobService,
             JobMetadataService jobMetadataService,
             QueueService queueService,
-            DlqService dlqService){
-
-        this.MAX_PROCESSING_TIME_ALLOWED = maxProcessingTimeAllowed;
-        this.HEARTBEAT_INTERVAL_ALLOWED = maxHeartbeatIntervalAllowed;
-        this.MAX_RETRIES_ALLOWED = maxRetriesAllowed;
+            DlqService dlqService) {
 
         this.currentProcessingJobService = currentProcessingJobService;
         this.jobMetadataService = jobMetadataService;
         this.queueService = queueService;
         this.dlqService = dlqService;
+
+        this.maxProcessingTimeAllowedMap = new HashMap<>();
+        this.maxRetryAllowedMap = new HashMap<>();
+        this.heartbeatTimeoutMap = new HashMap<>();
+
+        // Populate Max Processing Time Map
+        this.maxProcessingTimeAllowedMap.put(JobTier.PAID, maxTimePaid);
+        this.maxProcessingTimeAllowedMap.put(JobTier.UNPAID, maxTimeUnpaid);
+        this.maxProcessingTimeAllowedMap.put(JobTier.PUBLIC, maxTimePublic);
+
+        // Populate Max Retry Map
+        this.maxRetryAllowedMap.put(JobTier.PAID, maxRetriesPaid);
+        this.maxRetryAllowedMap.put(JobTier.UNPAID, maxRetriesUnpaid);
+        this.maxRetryAllowedMap.put(JobTier.PUBLIC, maxRetriesPublic);
+
+        // Populate Heartbeat Timeout Map
+        this.heartbeatTimeoutMap.put(JobTier.PAID, heartbeatTimeoutPaid);
+        this.heartbeatTimeoutMap.put(JobTier.UNPAID, heartbeatTimeoutUnpaid);
+        this.heartbeatTimeoutMap.put(JobTier.PUBLIC, heartbeatTimeoutPublic);
+    }
+
+
+    private int getMaxRetryAllowed(JobTier tier) {
+        return maxRetryAllowedMap.getOrDefault(tier, 0);
+    }
+
+    private int getMaxProcessingTimeAllowed(JobTier tier) {
+        return maxProcessingTimeAllowedMap.getOrDefault(tier, 0);
+    }
+
+    private int getHeartbeatTimeout(JobTier tier) {
+        return heartbeatTimeoutMap.getOrDefault(tier, 0);
     }
 
 
@@ -56,6 +97,9 @@ public class StuckJobRecoveryService {
 
     private void recoverOne(ProcessingInfo info) {
         String jobId = info.getJobId();
+
+        int MAX_PROCESSING_TIME_ALLOWED = getMaxProcessingTimeAllowed(info.getJobTier());
+        int HEARTBEAT_INTERVAL_ALLOWED = getHeartbeatTimeout(info.getJobTier());
 
         JobStatus status = jobMetadataService.getJobStatusOrNull(jobId);
         if(status != null){
@@ -84,6 +128,9 @@ public class StuckJobRecoveryService {
 
     private void retryOrDiscardJob(ProcessingInfo info, FailureCause failureCause){
 //        info will not be null because we have checked it in recoverOne method already
+
+        int MAX_RETRIES_ALLOWED = getMaxRetryAllowed(info.getJobTier());
+
         String jobId = info.getJobId();
         int currentJobRetryCount = jobMetadataService.getRetryCount(jobId);
         if(MAX_RETRIES_ALLOWED > currentJobRetryCount){
@@ -91,25 +138,25 @@ public class StuckJobRecoveryService {
             return;
         }
 //        else discard this job
-        discard(jobId, currentJobRetryCount, failureCause);
+        discard( info, currentJobRetryCount, failureCause);
     }
 
-    private void discard(String jobId,int currentJobRetryCount, FailureCause failureCause) {
+    private void discard(ProcessingInfo info,int currentJobRetryCount, FailureCause failureCause) {
 //        mark as Failed
-        jobMetadataService.updateJobStatus(jobId, JobStatus.FAILED);
+        jobMetadataService.updateJobStatus(info.getJobId(), JobStatus.FAILED);
 
 //        push into dlq
         dlqService.addEntry(DlqEntry.builder()
-                                    .jobId(jobId)
-                                    .jobTier(JobTier.PUBLIC) // TODO will integrate retry count based tier mapping
+                                    .jobId(info.getJobId())
+                                    .jobTier(info.getJobTier())
                                     .retryCount(currentJobRetryCount)
-                                    .firstTriedAt(jobMetadataService.getFirstTriedAt(jobId))
+                                    .firstTriedAt(jobMetadataService.getFirstTriedAt(info.getJobId()))
                                     .discardedAt(Instant.now())
                                     .failureCause(failureCause)
                                     .build());
 
 //        remove from the processing queue
-        currentProcessingJobService.removeJob(jobId);
+        currentProcessingJobService.removeJob(info.getJobId());
     }
 
     private void retry(ProcessingInfo info) {
@@ -122,7 +169,7 @@ public class StuckJobRecoveryService {
         jobMetadataService.updateJobStatus(jobId, JobStatus.PENDING);
 
 //            add into main queue
-        queueService.retryJob(jobId);
+        queueService.retryJob(jobId, info.getArrivedAt(), info.getJobTier());
 
 //            remove from the processing queue
         currentProcessingJobService.removeJob(jobId);

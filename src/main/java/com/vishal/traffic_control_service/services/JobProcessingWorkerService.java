@@ -1,7 +1,7 @@
 package com.vishal.traffic_control_service.services;
 
-import com.vishal.traffic_control_service.models.JobRequest;
 import com.vishal.traffic_control_service.enums.JobStatus;
+import com.vishal.traffic_control_service.models.JobRequest;
 import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -78,9 +78,9 @@ public class JobProcessingWorkerService implements ApplicationRunner {
                 JobRequest job = queueService.getJob(); // blocking
 
 //                Step 2: add job in ProcessingQueue storage
-                currentProcessingJobService.addJob(job.getJobId());
+                currentProcessingJobService.addJob(job.getJobId(), job.getJobTier(), job.getArrivedAt());
 
-//  TODO: Step 1 and Step 2 must be atomic
+//              TODO: Step 1 and Step 2 must be atomic
 
                 processSingleJob(job);
 
@@ -96,6 +96,7 @@ public class JobProcessingWorkerService implements ApplicationRunner {
 
     private void processSingleJob(JobRequest job) {
         final String jobId = job.getJobId();
+
         try {
             log.info("Worker [{}] picked jobId={}", Thread.currentThread().getName(), jobId);
 

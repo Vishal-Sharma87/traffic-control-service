@@ -1,8 +1,10 @@
 package com.vishal.traffic_control_service.services;
 
+import com.vishal.traffic_control_service.enums.JobTier;
 import com.vishal.traffic_control_service.models.ProcessingInfo;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,9 +19,10 @@ public class CurrentProcessingJobService {
         this.processingStorage = new ConcurrentHashMap<>();
     }
 
-    public void addJob(String jobId) {
-        processingStorage.put(jobId, new ProcessingInfo(jobId));
+    public void addJob(String jobId, JobTier jobTier, Instant arrivedAt) {
+        processingStorage.put(jobId, new ProcessingInfo(jobId, arrivedAt, jobTier));
     }
+
 
     public void updateHeartBeat(String jobId) {
         /*

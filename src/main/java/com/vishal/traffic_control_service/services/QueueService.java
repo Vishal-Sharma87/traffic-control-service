@@ -1,12 +1,14 @@
 package com.vishal.traffic_control_service.services;
 
 import com.vishal.traffic_control_service.advices.exceptions.MainQueueFullException;
+import com.vishal.traffic_control_service.enums.JobTier;
 import com.vishal.traffic_control_service.models.JobRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.ArrayBlockingQueue;
+import java.time.Instant;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.Semaphore;
 
 @Service
@@ -15,7 +17,7 @@ public class QueueService {
 //    Semaphore to discard new job requests if the semaphore at softCap
     Semaphore softCap;
     private final String QUEUE_FULL_ERROR_MESSAGE;
-    private final BlockingQueue<JobRequest> queue;
+    private final BlockingQueue<JobRequest> priorityQueue;
 
 
     public QueueService(
@@ -25,27 +27,27 @@ public class QueueService {
 
         this.softCap = new Semaphore(queueCapacity);
         this.QUEUE_FULL_ERROR_MESSAGE = queueFullErrorMessage;
-        this.queue = new ArrayBlockingQueue<>(queueCapacity + workerCount);
+
+        this.priorityQueue = new PriorityBlockingQueue<>(queueCapacity + workerCount);
     }
 
 
-
-    public void addJob(String jobId){
+    public void addJob(String jobId, JobTier jobTier){
         if(softCap.tryAcquire()){
-            queue.add(new JobRequest(jobId, true));
+            priorityQueue.add(new JobRequest(jobId, Instant.now(), true, jobTier));
             return;
         }
         throw new MainQueueFullException(QUEUE_FULL_ERROR_MESSAGE);
     }
 
-
     public JobRequest getJob() throws InterruptedException {
-        JobRequest jobRequest = queue.take();
+        JobRequest jobRequest = priorityQueue.take();
         if(jobRequest.isNewJob()) softCap.release();
         return jobRequest;
     }
 
-    public void retryJob(String jobId) {
-        queue.add(new JobRequest(jobId, false));
+    public void retryJob(String jobId, Instant arrivedAt, JobTier jobTier)
+    {
+        priorityQueue.add(new JobRequest(jobId, arrivedAt, false, jobTier));
     }
 }

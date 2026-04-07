@@ -1,20 +1,30 @@
 package com.vishal.traffic_control_service.models;
 
-
+import com.vishal.traffic_control_service.constant.Constant;
+import com.vishal.traffic_control_service.enums.JobTier;
 import lombok.Getter;
-import lombok.Setter;
 
-public class JobRequest {
+import java.time.Instant;
 
-    @Getter
+@Getter
+public class JobRequest implements Comparable<JobRequest>{
+
     private final String jobId;
+    private final Instant arrivedAt;
+    private final boolean isNewJob;
+    private final long score;
+    private final JobTier jobTier;
 
-    @Getter
-    @Setter
-    private boolean isNewJob;
-
-    public JobRequest(String jobId, boolean isNewJob) {
+    public JobRequest(String jobId, Instant arrivedAt, boolean isNewJob, JobTier jobTier) {
         this.jobId = jobId;
+        this.arrivedAt = arrivedAt;
         this.isNewJob = isNewJob;
+        this.jobTier = jobTier;
+        this.score = jobTier.getPriority() * Constant.PRIORITY_BASE + arrivedAt.toEpochMilli();
+    }
+
+    @Override
+    public int compareTo(JobRequest other) {
+        return  Long.compare(score, other.getScore());
     }
 }
