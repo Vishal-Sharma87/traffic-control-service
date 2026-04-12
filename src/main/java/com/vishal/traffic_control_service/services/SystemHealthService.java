@@ -35,9 +35,7 @@ public class SystemHealthService {
 
 //    methods
     public boolean isHealthOk(){
-
-        return false;
-//        return  netSystemFailCount < systemThreshold;
+        return  netSystemFailCount < systemThreshold;
     }
 
 
