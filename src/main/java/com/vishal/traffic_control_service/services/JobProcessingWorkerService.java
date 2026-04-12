@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class JobProcessingWorkerService implements ApplicationRunner {
 
 
-    private final int THREAD_COUNT;
+    private final int threadCount;
 
     private final QueueService queueService;
     private final ResultService resultService;
@@ -37,9 +37,9 @@ public class JobProcessingWorkerService implements ApplicationRunner {
                                       CurrentProcessingJobService currentProcessingJobService,
                                       JobService jobService) {
 
-        this.THREAD_COUNT = threadCount;
+        this.threadCount = threadCount;
 
-        this.workerService = Executors.newFixedThreadPool(THREAD_COUNT);
+        this.workerService = Executors.newFixedThreadPool(this.threadCount);
         this.jobMetadataService = jobMetadataService;
         this.resultService = resultService;
         this.queueService = queueService;
@@ -64,9 +64,9 @@ public class JobProcessingWorkerService implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        log.info("Starting {} worker threads...", THREAD_COUNT);
+        log.info("Starting {} worker threads...", threadCount);
 
-        for (int i = 0; i < THREAD_COUNT; i++) {
+        for (int i = 0; i < threadCount; i++) {
             workerService.submit(this::consumeJobs);
         }
     }
