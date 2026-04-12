@@ -7,14 +7,12 @@ import com.vishal.traffic_control_service.models.DlqEntry;
 import com.vishal.traffic_control_service.models.ProcessingInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
