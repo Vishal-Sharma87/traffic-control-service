@@ -29,7 +29,6 @@ public class RequestService {
     }
 
     public String submitJob(JobTier jobTier) {
-
         if (systemHealthService.isHealthOk()) {
             String jobId = UUID.randomUUID().toString();
 
