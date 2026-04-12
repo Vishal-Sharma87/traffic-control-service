@@ -25,11 +25,11 @@ public class ResultService {
 //Constructor injection so that fields are not half-baked
     public ResultService(
             JobMetadataService jobMetadataService,
-            @Value("${traffic-control.response-messages.job-completed}") String jobCompletedResponseMessage,
-            @Value("${traffic-control.response-messages.job-pending}") String jobPendingResponseMessage,
-            @Value("${traffic-control.response-messages.job-processing}") String jobProcessingResponseMessage,
-            @Value("${traffic-control.response-messages.job-failed}") String jobFailedResponseMessage,
-            @Value("${traffic-control.errors.job-expired-or-not-exists}") String jobExpiredOrNotExistsErrorMessage
+            @Value("${traffic-control.metadata-status.response.success.completed}") String jobCompletedResponseMessage,
+            @Value("${traffic-control.metadata-status.response.success.pending}") String jobPendingResponseMessage,
+            @Value("${traffic-control.metadata-status.response.success.processing}") String jobProcessingResponseMessage,
+            @Value("${traffic-control.metadata-status.response.success.failed}") String jobFailedResponseMessage,
+            @Value("${traffic-control.metadata-status.response.error.expired-or-not-exists}") String jobExpiredOrNotExistsErrorMessage
     ) {
         this.resultStorage = new ConcurrentHashMap<>();
         this.jobMetadataService = jobMetadataService;
