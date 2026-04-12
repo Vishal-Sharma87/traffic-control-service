@@ -16,7 +16,7 @@ public class QueueService {
 
 //    Semaphore to discard new job requests if the semaphore at softCap
     Semaphore softCap;
-    private final String QUEUE_FULL_ERROR_MESSAGE;
+    private final String queueFullErrorMessage;
     private final BlockingQueue<JobRequest> priorityQueue;
 
 
@@ -26,7 +26,7 @@ public class QueueService {
             @Value("${threads.count.job-worker-count}") int workerCount) {
 
         this.softCap = new Semaphore(queueCapacity);
-        this.QUEUE_FULL_ERROR_MESSAGE = queueFullErrorMessage;
+        this.queueFullErrorMessage = queueFullErrorMessage;
 
         this.priorityQueue = new PriorityBlockingQueue<>(queueCapacity + workerCount);
     }
@@ -37,7 +37,7 @@ public class QueueService {
             priorityQueue.add(new JobRequest(jobId, Instant.now(), true, jobTier));
             return;
         }
-        throw new MainQueueFullException(QUEUE_FULL_ERROR_MESSAGE);
+        throw new MainQueueFullException(queueFullErrorMessage);
     }
 
     public JobRequest getJob() throws InterruptedException {
