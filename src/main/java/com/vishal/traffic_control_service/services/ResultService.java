@@ -14,30 +14,30 @@ public class ResultService {
 
     private final Map<String, String> resultStorage;
     private final JobMetadataService jobMetadataService;
-    private final String JOB_COMPLETED_RESPONSE_MESSAGE;
-    private final String JOB_PENDING_RESPONSE_MESSAGE;
-    private final String JOB_PROCESSING_RESPONSE_MESSAGE;
-    private final String JOB_FAILED_RESPONSE_MESSAGE;
-    private final String JOB_EXPIRED_OR_NOT_EXISTS_ERROR_MESSAGE;
+    private final String jobCompletedResponseMessage;
+    private final String jobPendingResponseMessage;
+    private final String jobProcessingResponseMessage;
+    private final String jobFailedResponseMessage;
+    private final String jobExpiredOrNotExistsErrorMessage;
 
 
 
 //Constructor injection so that fields are not half-baked
     public ResultService(
-            @Value("${traffic-control.metadata-status.response.error.expired-or-not-exists}") String JOB_EXPIRED_OR_NOT_EXISTS_MESSAGE,
-            @Value("${traffic-control.metadata-status.response.success.completed}") String JOB_COMPLETED_MESSAGE,
-            @Value("${traffic-control.metadata-status.response.success.pending}") String JOB_PENDING_MESSAGE,
-            @Value("${traffic-control.metadata-status.response.success.processing}") String JOB_PROCESSING_MESSAGE,
-            @Value("${traffic-control.metadata-status.response.success.failed}") String JOB_FAILED_MESSAGE,
-            JobMetadataService jobMetadataService){
-
-        this.jobMetadataService = jobMetadataService;
-        this.JOB_COMPLETED_RESPONSE_MESSAGE = JOB_COMPLETED_MESSAGE;
-        this.JOB_PENDING_RESPONSE_MESSAGE = JOB_PENDING_MESSAGE;
-        this.JOB_PROCESSING_RESPONSE_MESSAGE = JOB_PROCESSING_MESSAGE;
-        this.JOB_FAILED_RESPONSE_MESSAGE = JOB_FAILED_MESSAGE;
-        this.JOB_EXPIRED_OR_NOT_EXISTS_ERROR_MESSAGE = JOB_EXPIRED_OR_NOT_EXISTS_MESSAGE;
+            JobMetadataService jobMetadataService,
+            @Value("${traffic-control.response-messages.job-completed}") String jobCompletedResponseMessage,
+            @Value("${traffic-control.response-messages.job-pending}") String jobPendingResponseMessage,
+            @Value("${traffic-control.response-messages.job-processing}") String jobProcessingResponseMessage,
+            @Value("${traffic-control.response-messages.job-failed}") String jobFailedResponseMessage,
+            @Value("${traffic-control.errors.job-expired-or-not-exists}") String jobExpiredOrNotExistsErrorMessage
+    ) {
         this.resultStorage = new ConcurrentHashMap<>();
+        this.jobMetadataService = jobMetadataService;
+        this.jobCompletedResponseMessage = jobCompletedResponseMessage;
+        this.jobPendingResponseMessage = jobPendingResponseMessage;
+        this.jobProcessingResponseMessage = jobProcessingResponseMessage;
+        this.jobFailedResponseMessage = jobFailedResponseMessage;
+        this.jobExpiredOrNotExistsErrorMessage = jobExpiredOrNotExistsErrorMessage;
     }
 
     public void saveJobResult(String jobId, String jobResult){
@@ -50,22 +50,22 @@ public class ResultService {
         switch (currentJobStatus){
             case COMPLETED -> {
                 String response = resultStorage.get(jobId);
-                return generateJobPollResponseDto(jobId, currentJobStatus, response, JOB_COMPLETED_RESPONSE_MESSAGE);
+                return generateJobPollResponseDto(jobId, currentJobStatus, response, jobCompletedResponseMessage);
             }
             case PENDING -> {
 //                Job is still in main queue
-                return generateJobPollResponseDto(jobId, currentJobStatus, null, JOB_PENDING_RESPONSE_MESSAGE);
+                return generateJobPollResponseDto(jobId, currentJobStatus, null, jobPendingResponseMessage);
             }
             case PROCESSING -> {
 //                worker is currently processing the job
-                return generateJobPollResponseDto(jobId, currentJobStatus, null, JOB_PROCESSING_RESPONSE_MESSAGE);
+                return generateJobPollResponseDto(jobId, currentJobStatus, null, jobProcessingResponseMessage);
             }
             case FAILED -> {
 //                worker have processed the job upto MAX_RETRIES limit and yet it not have finished
-                return generateJobPollResponseDto(jobId, currentJobStatus, null, JOB_FAILED_RESPONSE_MESSAGE);
+                return generateJobPollResponseDto(jobId, currentJobStatus, null, jobFailedResponseMessage);
             }
-//            job with jobId not exists in our meta-data storage
-            case null, default -> throw new JobExpiredOrNotExistsException(JOB_EXPIRED_OR_NOT_EXISTS_ERROR_MESSAGE);
+//            job with jobId not exists in our metadata storage
+            case null, default -> throw new JobExpiredOrNotExistsException(jobExpiredOrNotExistsErrorMessage);
         }
     }
 
