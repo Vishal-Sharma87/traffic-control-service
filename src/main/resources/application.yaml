@@ -16,73 +16,75 @@ traffic-control:
   # -------------------------------------------------------
   queue:
     main:
-      # Maximum number of jobs allowed in main queue
+      # Maximum number of jobs allowed in the main queue (soft cap via Semaphore)
       capacity: "${MAIN_QUEUE_CAPACITY}"
-
       error:
-        # Message returned when queue is full (503 Service Unavailable)
+        # Returned when queue is at capacity (503 Service Unavailable)
         queue-full: "${MAIN_QUEUE_FULL_ERROR_MESSAGE}"
 
-
   # -------------------------------------------------------
-  # Job Metadata & Polling Response Messages
+  # Job Metadata & Status Response Messages
   # -------------------------------------------------------
   metadata-status:
     response:
-
-      # -------------------------------
-      # Error Responses
-      # -------------------------------
       error:
-        # Returned when jobId does not exist or is expired (404 Not Found)
+        # Returned when jobId does not exist or has expired
         expired-or-not-exists: "${JOB_EXPIRED_OR_NOT_EXISTS_ERROR_MESSAGE}"
-
-
-      # -------------------------------
-      # Success Responses (Polling)
-      # -------------------------------
       success:
-        # Job completed successfully
         completed: "${JOB_COMPLETED_MESSAGE}"
-
-        # Job is accepted but not yet picked by worker
-        pending: "${JOB_PENDING_MESSAGE}"
-
-        # Job is currently being processed by worker
+        pending:   "${JOB_PENDING_MESSAGE}"
         processing: "${JOB_PROCESSING_MESSAGE}"
-
-        # Job processing failed after retries
-        failed: "${JOB_FAILED_MESSAGE}"
-
+        failed:    "${JOB_FAILED_MESSAGE}"
 
   # -------------------------------------------------------
-  # Job Processing Configuration
+  # Job Tier Configuration
+  # Paid = 5x public, 2.5x unpaid
+  # Unpaid = 2x public
+  # Public = baseline
   # -------------------------------------------------------
-
   job:
     tier:
-      paid: # 5x of public request and 2.5x of unpaid request
+      paid:
         max-processing-time: "${PAID_MAX_PROCESSING_TIME}"
-        heartbeat-timeout: "${PAID_MAX_HEARTBEAT_TIMEOUT}"
-        max-retries: "${PAID_MAX_RETRIES_PER_JOB}"
+        heartbeat-timeout:   "${PAID_MAX_HEARTBEAT_TIMEOUT}"
+        max-retries:         "${PAID_MAX_RETRIES_PER_JOB}"
 
-      unpaid: # 2x of public request
+      unpaid:
         max-processing-time: "${UNPAID_MAX_PROCESSING_TIME}"
-        heartbeat-timeout: "${UNPAID_MAX_HEARTBEAT_TIMEOUT}"
-        max-retries: "${UNPAID_MAX_RETRIES_PER_JOB}"
+        heartbeat-timeout:   "${UNPAID_MAX_HEARTBEAT_TIMEOUT}"
+        max-retries:         "${UNPAID_MAX_RETRIES_PER_JOB}"
 
-      public: # standard - Legacy
+      public:
         max-processing-time: "${PUBLIC_MAX_PROCESSING_TIME}"
-        heartbeat-timeout: "${PUBLIC_MAX_HEARTBEAT_TIMEOUT}"
-        max-retries: "${PUBLIC_MAX_RETRIES_PER_JOB}"
-
+        heartbeat-timeout:   "${PUBLIC_MAX_HEARTBEAT_TIMEOUT}"
+        max-retries:         "${PUBLIC_MAX_RETRIES_PER_JOB}"
 
   # -------------------------------------------------------
   # Scheduler Configuration
+  # Dynamic delay — grows on Redis failure, shrinks on recovery
   # -------------------------------------------------------
   scheduler:
-    # Interval between stuck job recovery runs (ms)
-    interval: "${SCHEDULER_INTERVAL}"
+    # Minimum delay between scheduler cycles (ms) — baseline during healthy operation
+    delay-floor:   "${SCHEDULER_FLOOR_MS:750}"     # 0.75 seconds
+
+    # Maximum delay between scheduler cycles (ms) — cap during sustained Redis outage
+    delay-ceiling: "${SCHEDULER_CEILING_MS:30000}" # 30 seconds
+
+  # -------------------------------------------------------
+  # System Health Gate Configuration
+  # Controls job acceptance based on downstream (Redis) health
+  # -------------------------------------------------------
+  system:
+    # Max value netSystemFailCount can reach — prevents runaway counter
+    fail-ceiling: "${SYSTEM_FAIL_CAP:5}"
+
+    # Gate threshold — new jobs rejected when netSystemFailCount >= threshold
+    threshold: "${SYSTEM_THRESHOLD:3}"
+
+    response:
+      error:
+        # Returned when system health gate is closed (503 Service Unavailable)
+        unhealthy: "${SYSTEM_UNHEALTHY_ERROR_MESSAGE}"
 
 
 # =========================================================
@@ -93,12 +95,12 @@ threads:
     # Number of job worker threads
     job-worker-count: "${JOB_WORKERS_COUNT}"
 
-    # Number of heartbeat threads (must equal job-worker-count)
+    # Number of heartbeat threads — must equal job-worker-count (1:1 ratio)
     heartbeat-count: "${HEARTBEAT_WORKER_COUNT}"
 
   heartbeat:
     # Delay before first heartbeat fires (ms)
     initial-delay: "${HEARTBEAT_INITIAL_DELAY}"
 
-    # Interval between heartbeat fires (ms)
+    # Interval between consecutive heartbeat pulses (ms)
     interval: "${HEARTBEAT_INTERVAL}"
