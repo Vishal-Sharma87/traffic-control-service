@@ -11,8 +11,8 @@ import java.util.concurrent.*;
 @Service
 public class WorkerHeartBeatService{
 
-    private final int HEARTBEAT_INITIAL_DELAY;
-    private final int HEARTBEAT_INTERVAL;
+    private final int heartbeatInitialDelay;
+    private final int heartbeatInterval;
 
 
     private final ScheduledExecutorService asyncHeartbeatService;
@@ -25,8 +25,8 @@ public class WorkerHeartBeatService{
                                    @Value("${threads.heartbeat.interval}") int heartbeatInterval,
                                    CurrentProcessingJobService currentProcessingJobService){
 
-        this.HEARTBEAT_INITIAL_DELAY = heartbeatInitialDelay;
-        this.HEARTBEAT_INTERVAL = heartbeatInterval;
+        this.heartbeatInitialDelay = heartbeatInitialDelay;
+        this.heartbeatInterval = heartbeatInterval;
 
         this.jobIdToThreadMap = new ConcurrentHashMap<>();
 
@@ -59,8 +59,8 @@ public class WorkerHeartBeatService{
         log.info("HeartBeat started jobId: {} worker detail: {}", jobId, Thread.currentThread().hashCode());
 
         ScheduledFuture<?> future = asyncHeartbeatService.scheduleAtFixedRate(() -> sendHeartBeat(jobId) ,
-                HEARTBEAT_INITIAL_DELAY,
-                HEARTBEAT_INTERVAL,
+                heartbeatInitialDelay,
+                heartbeatInterval,
                 TimeUnit.MILLISECONDS
         );
         jobIdToThreadMap.put(jobId, future);
