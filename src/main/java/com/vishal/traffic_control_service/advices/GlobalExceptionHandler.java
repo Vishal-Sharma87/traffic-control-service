@@ -2,6 +2,7 @@ package com.vishal.traffic_control_service.advices;
 
 import com.vishal.traffic_control_service.advices.exceptions.JobExpiredOrNotExistsException;
 import com.vishal.traffic_control_service.advices.exceptions.MainQueueFullException;
+import com.vishal.traffic_control_service.advices.exceptions.SystemUnhealthyJobRejectedException;
 import com.vishal.traffic_control_service.enums.ErrorCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,18 @@ public class GlobalExceptionHandler {
                         .message(e.getMessage())
                         .timestamp(Instant.now())
                         .errorCode(ErrorCode.JOB_EXPIRED_OR_NOT_EXISTS.toString())
+                        .build()
+                );
+    }
+
+    @ExceptionHandler(SystemUnhealthyJobRejectedException.class)
+    public ResponseEntity<ApiError> handleSystemUnhealthyJobRejectedException(SystemUnhealthyJobRejectedException e){
+        return ResponseEntity
+                .status(HttpStatus.SERVICE_UNAVAILABLE)
+                .body(ApiError.builder()
+                        .message(e.getMessage())
+                        .timestamp(Instant.now())
+                        .errorCode(ErrorCode.SYSTEM_UNHEALTHY.toString())
                         .build()
                 );
     }
