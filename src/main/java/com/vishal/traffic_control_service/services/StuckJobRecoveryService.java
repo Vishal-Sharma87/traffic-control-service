@@ -31,6 +31,7 @@ public class StuckJobRecoveryService {
     private final JobMetadataService jobMetadataService;
     private final QueueService queueService;
     private final DlqService dlqService;
+    private final SystemHealthService systemHealthService;
 
     public StuckJobRecoveryService(
             @Value("${traffic-control.job.tier.paid.max-processing-time}") int maxTimePaid,
@@ -47,12 +48,14 @@ public class StuckJobRecoveryService {
             CurrentProcessingJobService currentProcessingJobService,
             JobMetadataService jobMetadataService,
             QueueService queueService,
-            DlqService dlqService) {
+            DlqService dlqService,
+            SystemHealthService systemHealthService) {
 
         this.currentProcessingJobService = currentProcessingJobService;
         this.jobMetadataService = jobMetadataService;
         this.queueService = queueService;
         this.dlqService = dlqService;
+        this.systemHealthService = systemHealthService;
 
         this.maxProcessingTimeAllowedMap = new HashMap<>();
         this.maxRetryAllowedMap = new HashMap<>();
@@ -87,12 +90,25 @@ public class StuckJobRecoveryService {
         return heartbeatTimeoutMap.getOrDefault(tier, 0);
     }
 
-
-    @Scheduled(fixedDelayString = "${traffic-control.scheduler.interval}" , timeUnit = TimeUnit.MILLISECONDS)
     public void recoverJobs(){
-        Collection<ProcessingInfo> allProcessingJobs = currentProcessingJobService.getAllProcessingJobs();
+        try {
+            Collection<ProcessingInfo> allProcessingJobs = currentProcessingJobService.getAllProcessingJobs();
 
-        allProcessingJobs.forEach(this::recoverOne);
+            allProcessingJobs.forEach(this::recoverOne);
+
+            systemHealthService.recordSuccess();
+        } catch (Exception e) {
+
+//           TODO catching generic exception to avoid scheduler crashing,
+//            we can have more fine grained exception handling based on the implementation of the services used here,
+//            but for now we can keep it generic and log the error,
+//            and record failure in system health service to increase the delay for next scheduler run
+//            NOTE: non-Redis exceptions (e.g. NullPointerException) will also trigger
+//            recordFailure(), causing unnecessary backoff — acceptable for now.
+
+            log.error("Error occurred while recovering stuck jobs: ", e);
+            systemHealthService.recordFailure();
+        }
     }
 
     private void recoverOne(ProcessingInfo info) {
