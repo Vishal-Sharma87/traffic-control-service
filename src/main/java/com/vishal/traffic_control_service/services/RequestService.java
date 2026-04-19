@@ -1,5 +1,6 @@
 package com.vishal.traffic_control_service.services;
 
+import com.github.f4b6a3.uuid.UuidCreator;
 import com.vishal.traffic_control_service.advices.exceptions.SystemUnhealthyJobRejectedException;
 import com.vishal.traffic_control_service.enums.JobTier;
 import lombok.extern.slf4j.Slf4j;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
+
 
 @Slf4j
 @Service
@@ -28,13 +30,14 @@ public class RequestService {
         this.systemHealthCheckFailedMessage = systemHealthCheckFailedMessage;
     }
 
-    public String submitJob(JobTier jobTier) {
+    public UUID submitJob(JobTier jobTier) {
         if (systemHealthService.isHealthOk()) {
-            String jobId = UUID.randomUUID().toString();
+
+//            Using UUID v7 to get JobId which has initial values using tine
+            UUID jobId = UuidCreator.getTimeOrderedEpoch();
 
             queueService.addJob(jobId, jobTier);
-//        Reaching this line indicates we have successfully inserted the job into the main queue
-//        put the jobId and request to perform inside the metadata storage for lookup using metadata storage instead of DB directly
+
             jobMetadataService.addJobMetadata(jobId);
 
             return jobId;

@@ -5,16 +5,18 @@ import jakarta.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.UUID;
+
 
 @Data
 @Builder
 public class JobPollResponseDto {
-    private String jobId;
+    private UUID jobId;
     private JobStatus currentJobStatus;
     private String jobResponse;
     private String message;
 
-    public JobPollResponseDto(String jobId, JobStatus jobStatus, @Nullable String jobResponse, String message){
+    public JobPollResponseDto(UUID jobId, JobStatus jobStatus, @Nullable String jobResponse, String message){
         this.jobId = jobId;
         this.currentJobStatus = jobStatus;
         this.jobResponse = jobResponse;

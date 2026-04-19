@@ -13,6 +13,7 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -110,7 +111,7 @@ public class StuckJobRecoveryService {
     }
 
     private void recoverOne(ProcessingInfo info) {
-        String jobId = info.getJobId();
+        UUID jobId = info.getJobId();
 
         int MAX_PROCESSING_TIME_ALLOWED = getMaxProcessingTimeAllowed(info.getJobTier());
         int HEARTBEAT_INTERVAL_ALLOWED = getHeartbeatTimeout(info.getJobTier());
@@ -145,7 +146,7 @@ public class StuckJobRecoveryService {
 
         int MAX_RETRIES_ALLOWED = getMaxRetryAllowed(info.getJobTier());
 
-        String jobId = info.getJobId();
+        UUID jobId = info.getJobId();
         int currentJobRetryCount = jobMetadataService.getRetryCount(jobId);
         if(MAX_RETRIES_ALLOWED > currentJobRetryCount){
             retry(info);
@@ -174,7 +175,7 @@ public class StuckJobRecoveryService {
     }
 
     private void retry(ProcessingInfo info) {
-        String jobId = info.getJobId();
+        UUID jobId = info.getJobId();
 
 //            increment the retry count by 1
         jobMetadataService.incrementRetryCount(jobId);

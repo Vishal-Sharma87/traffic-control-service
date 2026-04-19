@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/public")
 @RequiredArgsConstructor
@@ -26,7 +28,7 @@ public class PublicController {
     @PostMapping("/submit")
     public ResponseEntity<ApiResponseDto<JobRequestResponseDto>> acceptRequest(){
 
-        String jobId = requestService.submitJob(JobTier.PUBLIC);
+        UUID jobId = requestService.submitJob(JobTier.PUBLIC);
 
         //         we will reach the following line if and only if the request is accepted,
         //         and we will definitely have a valid jobId we can return it directly to the user

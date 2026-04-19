@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.Semaphore;
@@ -32,7 +33,7 @@ public class QueueService {
     }
 
 
-    public void addJob(String jobId, JobTier jobTier){
+    public void addJob(UUID jobId, JobTier jobTier){
         if(softCap.tryAcquire()){
             priorityQueue.add(new JobRequest(jobId, Instant.now(), true, jobTier));
             return;
@@ -46,7 +47,7 @@ public class QueueService {
         return jobRequest;
     }
 
-    public void retryJob(String jobId, Instant arrivedAt, JobTier jobTier)
+    public void retryJob(UUID jobId, Instant arrivedAt, JobTier jobTier)
     {
         priorityQueue.add(new JobRequest(jobId, arrivedAt, false, jobTier));
     }

@@ -6,11 +6,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class JobRequestResponseDto {
-    private String jobId;
+    private UUID jobId;
     private JobStatus currentJobStatus;
 }

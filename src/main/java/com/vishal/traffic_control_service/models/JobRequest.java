@@ -5,17 +5,18 @@ import com.vishal.traffic_control_service.enums.JobTier;
 import lombok.Getter;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Getter
 public class JobRequest implements Comparable<JobRequest>{
 
-    private final String jobId;
+    private final UUID jobId;
     private final Instant arrivedAt;
     private final boolean isNewJob;
     private final long score;
     private final JobTier jobTier;
 
-    public JobRequest(String jobId, Instant arrivedAt, boolean isNewJob, JobTier jobTier) {
+    public JobRequest(UUID jobId, Instant arrivedAt, boolean isNewJob, JobTier jobTier) {
         this.jobId = jobId;
         this.arrivedAt = arrivedAt;
         this.isNewJob = isNewJob;

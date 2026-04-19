@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.*;
 
 @Slf4j
@@ -17,7 +18,7 @@ public class WorkerHeartBeatService{
 
     private final ScheduledExecutorService asyncHeartbeatService;
     private final CurrentProcessingJobService currentProcessingJobService;
-    private final Map<String, ScheduledFuture<?>> jobIdToThreadMap;
+    private final Map<UUID, ScheduledFuture<?>> jobIdToThreadMap;
 
 
     public WorkerHeartBeatService( @Value("${threads.count.heartbeat-count}") int heartBeatThreads,
@@ -51,7 +52,7 @@ public class WorkerHeartBeatService{
     }
 
 
-    public void startHeartBeat(String jobId){
+    public void startHeartBeat(UUID jobId){
 //         there might be a ScheduledFuture with that jobId in jobIdToThread map,
 //         first clean it up if it exists before registering new thread
         stopHeartBeat(jobId);
@@ -66,7 +67,7 @@ public class WorkerHeartBeatService{
         jobIdToThreadMap.put(jobId, future);
     }
 
-    private void sendHeartBeat(String jobId){
+    private void sendHeartBeat(UUID jobId){
         try {
             currentProcessingJobService.updateHeartBeat(jobId);
         } catch (Exception e) {
@@ -74,7 +75,7 @@ public class WorkerHeartBeatService{
         }
     }
 
-    public void stopHeartBeat(String jobId){
+    public void stopHeartBeat(UUID jobId){
 //        Stopping a thread associated with job means calling cancle() method of that thread reference
         ScheduledFuture<?> desiredThread = jobIdToThreadMap.remove(jobId);
         if(desiredThread != null){

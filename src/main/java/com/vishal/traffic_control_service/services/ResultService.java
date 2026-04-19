@@ -7,12 +7,13 @@ import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class ResultService {
 
-    private final Map<String, String> resultStorage;
+    private final Map<UUID, String> resultStorage;
     private final JobMetadataService jobMetadataService;
     private final String jobCompletedResponseMessage;
     private final String jobPendingResponseMessage;
@@ -40,11 +41,11 @@ public class ResultService {
         this.jobExpiredOrNotExistsErrorMessage = jobExpiredOrNotExistsErrorMessage;
     }
 
-    public void saveJobResult(String jobId, String jobResult){
+    public void saveJobResult(UUID jobId, String jobResult){
         resultStorage.put(jobId, jobResult);
     }
 
-    public JobPollResponseDto fetchResult(String jobId) {
+    public JobPollResponseDto fetchResult(UUID jobId) {
         JobStatus currentJobStatus = jobMetadataService.getJobStatusOrNull(jobId);
 
         switch (currentJobStatus){
@@ -69,7 +70,7 @@ public class ResultService {
         }
     }
 
-    private JobPollResponseDto generateJobPollResponseDto(String jobId, JobStatus jobStatus,@Nullable String response, String message){
+    private JobPollResponseDto generateJobPollResponseDto(UUID jobId, JobStatus jobStatus,@Nullable String response, String message){
         return JobPollResponseDto.builder()
                 .jobId(jobId)
                 .currentJobStatus(jobStatus)

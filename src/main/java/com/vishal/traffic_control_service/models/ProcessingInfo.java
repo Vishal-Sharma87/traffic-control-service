@@ -5,11 +5,12 @@ import com.vishal.traffic_control_service.enums.JobTier;
 import lombok.Getter;
 
 import java.time.Instant;
+import java.util.UUID;
 
 public class ProcessingInfo {
 
     @Getter
-    private final String jobId;
+    private final UUID jobId;
 
     @Getter
     private final Instant startedAt;
@@ -23,7 +24,7 @@ public class ProcessingInfo {
     @Getter
     private final Instant arrivedAt;
 
-    public ProcessingInfo(String jobId, Instant arrivedAt, JobTier jobTier){
+    public ProcessingInfo(UUID jobId, Instant arrivedAt, JobTier jobTier){
         this.jobId = jobId;
         this.startedAt = Instant.now();
         this.lastHeartBeatTime = Instant.now();

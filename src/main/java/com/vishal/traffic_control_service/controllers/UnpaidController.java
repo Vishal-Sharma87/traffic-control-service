@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/unpaid")
 @RequiredArgsConstructor
@@ -21,7 +23,7 @@ public class UnpaidController {
 
     @PostMapping("/submit")
     public ResponseEntity<ApiResponseDto<JobRequestResponseDto>> submitUnpaidRequest(){
-        String jobId = requestService.submitJob(JobTier.UNPAID);
+        UUID jobId = requestService.submitJob(JobTier.UNPAID);
 
         return ResponseEntity
                 .status(HttpStatus.ACCEPTED)

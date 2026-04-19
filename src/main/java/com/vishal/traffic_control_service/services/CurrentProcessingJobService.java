@@ -7,24 +7,25 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class CurrentProcessingJobService {
 
     //  jobId->ProcessingInfo map acts as a processing queue
-    private final Map<String, ProcessingInfo> processingStorage;
+    private final Map<UUID, ProcessingInfo> processingStorage;
 
     public CurrentProcessingJobService(){
         this.processingStorage = new ConcurrentHashMap<>();
     }
 
-    public void addJob(String jobId, JobTier jobTier, Instant arrivedAt) {
+    public void addJob(UUID jobId, JobTier jobTier, Instant arrivedAt) {
         processingStorage.put(jobId, new ProcessingInfo(jobId, arrivedAt, jobTier));
     }
 
 
-    public void updateHeartBeat(String jobId) {
+    public void updateHeartBeat(UUID jobId) {
         /*
         * using computeIfPresent, because it supports atomic property, put() method doesn't support atomicity
         * Second parameter is a BiFunction*/
@@ -34,7 +35,7 @@ public class CurrentProcessingJobService {
         });
     }
 
-    public void removeJob(String jobId) {
+    public void removeJob(UUID jobId) {
         processingStorage.remove(jobId);
     }
 

@@ -6,25 +6,26 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class JobMetadataService {
 
-    private final Map<String, JobMetadata> metadataStorage;
+    private final Map<UUID, JobMetadata> metadataStorage;
 
 
     public JobMetadataService() {
         this.metadataStorage = new ConcurrentHashMap<>();
     }
 
-    public void addJobMetadata(String jobId){
+    public void addJobMetadata(UUID jobId){
         metadataStorage.put(jobId, new JobMetadata());
     }
 
 
 
-    public void updateJobStatus(String jobId, JobStatus jobStatus) {
+    public void updateJobStatus(UUID jobId, JobStatus jobStatus) {
         metadataStorage.computeIfPresent(jobId, (id, metadata) ->{
             metadata.updateStatus(jobStatus);
             return metadata;
@@ -32,24 +33,24 @@ public class JobMetadataService {
 //        TODO may be when worker polls this job from the main queue the job has expired but is very rare and will see in future
 //
     }
-    public JobStatus getJobStatusOrNull(String jobId) {
+    public JobStatus getJobStatusOrNull(UUID jobId) {
         JobMetadata metadata = metadataStorage.getOrDefault(jobId, null);
         return metadata != null ? metadata.getStatus() : null;
     }
 
 
-    public int getRetryCount(String jobId) {
+    public int getRetryCount(UUID jobId) {
         return metadataStorage.get(jobId).getRetryCount();
     }
 
-    public void incrementRetryCount(String jobId) {
+    public void incrementRetryCount(UUID jobId) {
         metadataStorage.computeIfPresent(jobId, (id, metadata) ->{
             metadata.incrementRetryCount();
             return metadata;
         });
     }
 
-    public void markStatusProcessing(String jobId) {
+    public void markStatusProcessing(UUID jobId) {
         metadataStorage.computeIfPresent(jobId, (id, metadata) ->{
             if(metadata.getRetryCount() == 0){
                 metadata.initializeFirstTriedAt();
@@ -59,7 +60,7 @@ public class JobMetadataService {
         });
     }
 
-    public Instant getFirstTriedAt(String jobId){
+    public Instant getFirstTriedAt(UUID jobId){
         return metadataStorage.get(jobId).getFirstTriedAt();
     }
 

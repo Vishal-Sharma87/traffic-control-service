@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -95,7 +96,7 @@ public class JobProcessingWorkerService implements ApplicationRunner {
     }
 
     private void processSingleJob(JobRequest job) {
-        final String jobId = job.getJobId();
+        final UUID jobId = job.getJobId();
 
         try {
             log.info("Worker [{}] picked jobId={}", Thread.currentThread().getName(), jobId);

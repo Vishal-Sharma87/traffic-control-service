@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/result")
 @RequiredArgsConstructor
@@ -19,7 +21,7 @@ public class ResultController {
 
 
     @GetMapping("/poll")
-    public ResponseEntity<ApiResponseDto<JobPollResponseDto>> getJobResult(@RequestParam String jobId){
+    public ResponseEntity<ApiResponseDto<JobPollResponseDto>> getJobResult(@RequestParam UUID jobId){
         JobPollResponseDto jobResult = resultService.fetchResult(jobId);
         return ResponseEntity
                 .ok(new ApiResponseDto<>(jobResult));

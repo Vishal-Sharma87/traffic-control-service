@@ -6,12 +6,13 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Builder
 @Getter
 public class DlqEntry {
 
-    private String jobId;
+    private UUID jobId;
 
     private JobTier jobTier;
 
