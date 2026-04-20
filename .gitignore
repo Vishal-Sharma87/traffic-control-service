@@ -21,6 +21,11 @@ logs/
 application-*.yml
 
 
+# ignore .env file
+.env
+
+
+
 ### IntelliJ IDEA ###
 .idea
 *.iws

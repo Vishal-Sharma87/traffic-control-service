@@ -111,7 +111,7 @@ public class JobProcessingWorkerService implements ApplicationRunner {
             String result = jobService.processJob();
 
             // save the processed result to the result storage
-            resultService.saveJobResult(jobId, result);
+            resultService.saveJobResult(jobId, job.getArrivedAt(), job.getJobTier(), result);
 
 //            update status of this job as COMPLETED
             jobMetadataService.updateJobStatus(jobId, JobStatus.COMPLETED);
