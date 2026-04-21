@@ -1,27 +1,34 @@
 package com.vishal.traffic_control_service.services;
 
+import com.vishal.traffic_control_service.entity.FailedJob;
 import com.vishal.traffic_control_service.models.DlqEntry;
+import com.vishal.traffic_control_service.repository.FailedJobRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Service
 public class DlqService {
 
-    private final LinkedList<DlqEntry> failedJobInfoStorage;
+    private final FailedJobRepository failedJobRepository;
 
-    public DlqService(){
-
-//       currently the system have only one writer to this class(scheduler which recover jobs),
-//       in future there might more than that, to avoid RACE condition
-//        TODO will use ConcurrentLinkedQueue or similar collection
-        this.failedJobInfoStorage = new LinkedList<>();
+    public DlqService(FailedJobRepository failedJobRepository){
+        this.failedJobRepository = failedJobRepository;
     }
 
 
 
     public void addEntry(DlqEntry entry){
-        failedJobInfoStorage.add(entry);
+        failedJobRepository.save(
+                new FailedJob(
+                        entry.getJobId(),
+                        entry.getJobTier(),
+                        entry.getFailureCause(),
+                        entry.getRetryCount(),
+                        LocalDateTime.ofInstant(entry.getArrivedAt(), ZoneId.systemDefault()),
+                        LocalDateTime.ofInstant(entry.getFirstTriedAt(), ZoneId.systemDefault()))
+        );
     }
 
 }

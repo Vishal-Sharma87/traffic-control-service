@@ -165,6 +165,7 @@ public class StuckJobRecoveryService {
                                     .jobId(info.getJobId())
                                     .jobTier(info.getJobTier())
                                     .retryCount(currentJobRetryCount)
+                                    .arrivedAt(info.getArrivedAt())
                                     .firstTriedAt(jobMetadataService.getFirstTriedAt(info.getJobId()))
                                     .discardedAt(Instant.now())
                                     .failureCause(failureCause)

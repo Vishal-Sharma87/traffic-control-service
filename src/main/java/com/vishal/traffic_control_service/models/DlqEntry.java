@@ -18,6 +18,8 @@ public class DlqEntry {
 
     private int retryCount;
 
+    private Instant arrivedAt;
+
     private Instant firstTriedAt;
 
     private Instant discardedAt;
