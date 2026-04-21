@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Submit Job — Traffic Control Service</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="icon" type="image/svg+xml" th:href="@{/favicon.svg}"/>
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar(activePage='submit')}"></div>
+
+<main>
+    <section class="hero" style="padding-bottom:1rem;">
+        <p class="hero-label">// submit a job</p>
+        <h1 style="font-size:clamp(1.8rem,4vw,2.8rem);">New Job<br/>Submission</h1>
+        <p class="hero-sub">
+            Select a tier, submit the job, and receive a <code>jobId</code>.
+            Use that ID on the Poll page to track status and retrieve the result.
+        </p>
+    </section>
+
+    <hr class="divider"/>
+
+    <div class="grid-2" style="align-items:start;">
+
+        <!-- FORM -->
+        <div>
+            <h3>Job Details</h3>
+            <div class="card" style="margin-top:0.75rem;">
+                <div style="margin-bottom:1.25rem;">
+                    <label for="tier">Job Tier</label>
+                    <select id="tier">
+                        <option value="public">PUBLIC — lowest priority, 1 retry</option>
+                        <option value="unpaid">UNPAID — medium priority, 2 retries</option>
+                        <option value="paid">PAID — highest priority, 5 retries</option>
+                    </select>
+                </div>
+
+                <button class="btn btn-primary" id="submitBtn" onclick="submitJob()">
+                    <span class="spinner" id="submitSpinner"></span>
+                    <span id="submitLabel">Submit Job</span>
+                </button>
+            </div>
+
+            <!-- RESULT -->
+            <div class="result-box" id="resultBox">
+                <div style="margin-bottom:0.75rem;">
+                    <span class="result-label">STATUS</span><br/>
+                    <span class="badge" id="statusBadge"></span>
+                </div>
+                <div style="margin-bottom:0.75rem;">
+                    <span class="result-label">JOB ID</span><br/>
+                    <span class="result-value mono" id="jobIdValue">—</span>
+                    <button class="copy-btn" onclick="copyJobId()">[ copy ]</button>
+                </div>
+                <div>
+                    <span class="result-label">SUBMITTED AT</span><br/>
+                    <span class="result-value" id="timestampValue">—</span>
+                </div>
+                <hr class="divider" style="margin:1rem 0;"/>
+                <a href="/poll" class="btn btn-outline" style="font-size:0.8rem;" id="pollLink">→ Poll this job</a>
+            </div>
+
+            <!-- ERROR -->
+            <div class="result-box error" id="errorBox">
+                <span class="result-label">ERROR</span><br/>
+                <span class="result-value" id="errorValue">—</span>
+            </div>
+        </div>
+
+        <!-- TIER INFO -->
+        <div>
+            <h3>Tier Reference</h3>
+            <div style="display:flex; flex-direction:column; gap:0.75rem; margin-top:0.75rem;">
+                <div class="card" id="info-paid">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                        <span class="result-value">PAID</span>
+                        <span class="badge badge-green">Highest Priority</span>
+                    </div>
+                    <p>Score weight: 1 × BASE. Max retries: 5. Heartbeat timeout: 150ms. Max processing time: 500ms.</p>
+                </div>
+                <div class="card" id="info-unpaid">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                        <span class="result-value">UNPAID</span>
+                        <span class="badge badge-blue">Medium Priority</span>
+                    </div>
+                    <p>Score weight: 2 × BASE. Max retries: 2. Heartbeat timeout: 60ms. Max processing time: 200ms.</p>
+                </div>
+                <div class="card" id="info-public">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                        <span class="result-value">PUBLIC</span>
+                        <span class="badge badge-muted">Lowest Priority</span>
+                    </div>
+                    <p>Score weight: 3 × BASE. Max retries: 1. Heartbeat timeout: 30ms. Max processing time: 100ms.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    async function submitJob() {
+        const tier = document.getElementById('tier').value;
+        const btn  = document.getElementById('submitBtn');
+        const spinner = document.getElementById('submitSpinner');
+        const label   = document.getElementById('submitLabel');
+
+        btn.disabled = true;
+        spinner.classList.add('show');
+        label.textContent = 'Submitting...';
+
+        document.getElementById('resultBox').classList.remove('show');
+        document.getElementById('errorBox').classList.remove('show');
+
+        try {
+            const res  = await fetch(`/${tier}/submit`, { method: 'POST' });
+            const data = await res.json();
+
+            if (res.ok) {
+                const jobId     = data.apiResponseData?.jobId ?? '—';
+                const status    = data.apiResponseData?.currentJobStatus ?? '—';
+                const timestamp = data.timestamp ?? '—';
+
+                document.getElementById('jobIdValue').textContent    = jobId;
+                document.getElementById('timestampValue').textContent = timestamp;
+
+                const badge = document.getElementById('statusBadge');
+                badge.textContent = status;
+                badge.className   = 'badge badge-amber';
+
+                document.getElementById('pollLink').href = `/poll?jobId=${jobId}`;
+
+                const box = document.getElementById('resultBox');
+                box.classList.add('show', 'pending');
+            } else {
+                const msg = data.message ?? data.errorCode ?? 'Unexpected error';
+                document.getElementById('errorValue').textContent = `[${res.status}] ${msg}`;
+                document.getElementById('errorBox').classList.add('show');
+            }
+        } catch (e) {
+            document.getElementById('errorValue').textContent = 'Could not reach the server. Is the application running?';
+            document.getElementById('errorBox').classList.add('show');
+        } finally {
+            btn.disabled = false;
+            spinner.classList.remove('show');
+            label.textContent = 'Submit Job';
+        }
+    }
+
+    function copyJobId() {
+        const val = document.getElementById('jobIdValue').textContent;
+        navigator.clipboard.writeText(val).then(() => {
+            const btn = document.querySelector('.copy-btn');
+            btn.textContent = '[ copied! ]';
+            setTimeout(() => btn.textContent = '[ copy ]', 1500);
+        });
+    }
+</script>
+
+</body>
+</html>

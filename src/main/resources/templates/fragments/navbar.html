@@ -1,0 +1,13 @@
+<nav th:fragment="navbar(activePage)" class="navbar">
+    <a th:href="@{/}" class="nav-brand">
+        <span class="dot"></span>
+        <span>Traffic Control</span>
+    </a>
+    <ul class="nav-links">
+        <li><a th:href="@{/}"       th:classappend="${activePage == 'intro'}  ? 'active'">Overview</a></li>
+        <li><a th:href="@{/submit}" th:classappend="${activePage == 'submit'} ? 'active'">Submit Job</a></li>
+        <li><a th:href="@{/poll}"   th:classappend="${activePage == 'poll'}   ? 'active'">Poll Result</a></li>
+        <li><a th:href="@{/demo}"   th:classappend="${activePage == 'demo'}   ? 'active'">How it Works</a></li>
+        <li><a th:href="@{/about}"  th:classappend="${activePage == 'about'}  ? 'active'">About</a></li>
+    </ul>
+</nav>

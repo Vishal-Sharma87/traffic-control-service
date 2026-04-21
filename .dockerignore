@@ -1,0 +1,9 @@
+# .dockerignore
+target/
+*.log
+.git
+.env
+.idea
+.vscode
+Dockerfile
+docker-compose.yml

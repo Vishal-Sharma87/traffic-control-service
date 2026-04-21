@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Traffic Control Service</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="icon" type="image/svg+xml" th:href="@{/favicon.svg}"/>
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar(activePage='intro')}"></div>
+
+<main>
+    <section class="hero">
+        <p class="hero-label">// async job processing system</p>
+        <h1>Traffic<br/>Control<br/>Service</h1>
+        <p class="hero-sub">
+            A distributed, fault-tolerant job processing system with priority scheduling,
+            heartbeat-based crash detection, automatic recovery, and a Dead Letter Queue.
+            Built with Java 21, Spring Boot, Redis, and MySQL.
+        </p>
+        <div style="display:flex; gap:0.75rem; margin-top:1.75rem; flex-wrap:wrap;">
+            <a href="/submit" class="btn btn-primary">Submit a Job →</a>
+            <a href="/poll"   class="btn btn-outline">Poll Result</a>
+        </div>
+    </section>
+
+    <hr class="divider"/>
+
+    <!-- HOW IT WORKS -->
+    <section style="margin-bottom:3rem;">
+        <h3>How It Works</h3>
+        <div class="card" style="margin-top:0.75rem;">
+            <div class="flow-step">
+                <span class="step-num">1</span>
+                <div class="step-content">
+                    <p class="result-value">Client submits a job</p>
+                    <p>POST to <code>/paid/submit</code>, <code>/unpaid/submit</code>, or <code>/public/submit</code>. Returns HTTP 202 + a <code>jobId</code> immediately — no waiting.</p>
+                </div>
+            </div>
+            <div class="flow-step">
+                <span class="step-num">2</span>
+                <div class="step-content">
+                    <p class="result-value">Job enters the priority queue</p>
+                    <p>Stored in a Redis ZSET. Score = <code>tier × BASE + arrivedAt</code>. PAID jobs always pop before UNPAID, which pop before PUBLIC. Ties broken by arrival time.</p>
+                </div>
+            </div>
+            <div class="flow-step">
+                <span class="step-num">3</span>
+                <div class="step-content">
+                    <p class="result-value">Worker picks up and processes</p>
+                    <p>A background worker pops the lowest-score job, starts a heartbeat, processes it, and saves the result to MySQL.</p>
+                </div>
+            </div>
+            <div class="flow-step">
+                <span class="step-num">4</span>
+                <div class="step-content">
+                    <p class="result-value">Recovery if something goes wrong</p>
+                    <p>Two independent schedulers scan the processing store. If a heartbeat stops or a job takes too long — it is retried automatically. After exhausting retries, it goes to the Dead Letter Queue.</p>
+                </div>
+            </div>
+            <div class="flow-step">
+                <span class="step-num">5</span>
+                <div class="step-content">
+                    <p class="result-value">Client polls for result</p>
+                    <p>Use the <code>jobId</code> from step 1 to poll <code>GET /result/poll?jobId=</code> until status is COMPLETED or FAILED.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TIERS -->
+    <section style="margin-bottom:3rem;">
+        <h3>Job Tiers</h3>
+        <div class="card" style="margin-top:0.75rem; padding:0; overflow:hidden;">
+            <table>
+                <thead>
+                <tr>
+                    <th>Tier</th>
+                    <th>Endpoint</th>
+                    <th>Max Retries</th>
+                    <th>Heartbeat Timeout</th>
+                    <th>Max Processing Time</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><span class="badge badge-green">PAID</span></td>
+                    <td><code>/paid/submit</code></td>
+                    <td>5</td>
+                    <td>15s</td>
+                    <td>50s</td>
+                </tr>
+                <tr>
+                    <td><span class="badge badge-blue">UNPAID</span></td>
+                    <td><code>/unpaid/submit</code></td>
+                    <td>2</td>
+                    <td>6s</td>
+                    <td>20s</td>
+                </tr>
+                <tr>
+                    <td><span class="badge badge-muted">PUBLIC</span></td>
+                    <td><code>/public/submit</code></td>
+                    <td>1</td>
+                    <td>3s</td>
+                    <td>10s</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- KEY DESIGN DECISIONS -->
+    <section style="margin-bottom:3rem;">
+        <h3>Key Design Decisions</h3>
+        <div class="grid-2" style="margin-top:0.75rem;">
+            <div class="card">
+                <p class="result-value" style="margin-bottom:0.4rem;">Atomic Lua Scripts</p>
+                <p>All critical Redis operations (enqueue, dequeue, recovery) run inside Lua scripts. Redis executes Lua atomically — no check-then-act race conditions.</p>
+            </div>
+            <div class="card">
+                <p class="result-value" style="margin-bottom:0.4rem;">Two Processing ZSETs</p>
+                <p>One ZSET tracks heartbeat expiry. Another tracks max processing time. Each scheduler queries its own ZSET — clean separation of crash vs stuck detection.</p>
+            </div>
+            <div class="card">
+                <p class="result-value" style="margin-bottom:0.4rem;">Retry Preserves Fairness</p>
+                <p>Retried jobs reuse the original <code>arrivedAt</code> timestamp. Score is identical to first submission — no unfair queue-jumping.</p>
+            </div>
+            <div class="card">
+                <p class="result-value" style="margin-bottom:0.4rem;">Exponential Backoff</p>
+                <p>Schedulers double their delay on Redis failures (up to 60s ceiling) and halve on success. Self-heals without any external watchdog.</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+</body>
+</html>

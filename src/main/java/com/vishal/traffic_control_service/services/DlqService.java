@@ -1,27 +1,39 @@
 package com.vishal.traffic_control_service.services;
 
-import com.vishal.traffic_control_service.models.DlqEntry;
+import com.vishal.traffic_control_service.entity.FailedJob;
+import com.vishal.traffic_control_service.enums.FailureCause;
+import com.vishal.traffic_control_service.models.JobMetadata;
+import com.vishal.traffic_control_service.repository.FailedJobRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.UUID;
 
+@Slf4j
 @Service
 public class DlqService {
 
-    private final LinkedList<DlqEntry> failedJobInfoStorage;
+    private final FailedJobRepository failedJobRepository;
 
-    public DlqService(){
-
-//       currently the system have only one writer to this class(scheduler which recover jobs),
-//       in future there might more than that, to avoid RACE condition
-//        TODO will use ConcurrentLinkedQueue or similar collection
-        this.failedJobInfoStorage = new LinkedList<>();
+    public DlqService(FailedJobRepository failedJobRepository){
+        this.failedJobRepository = failedJobRepository;
     }
 
 
+    public void addEntry(UUID jobId, FailureCause failureCause, JobMetadata jobMetadata){
+        log.info("Adding entry to DLQ for jobId: {}. Failure cause: {}", jobId, failureCause);
 
-    public void addEntry(DlqEntry entry){
-        failedJobInfoStorage.add(entry);
+        failedJobRepository.save(
+                new FailedJob(
+                        jobId,
+                        jobMetadata.jobTier(),
+                        failureCause,
+                        jobMetadata.retryCount(),
+                        LocalDateTime.ofInstant(jobMetadata.arrivedAt(), ZoneId.systemDefault()),
+                        LocalDateTime.ofInstant(jobMetadata.firstTriedAt(), ZoneId.systemDefault())
+                        ));
     }
 
 }

@@ -23,7 +23,7 @@ public class PaidController {
 
     @PostMapping("/submit")
     public ResponseEntity<ApiResponseDto<JobRequestResponseDto>> submitPaidRequest(){
-        UUID jobId = requestService.submitJob(JobTier.PAID);
+        UUID jobId = requestService.submitNewJob(JobTier.PAID);
 
         return ResponseEntity
                 .status(HttpStatus.ACCEPTED)

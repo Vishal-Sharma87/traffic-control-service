@@ -1,17 +1,38 @@
-version: "3.8"
-
 services:
   database:
-    image: mysql:latest
+    image: mysql:8.0
     container_name: traffic-control-service-mysql
     ports:
       - "3306:3306"
     environment:
-        MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
-
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
     volumes:
       - traffic-control-service-db-data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: traffic-control-service-redis
+    ports:
+      - "6379:6379"
+    command:
+      - redis-server
+      - --appendonly yes
+      - --appendfilename redis-data.aof
+      - --dir /data
+    volumes:
+      - traffic-control-service-redis-data:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
 
 volumes:
-    traffic-control-service-db-data:
-
+  traffic-control-service-db-data:
+  traffic-control-service-redis-data:

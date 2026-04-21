@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>500 — System Fault</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="icon" type="image/svg+xml" th:href="@{/favicon.svg}"/>
+    <style>
+        .error-container {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .error-code {
+            font-size: 8rem;
+            font-weight: 800;
+            font-family: var(--font-mono), monospace;
+            color: var(--border);
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+        .error-tag {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--red);
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-family: var(--font-mono), monospace;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar('error')}"></div>
+
+<main class="container">
+    <div class="error-container">
+        <div class="error-code">500</div>
+        <div class="error-tag" style="margin-bottom: 1.5rem;">Internal Fault</div>
+        <h1 style="margin-bottom: 1rem;">System Exception Detected</h1>
+        <p class="text-muted" style="max-width: 480px; margin-bottom: 2rem;">
+            The Traffic Control Service encountered an unexpected state. This could be due
+            to a Redis connection timeout or a database constraint violation.
+            Check the worker heartbeat status.
+        </p>
+        <div style="display:flex; gap:1rem;">
+            <a href="javascript:location.reload()" class="btn btn-outline">Retry Request</a>
+            <a href="/demo" class="btn btn-primary">View System Architecture</a>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

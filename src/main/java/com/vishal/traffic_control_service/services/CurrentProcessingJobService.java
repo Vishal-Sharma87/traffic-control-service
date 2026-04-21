@@ -1,45 +1,71 @@
 package com.vishal.traffic_control_service.services;
 
-import com.vishal.traffic_control_service.enums.JobTier;
-import com.vishal.traffic_control_service.models.ProcessingInfo;
+import com.vishal.traffic_control_service.constant.RedisKeys;
+import com.vishal.traffic_control_service.repository.CurrentProcessingJobRepository;
+import com.vishal.traffic_control_service.script.LuaScripts;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.Collection;
-import java.util.Map;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 @Service
 public class CurrentProcessingJobService {
 
-    //  jobId->ProcessingInfo map acts as a processing queue
-    private final Map<UUID, ProcessingInfo> processingStorage;
+    private final CurrentProcessingJobRepository currentProcessingJobRepository;
 
-    public CurrentProcessingJobService(){
-        this.processingStorage = new ConcurrentHashMap<>();
+
+    public CurrentProcessingJobService(CurrentProcessingJobRepository currentProcessingJobRepository) {
+        this.currentProcessingJobRepository = currentProcessingJobRepository;
     }
 
-    public void addJob(UUID jobId, JobTier jobTier, Instant arrivedAt) {
-        processingStorage.put(jobId, new ProcessingInfo(jobId, arrivedAt, jobTier));
+    public void updateHeartBeat(UUID jobId, Instant currentTime) {
+        List<String> keys =  List.of(
+                RedisKeys.getJobMetadataKey(jobId),
+                RedisKeys.getProcessingStorageByHeartbeatKey()
+        );
+
+        Long newHeartBeatScore = currentTime.toEpochMilli();
+
+        currentProcessingJobRepository.updateHeartbeatIfExists(
+                LuaScripts.updateHeartbeatIfExistsScript(),
+                keys,
+                newHeartBeatScore,
+                jobId.toString()
+        );
     }
 
+    public void completeProcessing(UUID jobId, long ttlOnSuccessSeconds) {
+        log.info("Completing processing for job {}", jobId);
 
-    public void updateHeartBeat(UUID jobId) {
-        /*
-        * using computeIfPresent, because it supports atomic property, put() method doesn't support atomicity
-        * Second parameter is a BiFunction*/
-        processingStorage.computeIfPresent(jobId, (id, info) ->{
-            info.updateLastHeartBeatTime();
-            return info;
-        });
+        List<String> keys = List.of(
+                RedisKeys.getJobMetadataKey(jobId),
+                RedisKeys.getProcessingStorageByHeartbeatKey(),
+                RedisKeys.getProcessingStorageByStartedAtKey()
+        );
+
+        currentProcessingJobRepository.completeProcessing(
+                LuaScripts.completeProcessingScript(),
+                keys,
+                jobId.toString(),
+                String.valueOf(ttlOnSuccessSeconds)
+        );
+
+        log.info("Job completed and set ttl as {}", ttlOnSuccessSeconds);
     }
 
-    public void removeJob(UUID jobId) {
-        processingStorage.remove(jobId);
+    public Set<String> getCrashedJobs() {
+        return currentProcessingJobRepository.getCrashedJobIds(
+                RedisKeys.getProcessingStorageByHeartbeatKey()
+        );
     }
 
-    public Collection<ProcessingInfo> getAllProcessingJobs() {
-        return processingStorage.values();
+    public Set<String> getStuckJobs() {
+        return currentProcessingJobRepository.getStuckJobIds(
+                RedisKeys.getProcessingStorageByStartedAtKey()
+            );
     }
 }

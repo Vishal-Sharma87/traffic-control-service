@@ -1,9 +1,12 @@
 spring:
   application:
     name: traffic-control-service
+  data:
+    redis:
+      host: "${REDIS_HOST}"
+      port: "${REDIS_PORT}"
 
-
-# Hibernate & JPA Configuration for MySQL Database
+  # Hibernate & JPA Configuration for MySQL Database
   datasource:
     url: jdbc:mysql://localhost:3306/traffic_control_db?createDatabaseIfNotExist=true
     username: root
@@ -38,10 +41,16 @@ traffic-control:
   # Job Metadata & Status Response Messages
   # -------------------------------------------------------
   metadata-status:
+    completed:
+      ttl: "${COMPLETED_METADATA_TTL}"
+    failed:
+      ttl: "${FAILED_METADATA_TTL}"
     response:
       error:
         # Returned when jobId does not exist or has expired
+        need-discard: "${JOB_NEED_DISCARD_ERROR_MESSAGE}"
         expired-or-not-exists: "${JOB_EXPIRED_OR_NOT_EXISTS_ERROR_MESSAGE}"
+        metadata-null: "${JOB_METADATA_NULL_ERROR_MESSAGE}"
       success:
         completed: "${JOB_COMPLETED_MESSAGE}"
         pending:   "${JOB_PENDING_MESSAGE}"
@@ -76,11 +85,18 @@ traffic-control:
   # Dynamic delay — grows on Redis failure, shrinks on recovery
   # -------------------------------------------------------
   scheduler:
-    # Minimum delay between scheduler cycles (ms) — baseline during healthy operation
-    delay-floor: "${SCHEDULER_FLOOR_MS}"     # 0.75 seconds
 
-    # Maximum delay between scheduler cycles (ms) — cap during sustained Redis outage
-    delay-ceiling: "${SCHEDULER_CEILING_MS}" # 30 seconds
+    stuck:
+      # Minimum delay between scheduler cycles (ms) — baseline during healthy operation
+      delay-floor: "${STUCK_SCHEDULER_FLOOR_MS}"      # e.g. 1000ms
+      # Maximum delay between scheduler cycles (ms) — cap during sustained failure
+      delay-ceiling: "${STUCK_SCHEDULER_CEILING_MS}"  # e.g. 60000ms
+
+    crash:
+      # Minimum delay between scheduler cycles (ms) — baseline during healthy operation
+      delay-floor: "${CRASHED_SCHEDULER_FLOOR_MS}"    # e.g. 750ms
+      # Maximum delay between scheduler cycles (ms) — cap during sustained Redis outage
+      delay-ceiling: "${CRASHED_SCHEDULER_CEILING_MS}" # e.g. 30000ms
 
   # -------------------------------------------------------
   # System Health Gate Configuration

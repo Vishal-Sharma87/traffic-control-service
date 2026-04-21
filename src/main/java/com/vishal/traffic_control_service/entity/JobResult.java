@@ -3,11 +3,14 @@ package com.vishal.traffic_control_service.entity;
 
 import com.vishal.traffic_control_service.enums.JobTier;
 import jakarta.persistence.*;
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "job_results")
+@Getter
 public class JobResult {
 
     // Maps the 16-byte binary array in MySQL directly to a Java UUID object
@@ -24,12 +27,10 @@ public class JobResult {
     @Column(name = "completed_at", nullable = false)
     private LocalDateTime completedAt;
 
-    // Maps the Enum directly to the string values ("PUBLIC", "PAID", "UNPAID")
     @Enumerated(EnumType.STRING)
     @Column(name = "job_tier", nullable = false)
     private JobTier jobTier;
 
-    // Java's standard 'int' or 'short' works perfectly for MySQL's tinyint
     @Column(name = "retry_count", columnDefinition = "TINYINT UNSIGNED", nullable = false)
     private int retryCount;
 

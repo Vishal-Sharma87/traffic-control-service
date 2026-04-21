@@ -1,40 +1,53 @@
 # 🚦 Traffic Control Service
 
-An asynchronous job processing system built with **Spring Boot**, designed for **high-throughput, fault-tolerant, priority-aware job execution**.
+An asynchronous, fault-tolerant job processing system built with **Java 21 + Spring Boot + Redis + MySQL**.
 
-This system simulates a production-grade backend infrastructure component with **retry guarantees, heartbeat monitoring, tier-based prioritization, recovery mechanisms, and Redis resilience**.
-
----
-
-## 🎯 Objective
-
-Build a scalable async processing layer that:
-
-* Accepts jobs in a **non-blocking** way (HTTP 202)
-* Processes jobs using **background worker threads**
-* Ensures **at-least-once execution** via retries
-* Supports **priority-based scheduling (PAID > UNPAID > PUBLIC)**
-* Detects failures using **heartbeat + timeout mechanisms**
-* Stores permanently failed jobs in a **Dead Letter Queue (DLQ)**
-* **Gates job acceptance** based on downstream system health
-* **Self-heals** from Redis outages via exponential backoff
+Designed to demonstrate production-grade backend engineering — including priority scheduling, distributed state management, heartbeat-based crash detection, automatic recovery, and permanent failure handling via a Dead Letter Queue.
 
 ---
 
-## 🏗️ Architecture Overview
+> 📐 **Architecture Diagram**
+>
+> ![System Architecture](docs/System_Architechture.png)
+
+---
+
+## 🎯 What This System Does
+
+A client submits a job and immediately receives a `jobId` (HTTP 202). The job is processed in the background by a pool of worker threads. The client polls for the result using the `jobId`.
+
+Under the hood, the system:
+- Prioritizes jobs by tier (PAID > UNPAID > PUBLIC)
+- Tracks every active job via heartbeat
+- Automatically retries crashed or stuck jobs
+- Permanently discards jobs that exhaust retries — logged to a DLQ in MySQL
+- Rejects new jobs when the system is under stress
+
+---
+
+## 🏗️ Architecture
 
 ```
-Client → Controller → RequestService → Queue → Worker → Result Store
-                            ↓
-                   SystemHealthService
-                            ↓
-                      Metadata Store
-                            ↓
-                     Processing Store
-                            ↓
-                     Recovery Scheduler
-                            ↓
-                          DLQ
+Client
+  └── POST /submit  (202 + jobId)
+        └── RequestService
+              ├── Health gate check (rejects if system unhealthy)
+              ├── Capacity check (rejects if queue full)
+              └── Push to Main Queue (Redis ZSET)
+                        └── Worker Thread Pool
+                              ├── Pop job from queue (ZPOPMIN)
+                              ├── Initialise processing store (atomic Lua)
+                              ├── Start heartbeat
+                              ├── Process job
+                              ├── Save result → MySQL
+                              └── Complete + cleanup (atomic Lua)
+
+Recovery Layer (runs independently)
+  ├── CrashedJobRecoveryService  →  processing:by-heartbeat ZSET
+  └── StuckJobRecoveryService    →  processing:by-maxtime ZSET
+        └── Lua recovery script
+              ├── Within retry limit → requeue
+              └── Limit exhausted   → DLQ (MySQL)
 ```
 
 ---
@@ -42,196 +55,151 @@ Client → Controller → RequestService → Queue → Worker → Result Store
 ## ⚙️ Core Features
 
 ### 1️⃣ Non-Blocking Job Submission
-
-* Returns `HTTP 202 + jobId`
-* Job pushed to **PriorityBlockingQueue**
-* Client polls via jobId
-* **System health checked before acceptance** — returns 503 if unhealthy
+- Returns `HTTP 202 + jobId` immediately
+- Job pushed atomically to Redis ZSET (main queue)
+- Metadata initialized in Redis Hash
+- Client polls via `GET /result/poll?jobId=`
 
 ---
 
-### 2️⃣ Priority-Based Scheduling
+### 2️⃣ Priority-Based Scheduling (Redis ZSET)
 
-* Queue: `PriorityBlockingQueue` (min-heap, ordered by score)
-* Jobs assigned a **score**:
+The main queue is a **Redis Sorted Set (ZSET)**. Every job gets a score at submission time:
 
-```java
-score = jobTier.getPriority() * PRIORITY_BASE + arrivedAt
+```
+score = tier.priority * PRIORITY_BASE + arrivedAt (epoch ms)
 ```
 
-* Priority order:
+| Tier   | Priority Value | Effect              |
+|--------|----------------|---------------------|
+| PAID   | 1              | Processed first     |
+| UNPAID | 2              | Processed second    |
+| PUBLIC | 3              | Processed last      |
 
-| Tier   | Priority |
-| ------ | -------- |
-| PAID   | Highest  |
-| UNPAID | Medium   |
-| PUBLIC | Lowest   |
+`PRIORITY_BASE = 10^13` — large enough that tier dominates, timestamp breaks ties within the same tier.
 
-* Retries **preserve original arrival time** → no unfair boost
+Workers always pop the **lowest score** (`ZPOPMIN`) — highest priority job first.
+
+**Retries preserve the original `arrivedAt`** — no unfair reordering. A retried job sits exactly where it would have if it had never failed.
 
 ---
 
 ### 3️⃣ Worker System
 
-* `ExecutorService` fixed thread pool
-* Workers use `queue.take()` (blocking)
-* Infinite loop (interrupt-aware)
+- Fixed thread pool (`ExecutorService`), size configurable via `application.yml`
+- Workers loop continuously, popping jobs via `ZPOPMIN`
+- On empty queue — short sleep, then retry
+- Interrupt-aware shutdown via `@PreDestroy`
 
 ---
 
 ### 4️⃣ Heartbeat System
 
-* Runs every **10ms**
-* Updates `lastHeartBeatTime`
-* Detects worker crashes or stalls
+Every active job has a heartbeat running on a `ScheduledExecutorService`:
+
+- Fires every **500ms**
+- Updates score in `processing:by-heartbeat` ZSET
+- New score = `now + tiered heartbeat timeout (epoch ms)`
+- Update is atomic via **Lua script** — skips update if job is no longer `PROCESSING` (prevents race with scheduler)
 
 ---
 
-### 5️⃣ Retry & Recovery System
+### 5️⃣ Processing Store (Two Redis ZSETs)
 
-Scheduler runs periodically with **dynamic delay** (see Feature 8):
+| ZSET Key                  | Score                              | Purpose             |
+|---------------------------|------------------------------------|---------------------|
+| `processing:by-heartbeat` | `lastHeartbeat + heartbeatTimeout` | Crash detection     |
+| `processing:by-maxtime`   | `startedAt + maxProcessingTime`    | Stuck job detection |
 
-Triggers retry when:
-
-* Heartbeat timeout exceeded
-* Max processing time exceeded
-
-Retry flow:
-
-```
-incrementRetry → status=PENDING → enqueue → remove from processing
-```
-
-Discard flow:
-
-```
-status=FAILED → DLQ → cleanup
-```
+Scheduler queries: `ZRANGEBYSCORE key 0 {now}` — instantly returns all expired jobs. No iteration over all jobs needed.
 
 ---
 
-### 6️⃣ Tier-Based Retry Configuration
+### 6️⃣ Recovery Schedulers
+
+Two independent schedulers, each with its own dynamic delay via `SystemHealthService`:
+
+| Scheduler                   | Watches                   | Trigger           | Floor | Ceiling |
+|-----------------------------|---------------------------|-------------------|-------|---------|
+| `CrashedJobRecoveryService` | `processing:by-heartbeat` | Heartbeat expired | 3s    | 60s     |
+| `StuckJobRecoveryService`   | `processing:by-maxtime`   | Max time exceeded | 5s    | 120s    |
+
+Both call the same **atomic Lua recovery script** which:
+1. Checks job status
+2. Compares `retryCount` against tier-specific `maxRetries` (fetched from Redis config)
+3. Within limit → increments retry, requeues with original score, removes from both ZSETs, sets status `PENDING`
+4. Limit exhausted → sets status `NEED_DISCARD`, returns signal to Java
+
+Java then calls `JobDiscardService` → writes to MySQL `failed_jobs` → cleanup.
+
+> 📐 **Recovery Flow Diagram**
+>
+> ![Recovery Flow](docs/Recovery_Flow.png)
+
+---
+
+### 7️⃣ Tier-Based Retry Configuration
+
+Each tier has independent thresholds — stored in Redis at startup, read by Lua scripts at runtime:
 
 | Tier   | maxRetries | heartbeatTimeout | maxProcessingTime |
-| ------ | ---------- | ---------------- | ----------------- |
-| PUBLIC | 1          | 30ms             | 100ms             |
-| UNPAID | 2          | 60ms             | 200ms             |
-| PAID   | 5          | 150ms            | 500ms             |
+|--------|------------|------------------|-------------------|
+| PUBLIC | 1          | 3s               | 10s               |
+| UNPAID | 2          | 6s               | 20s               |
+| PAID   | 5          | 15s              | 50s               |
 
 ---
 
-### 7️⃣ Dead Letter Queue (DLQ)
+### 8️⃣ Dead Letter Queue (DLQ)
 
-* Stores permanently failed jobs
-* Fields:
+Permanently failed jobs are written to MySQL `failed_jobs` table with:
 
-  * jobId
-  * jobTier
-  * retryCount
-  * firstTriedAt
-  * discardedAt
-  * failureCause
-
-Failure causes:
-
-* `MAX_TIME_EXCEEDED`
-* `HEARTBEAT_STOPPED`
+| Field           | Description                                |
+|-----------------|--------------------------------------------|
+| `jobId`         | Unique job identifier                      |
+| `jobTier`       | Tier at time of failure                    |
+| `totalRetries`  | How many attempts were made                |
+| `firstTriedAt`  | When a worker first picked it up           |
+| `discardedAt`   | When it was permanently discarded          |
+| `failureCause`  | `MAX_TIME_EXCEEDED` or `HEARTBEAT_STOPPED` |
 
 ---
 
-### 8️⃣ Queue Capacity Strategy
+### 9️⃣ Capacity Control (Redis Atomic Counter)
 
-* **Semaphore = soft cap (new jobs)**
-* **Retries bypass cap** (guaranteed execution)
-* **Health gate bypassed for retries** — system contract must be honored
+New job acceptance is governed by a Redis counter (not a JVM-local `Semaphore`) — making it safe across multiple instances:
 
----
-
-### 9️⃣ System Health Gate & Exponential Backoff (NEW)
-
-`SystemHealthService` tracks downstream (Redis) health and drives two independent concerns:
-
-| Concern | Field | Formula | Purpose |
-| --- | --- | --- | --- |
-| Acceptance gate | `netSystemFailCount` | `++` fail, `--` success (capped) | reject new jobs when system unreliable |
-| Scheduler backoff | `currentDelay` | `*2` fail (ceiling), `/2` success (floor) | reduce load during outage |
-
-**Gate behavior:**
-* `netSystemFailCount < threshold` → accept new jobs
-* `netSystemFailCount >= threshold` → reject with HTTP 503
-* `netSystemFailCeiling` caps fail counter — prevents artificially delayed recovery
-
-**Backoff behavior:**
-* Floor: `750ms` (baseline)
-* Ceiling: `30000ms` (prevents runaway)
-* Exponential growth on failure, exponential decay on recovery
-* Scheduler self-heals — no external watchdog needed
-
-**Dynamic scheduler** — replaces `@Scheduled(fixedDelay)`:
-```java
-// delay read fresh from SystemHealthService after every cycle
-ctx -> Instant.now().plusMillis(systemHealthService.getCurrentDelay())
-```
-
-**Scheduler records outcome every cycle:**
-```java
-try {
-    // recovery logic
-    systemHealthService.recordSuccess();  // currentDelay /= 2
-} catch (Exception e) {
-    systemHealthService.recordFailure();  // currentDelay *= 2
-}
-```
+- Lua script: check counter < capacity → increment → enqueue (atomic)
+- On dequeue: if `retryCount == 0` (new job) → decrement counter
+- Retried jobs **bypass the counter** — system has committed to the user via `jobId`
 
 ---
 
-## 🗂️ Key Components
+### 🔟 System Health Gate + Exponential Backoff
 
-| Component            | Responsibility                          |
-| -------------------- | --------------------------------------- |
-| Controller Layer     | Tier-based job submission               |
-| RequestService       | Job submission + health gate check      |
-| QueueService         | Priority queue + capacity control       |
-| JobMetadataService   | Source of truth for job state           |
-| Worker Service       | Executes jobs                           |
-| Heartbeat Service    | Liveness tracking                       |
-| Processing Store     | Active job tracking                     |
-| Recovery Scheduler   | Retry / discard decisions               |
-| DLQ Service          | Permanent failure storage               |
-| SystemHealthService  | Health gate + exponential backoff state |
-| JobRecoveryConfig    | Dynamic scheduler wiring via Trigger    |
+`SystemHealthService` tracks Redis health and drives two independent concerns:
+
+| Concern               | Behaviour                                                                   |
+|-----------------------|-----------------------------------------------------------------------------|
+| **Acceptance gate**   | Rejects new job submissions (HTTP 503) when `failCount >= threshold`        |
+| **Scheduler backoff** | Doubles delay on failure (up to ceiling), halves on success (down to floor) |
+
+- Gate and backoff are **separate counters** — one cannot serve both without design compromises
+- Retried jobs **bypass the health gate** — contract to user must be honoured
+- Scheduler self-heals on Redis recovery — no external watchdog needed
 
 ---
 
-## 📦 Package Structure
+## 🗄️ Persistence
 
-```
-controllers/
-services/
-models/
-dtos/
-entity/
-advices/
-enums/
-configuration/
-```
-
----
-
-## 🧠 Key Design Principles
-
-* **At-least-once execution**
-* **Metadata = source of truth**
-* **Processing store = transient**
-* **Priority is computed, not passed**
-* **Retry preserves fairness (no reordering abuse)**
-* **Service-level encapsulation of state**
-* **computeIfPresent() for atomic updates**
-* **YAGNI (no premature abstraction)**
-* **Acceptance gate and backoff are separate concerns — one counter cannot serve both**
-* **Retried jobs bypass health gate — system contract to user must be honored**
-* **Scheduler self-heals Redis recovery — no external watchdog needed**
-* **Boundary race on health gate acceptable — slipped job hits error, gets rejected, no corruption**
+| Store            | Technology                               | What lives here                                             |
+|------------------|------------------------------------------|-------------------------------------------------------------|
+| Job Metadata     | Redis Hash (`job:metadata:{jobId}`)      | status, retryCount, firstTriedAt, arrivedAt, jobTier        |
+| Main Queue       | Redis ZSET (`main:queue`)                | jobId → priority score                                      |
+| Processing Store | Redis ZSET × 2                           | Active jobs tracked by heartbeat expiry and max time expiry |
+| System Config    | Redis Hash (`system:config:tier:{tier}`) | Per-tier thresholds, priority base — seeded at startup      |
+| Completed Jobs   | MySQL (`job_results`)                    | jobId, result, timestamps, tier, retryCount                 |
+| Failed Jobs      | MySQL (`failed_jobs`)                    | jobId, failureCause, timestamps, tier, retryCount           |
 
 ---
 
@@ -245,17 +213,32 @@ POST /unpaid/submit
 POST /public/submit
 ```
 
-Response (success):
+**Success (202):**
 ```json
-{ "jobId": "abc-123" }
+{
+  "apiResponseData": {
+    "jobId": "019de340-01fe-7a58-be69-567cd7d6b7d4",
+    "currentJobStatus": "PENDING"
+  },
+  "timestamp": "2026-05-01T11:31:57.961931Z"
+}
 ```
 
-Response (system unhealthy — 503):
+**System unhealthy (503):**
 ```json
 {
   "errorCode": "SYSTEM_UNHEALTHY",
   "message": "System is currently unavailable due to high load. Please try again later.",
-  "timestamp": "2026-04-12T15:07:39.535765600Z"
+  "timestamp": "2026-05-01T11:31:57.961931Z"
+}
+```
+
+**Queue full (SERVICE UNAVAILABLE 503):**
+```json
+{
+  "errorCode": "QUEUE_FULL",
+  "message": "Request cannot be accepted at the moment due to high load. Please try again later.",
+  "timestamp": "2026-05-01T11:31:57.961931Z"
 }
 ```
 
@@ -264,110 +247,188 @@ Response (system unhealthy — 503):
 ### Poll Result
 
 ```
-GET /result/poll?jobId=
+GET /result/poll?jobId={jobId}
 ```
-
----
-
-## ⚙️ Configuration (Simplified)
-
-```yaml
-spring:
-  profiles:
-    active: local  # switch to prod for production environment
-
-traffic-control:
-
-  queue:
-    main:
-      capacity: "${MAIN_QUEUE_CAPACITY}"
-      error:
-        queue-full: "${MAIN_QUEUE_FULL_ERROR_MESSAGE}"
-
-  metadata-status:
-    response:
-      error:
-        expired-or-not-exists: "${JOB_EXPIRED_OR_NOT_EXISTS_ERROR_MESSAGE}"
-      success:
-        completed:  "${JOB_COMPLETED_MESSAGE}"
-        pending:    "${JOB_PENDING_MESSAGE}"
-        processing: "${JOB_PROCESSING_MESSAGE}"
-        failed:     "${JOB_FAILED_MESSAGE}"
-
-  job:
-    tier:
-      paid:                                           # 5x public, 2.5x unpaid
-        max-processing-time: "${PAID_MAX_PROCESSING_TIME}"
-        heartbeat-timeout:   "${PAID_MAX_HEARTBEAT_TIMEOUT}"
-        max-retries:         "${PAID_MAX_RETRIES_PER_JOB}"
-      unpaid:                                         # 2x public
-        max-processing-time: "${UNPAID_MAX_PROCESSING_TIME}"
-        heartbeat-timeout:   "${UNPAID_MAX_HEARTBEAT_TIMEOUT}"
-        max-retries:         "${UNPAID_MAX_RETRIES_PER_JOB}"
-      public:                                         # baseline
-        max-processing-time: "${PUBLIC_MAX_PROCESSING_TIME}"
-        heartbeat-timeout:   "${PUBLIC_MAX_HEARTBEAT_TIMEOUT}"
-        max-retries:         "${PUBLIC_MAX_RETRIES_PER_JOB}"
-
-  scheduler:
-    delay-floor:   "${SCHEDULER_FLOOR_MS:750}"        # 0.75s — baseline healthy delay
-    delay-ceiling: "${SCHEDULER_CEILING_MS:30000}"    # 30s — max backoff during outage
-
-  system:
-    threshold:    "${SYSTEM_THRESHOLD:3}"             # gate closes when fail count >= threshold
-    fail-ceiling: "${SYSTEM_FAIL_CAP:5}"              # caps fail counter to bound recovery time
-    response:
-      error:
-        unhealthy: "${SYSTEM_UNHEALTHY_ERROR_MESSAGE}"
-
-threads:
-  count:
-    job-worker-count: "${JOB_WORKERS_COUNT}"
-    heartbeat-count:  "${HEARTBEAT_WORKER_COUNT}"     # must equal job-worker-count
-  heartbeat:
-    initial-delay: "${HEARTBEAT_INITIAL_DELAY}"
-    interval:      "${HEARTBEAT_INTERVAL}"
-```
-
----
-
-## ⚠️ Dev Note on Placeholders
-
-Default values have been removed. The application will fail to start if environment variables are not explicitly defined in your local profile. This ensures correct configuration per deployment environment.
-
----
-
-## 🛣️ Roadmap
-
-* [x] Async processing system
-* [x] Retry + recovery scheduler
-* [x] Heartbeat system
-* [x] DLQ
-* [x] Priority queue system
-* [x] System health gate + exponential backoff
-* [x] Dynamic scheduler (Spring Trigger + SchedulingConfigurer)
-* [ ] Redis integration (distributed scheduling)
-* [ ] Lua scripts for atomic Redis operations
-* [ ] Rate limiting integration
-* [ ] Observability (metrics + tracing)
 
 ---
 
 ## 🧱 Tech Stack
 
-* Java 21
-* Spring Boot
-* Maven
-* Redis (planned)
+| Component         | Technology                                |
+|-------------------|-------------------------------------------|
+| Language          | Java 21                                   |
+| Framework         | Spring Boot                               |
+| Distributed Cache | Redis (via Lettuce + Spring Data Redis)   |
+| Atomic Operations | Lua scripts executed via Redis            |
+| Persistence       | MySQL (Spring Data JPA + Hibernate)       |
+| Build Tool        | Maven                                     |
+| Containerisation  | Docker (Redis + MySQL via Docker Compose) |
+
+---
+
+## 🛠️ Prerequisites
+
+Before starting, ensure you have the following installed:
+
+- **Java 21** (Hotspot/Adoptium recommended)
+- **Docker & Docker Compose**
+- **Maven 3.9+**
+- An API client like **Postman** or **cURL**
+
+---
+
+## 🏁 Getting Started
+
+### Step 1: Environment Configuration
+
+The `docker-compose.yml` uses environment variables. Create a `.env` file in the root directory:
+
+```bash
+# .env
+MYSQL_DATABASE=traffic_control_service_db
+MYSQL_ROOT_PASSWORD=your_secure_password
+```
+
+Then update `src/main/resources/application.yml` to match these credentials so Spring Boot can connect to the running containers.
+
+---
+
+### Step 2: Spin Up Infrastructure
+
+Launch the database and cache layers. The `-d` flag runs them in the background:
+
+```bash
+docker-compose up -d
+```
+
+> **Note:** On first run, wait ~10–15 seconds for MySQL to finish initializing its internal file system. Check container health with `docker ps`.
+
+---
+
+### Step 3: Build and Run
+
+```bash
+mvn clean install
+mvn spring-boot:run
+```
+
+Look for the log entry:
+
+```
+Started TrafficControlServiceApplication in X seconds...
+Starting 3 worker threads...
+```
+
+---
+
+### Step 4: Verify & Test
+
+Once the service is live on port **8080**, fire a test request against the Paid tier to see the priority logic in action.
+
+**1. Submit a job:**
+
+```bash
+curl -X POST http://localhost:8080/paid/submit
+```
+
+Expected response: `202 Accepted` with a `jobId`.
+
+**2. Poll for result** (replace `{jobId}` with the value from the previous step):
+
+```bash
+curl -X GET "http://localhost:8080/result/poll?jobId={jobId}"
+```
+
+---
+
+### Step 5: Shutdown
+
+Stop and remove containers while keeping your data volumes intact:
+
+```bash
+docker-compose down
+```
+
+---
+
+## 📦 Package Structure
+
+```
+controllers/     → tier-specific submit endpoints + shared result controller
+services/        → all business logic
+models/          → internal domain objects
+dtos/            → API request/response boundary objects
+entity/          → JPA entities (JobResult, FailedJob)
+advices/         → global exception handling
+enums/           → JobStatus, FailureCause, JobTier
+constants/       → RedisKeys, LuaScripts, system constants
+config/          → SystemConfigs, RedisConfig, scheduler wiring
+```
+
+---
+
+## 🧠 Key Design Decisions
+
+| Decision                       | Reasoning                                                                                                    |
+|--------------------------------|--------------------------------------------------------------------------------------------------------------|
+| Redis ZSET for queue           | Native priority ordering, distributed, atomic pop                                                            |
+| Two processing ZSETs           | Clean separation of crash vs stuck detection — single ZSET cannot serve both                                 |
+| Lua scripts for atomicity      | Redis executes Lua atomically — eliminates check-then-act race conditions across all critical paths          |
+| `arrivedAt` preserved on retry | Fairness — retried jobs don't skip the line                                                                  |
+| Tier config in Redis           | Lua scripts can read thresholds directly — no Java roundtrip needed inside atomic operations                 |
+| Capacity via Redis counter     | JVM-local `Semaphore` breaks in multi-instance deployments                                                   |
+| MySQL for results + DLQ        | Durable, queryable, survives Redis restarts                                                                  |
+| TTL on metadata                | Completed jobs expire after 24h, failed after 1h — prevents unbounded Redis growth                           |
+| Two independent schedulers     | Separate recovery frequencies per failure type — crash detection is more time-sensitive than stuck detection |
+
+---
+
+## 🖥️ Web Interface
+
+A lightweight frontend is included for demonstration purposes, accessible at `http://localhost:8080` after starting the application.
+
+| Page        | URL       | Purpose                                           |
+|-------------|-----------|---------------------------------------------------|
+| Overview    | `/`       | System architecture, how it works, tier reference |
+| Submit Job  | `/submit` | Submit a job by tier, receive a `jobId`           |
+| Poll Result | `/poll`   | Check job status and retrieve result by `jobId`   |
+| Demo        | `/demo`   | Animated walkthrough of the system internals      |
+| About       | `/about`  | Creator info and links                            |
+
+---
+
+## 🛣️ Roadmap
+
+- [x] Async processing system
+- [x] Priority queue (tier-based scoring)
+- [x] Heartbeat system
+- [x] Retry + recovery schedulers (crash + stuck)
+- [x] Dead Letter Queue
+- [x] System health gate + exponential backoff
+- [x] Redis integration (queue, metadata, processing store)
+- [x] Atomic Lua scripts
+- [x] MySQL persistence (results + DLQ)
+- [x] Tier-based configuration (per-tier retry, timeout, heartbeat)
+
+---
+
+## 🔮 Future enhancements:
+
+- [ ] Rate limiting
+- [ ] Observability (metrics + tracing)
+- [ ] Distributed workers (multi-instance deployment)
 
 ---
 
 ## 👨‍💻 Author
 
-Vishal Sharma
+**Vishal Sharma**
+
+- 🔗 [LinkedIn](https://www.linkedin.com/in/vishal-sharma87/)
+- 🐙 [GitHub](https://github.com/Vishal-Sharma87)
 
 ---
 
 ## 📄 License
 
-For learning and demonstration purposes.
+For learning and demonstration purposes. Not intended for production use without significant modifications and testing.

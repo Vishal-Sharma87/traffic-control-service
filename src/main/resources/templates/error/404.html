@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>404 — Route Not Found</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="icon" type="image/svg+xml" th:href="@{/favicon.svg}"/>
+    <style>
+        .error-container {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .error-code {
+            font-size: 8rem;
+            font-weight: 800;
+            font-family: var(--font-mono), monospace;
+            color: var(--border);
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+        .error-tag {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--amber);
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-family: var(--font-mono), monospace;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar('error')}"></div>
+
+<main class="container">
+    <div class="error-container">
+        <div class="error-code">404</div>
+        <div class="error-tag" style="margin-bottom: 1.5rem;">Invalid Route</div>
+        <h1 style="margin-bottom: 1rem;">Lost in the Pipeline?</h1>
+        <p class="text-muted" style="max-width: 450px; margin-bottom: 2rem;">
+            The processing path you requested does not exist. The endpoint might have been
+            decommissioned or the URL was entered incorrectly.
+        </p>
+        <a href="/" class="btn btn-primary">Return to Overview</a>
+    </div>
+</main>
+
+</body>
+</html>

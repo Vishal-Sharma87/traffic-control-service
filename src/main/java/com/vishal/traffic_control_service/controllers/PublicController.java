@@ -8,7 +8,10 @@ import com.vishal.traffic_control_service.services.RequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
@@ -28,10 +31,8 @@ public class PublicController {
     @PostMapping("/submit")
     public ResponseEntity<ApiResponseDto<JobRequestResponseDto>> acceptRequest(){
 
-        UUID jobId = requestService.submitJob(JobTier.PUBLIC);
+        UUID jobId = requestService.submitNewJob(JobTier.PUBLIC);
 
-        //         we will reach the following line if and only if the request is accepted,
-        //         and we will definitely have a valid jobId we can return it directly to the user
         return ResponseEntity
                 .status(HttpStatus.ACCEPTED)
                 .body(new ApiResponseDto<>(new JobRequestResponseDto(jobId, JobStatus.PENDING))

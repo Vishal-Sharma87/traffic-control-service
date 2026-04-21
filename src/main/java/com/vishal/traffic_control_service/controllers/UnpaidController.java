@@ -23,7 +23,7 @@ public class UnpaidController {
 
     @PostMapping("/submit")
     public ResponseEntity<ApiResponseDto<JobRequestResponseDto>> submitUnpaidRequest(){
-        UUID jobId = requestService.submitJob(JobTier.UNPAID);
+        UUID jobId = requestService.submitNewJob(JobTier.UNPAID);
 
         return ResponseEntity
                 .status(HttpStatus.ACCEPTED)

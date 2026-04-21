@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Poll Result — Traffic Control Service</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="icon" type="image/svg+xml" th:href="@{/favicon.svg}"/>
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar(activePage='poll')}"></div>
+
+<main>
+    <section class="hero" style="padding-bottom:1rem;">
+        <p class="hero-label">// poll job status</p>
+        <h1 style="font-size:clamp(1.8rem,4vw,2.8rem);">Result<br/>Polling</h1>
+        <p class="hero-sub">
+            Enter your <code>jobId</code> and check its current status.
+            If the job is still processing, check again in a moment.
+        </p>
+    </section>
+
+    <hr class="divider"/>
+
+    <!-- FORM -->
+    <h3>Job Lookup</h3>
+    <div class="card" style="margin-top:0.75rem; max-width:600px;">
+        <div style="margin-bottom:1.25rem;">
+            <label for="jobId">Job ID</label>
+            <input type="text" id="jobId" placeholder="019de340-01fe-7a58-be69-567cd7d6b7d4"
+                   onkeydown="if(event.key==='Enter') pollJob()"/>
+        </div>
+        <button class="btn btn-primary" id="pollBtn" onclick="pollJob()">
+            <span class="spinner" id="pollSpinner"></span>
+            <span id="pollLabel">Check Status</span>
+        </button>
+    </div>
+
+    <!-- RESULT -->
+    <div class="result-box" id="resultBox" style="max-width:600px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+            <span class="result-label">Status</span>
+            <span class="badge" id="statusBadge"></span>
+        </div>
+
+        <div id="messageRow" style="margin-bottom:0.75rem;">
+            <span class="result-label">MESSAGE</span><br/>
+            <span class="result-value" id="messageValue">—</span>
+        </div>
+
+        <div id="resultRow" style="display:none; margin-bottom:0.75rem;">
+            <span class="result-label">RESULT</span><br/>
+            <span class="result-value mono" id="resultValue">—</span>
+        </div>
+
+        <div id="checkedRow">
+            <span class="result-label">CHECKED AT</span><br/>
+            <span class="result-value" id="checkedAt">—</span>
+        </div>
+    </div>
+
+    <!-- ERROR -->
+    <div class="result-box error" id="errorBox" style="max-width:600px;">
+        <span class="result-label">ERROR</span><br/>
+        <span class="result-value" id="errorValue">—</span>
+    </div>
+
+    <hr class="divider"/>
+
+    <!-- STATUS GUIDE -->
+    <h3>Status Reference</h3>
+    <div class="card" style="padding:0; overflow:hidden; margin-top:0.75rem; max-width:600px;">
+        <table>
+            <thead>
+            <tr>
+                <th>Status</th>
+                <th>Meaning</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><span class="badge badge-amber">PENDING</span></td>
+                <td>Job is in the queue, waiting to be picked up by a worker.</td>
+            </tr>
+            <tr>
+                <td><span class="badge badge-blue">PROCESSING</span></td>
+                <td>A worker is actively processing this job right now.</td>
+            </tr>
+            <tr>
+                <td><span class="badge badge-green">COMPLETED</span></td>
+                <td>Job finished successfully. Result is available.</td>
+            </tr>
+            <tr>
+                <td><span class="badge badge-red">FAILED</span></td>
+                <td>Job exhausted all retries and was moved to the Dead Letter Queue.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<script>
+    // Pre-fill jobId if passed as query param (linked from submit page)
+    window.addEventListener('DOMContentLoaded', () => {
+        const params = new URLSearchParams(window.location.search);
+        const jobId  = params.get('jobId');
+        if (jobId) {
+            document.getElementById('jobId').value = jobId;
+            pollJob();
+        }
+    });
+
+    async function pollJob() {
+        const jobId = document.getElementById('jobId').value.trim();
+
+        // 1. Basic empty check
+        if (!jobId) {
+            showLocalError('Please enter a job ID.');
+            return;
+        }
+
+        // 2. UUIDv7 Regex Validation
+        // Format: xxxxxxxx-xxxx-7xxx-yxxx-xxxxxxxxxxxx (where y is 8, 9, a, or b)
+        const uuidv7Regex = /^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+        if (!uuidv7Regex.test(jobId)) {
+            showLocalError('Invalid Job ID format. Please provide a valid UUIDv7.');
+            return;
+        }
+
+        const btn     = document.getElementById('pollBtn');
+        const spinner = document.getElementById('pollSpinner');
+        const label   = document.getElementById('pollLabel');
+
+        btn.disabled = true;
+        spinner.classList.add('show');
+        label.textContent = 'Checking...';
+
+        resetUI();
+
+        try {
+            const res  = await fetch(`/result/poll?jobId=${encodeURIComponent(jobId)}`);
+            const data = await res.json();
+
+            if (res.ok) {
+                handleSuccess(data);
+            } else {
+                // 3. Handle NOT_FOUND (404) and specific Error Codes
+                const msg = data.message || data.errorCode || 'Unexpected error';
+
+                if (res.status === 404) {
+                    // This captures JOB_EXPIRED_OR_NOT_EXISTS from your backend
+                    document.getElementById('errorValue').textContent = msg;
+                } else {
+                    document.getElementById('errorValue').textContent = `[${res.status}] ${msg}`;
+                }
+                document.getElementById('errorBox').classList.add('show');
+            }
+
+        } catch (e) {
+            document.getElementById('errorValue').textContent = 'Could not reach the server. Is the application running?';
+            document.getElementById('errorBox').classList.add('show');
+        } finally {
+            btn.disabled = false;
+            spinner.classList.remove('show');
+            label.textContent = 'Check Status';
+        }
+    }
+
+    // Helper: Show local validation errors
+    function showLocalError(msg) {
+        document.getElementById('errorValue').textContent = msg;
+        document.getElementById('errorBox').classList.add('show');
+        document.getElementById('resultBox').classList.remove('show');
+    }
+
+    // Helper: Reset UI state
+    function resetUI() {
+        document.getElementById('resultBox').classList.remove('show', 'success', 'error', 'pending');
+        document.getElementById('errorBox').classList.remove('show');
+        document.getElementById('resultRow').style.display = 'none';
+    }
+
+    // Helper: Process successful data
+    function handleSuccess(data) {
+        const status  = data.apiResponseData?.currentJobStatus ?? '—';
+        const message = data.apiResponseData?.message ?? '—';
+        const result  = data.apiResponseData?.result;
+        const ts      = data.timestamp ?? new Date().toISOString();
+
+        const badge = document.getElementById('statusBadge');
+        badge.textContent = status;
+
+        const box = document.getElementById('resultBox');
+        box.classList.add('show');
+
+        if (status === 'COMPLETED') {
+            badge.className = 'badge badge-green';
+            box.classList.add('success');
+            if (result) {
+                document.getElementById('resultRow').style.display = 'block';
+                document.getElementById('resultValue').textContent = result;
+            }
+        } else if (status === 'FAILED') {
+            badge.className = 'badge badge-red';
+            box.classList.add('error');
+        } else if (status === 'PROCESSING') {
+            badge.className = 'badge badge-blue';
+            box.classList.add('pending');
+        } else {
+            badge.className = 'badge badge-amber';
+            box.classList.add('pending');
+        }
+
+        document.getElementById('messageValue').textContent = message;
+        document.getElementById('checkedAt').textContent    = ts;
+    }
+</script>
+
+</body>
+</html>

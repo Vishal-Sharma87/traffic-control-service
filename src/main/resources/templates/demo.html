@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"><head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>How It Works — Traffic Control</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/demo.css}" />
+    <link rel="icon" type="image/svg+xml" th:href="@{/favicon.svg}"/>
+    <style>
+        .demo-page-intro { max-width: 620px; margin-bottom: 2.5rem; }
+        .section-header  { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1rem; }
+        .section-num {
+            font-size: 2.2rem; font-weight: 700; color: var(--border);
+            font-family: var(--font-mono),monospace,monospace; line-height: 1; flex-shrink: 0; padding-top: 1px;
+        }
+        .section-title { font-size: 1.05rem; font-weight: 600; color: var(--text); margin: 0 0 4px; }
+        .section-desc  { font-size: 0.78rem; color: var(--text-muted); line-height: 1.55; margin: 0; }
+        .section-desc code { font-family: var(--font-mono),monospace; color: var(--text); background: var(--surface-2); padding: 1px 5px; border-radius: 3px; }
+
+        /* tier legend */
+        .tier-legend { display: flex; gap: 18px; margin-top: 10px; flex-wrap: wrap; }
+        .tier-legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.7rem; font-family: var(--font-mono),monospace; }
+        .tier-legend-dot  { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+
+        /* recovery-specific */
+        .path-label { font-size: 0.64rem; font-family: var(--font-mono),monospace; padding: 2px 7px; border-radius: 3px; white-space: nowrap; }
+        .path-retry   { background: rgba(59,130,246,0.12); color: var(--blue); border: 1px solid rgba(59,130,246,0.28); }
+        .path-discard { background: rgba(239,68,68,0.12);  color: var(--red);  border: 1px solid rgba(239,68,68,0.28);  }
+        .split-path { display: flex; align-items: center; gap: 6px; }
+
+        .path-section-label {
+            font-size: 0.63rem; color: var(--text-muted); font-family: var(--font-mono),monospace;
+            text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;
+        }
+        .path-divider { border: none; border-top: 1px solid var(--border); margin: 4px 0 12px; }
+
+        .recovery-path { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 0 0 12px; }
+
+        .hb-row { display: flex; align-items: center; gap: 6px; }
+    </style>
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar('demo')}"></div>
+
+<main class="container" style="padding-top: 2rem; padding-bottom: 4rem;">
+
+    <div class="demo-page-intro">
+        <h1 class="page-title">How It Works</h1>
+        <p class="page-sub" style="margin-top: 6px;">
+            Animated walkthrough of the job lifecycle — submission into the priority queue,
+            worker execution with heartbeat liveness, and fault recovery via dual schedulers.
+            Each section plays independently.
+        </p>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════
+         01  JOB SUBMISSION
+    ══════════════════════════════════════════════════════════ -->
+    <section class="demo-section" id="sec1">
+        <div class="section-header">
+            <div class="section-num">01</div>
+            <div>
+                <h2 class="section-title">Job Submission</h2>
+                <p class="section-desc">
+                    Client submits a job → <code>JobService</code> attempts a semaphore
+                    <code>tryAcquire()</code> → if capacity is available, the job is inserted into a
+                    Redis ZSET with a priority score. Lower score = higher priority.
+                    Watch how a <span style="color:var(--green); font-weight:500;">PAID</span> job
+                    arriving after <span style="color:var(--amber); font-weight:500;">PUBLIC</span>
+                    jobs instantly claims position&nbsp;#1 without interrupting the worker.
+                </p>
+            </div>
+        </div>
+
+        <div class="play-reveal" id="play1-wrap">
+            <button class="btn" id="play1-btn" onclick="runSection1()">▶&nbsp; Play</button>
+        </div>
+
+        <div class="demo-stage" id="stage1">
+            <div class="stage-row" style="flex-wrap: wrap; align-items: flex-start; gap: 8px; padding: 16px;">
+
+                <!-- CLIENT -->
+                <div class="stage-center-v">
+                    <div class="comp" id="s1-client">
+                        <span class="comp-label">source</span>
+                        <span class="comp-name">CLIENT</span>
+                    </div>
+                </div>
+                <div class="stage-center-v">
+                    <div class="connector-line" id="s1-arr1">
+                        <div class="connector-dash" style="width:22px; height:1px;"></div>▶
+                    </div>
+                </div>
+
+                <!-- JOB SERVICE -->
+                <div class="stage-center-v">
+                    <div class="comp" id="s1-api">
+                        <span class="comp-label">service</span>
+                        <span class="comp-name">JobService</span>
+                    </div>
+                </div>
+                <div class="stage-center-v">
+                    <div class="connector-line" id="s1-arr2">
+                        <div class="connector-dash" style="width:22px; height:1px;"></div>▶
+                    </div>
+                </div>
+
+                <!-- CAPACITY CHECK -->
+                <div class="stage-center-v">
+                    <div class="comp" id="s1-cap">
+                        <span class="comp-label">semaphore</span>
+                        <span class="comp-name">Capacity</span>
+                        <span id="s1-cap-detail" style="font-size:0.63rem; color:var(--text-muted); font-family:var(--font-mono),monospace; margin-top:3px;">5 / 5 free</span>
+                    </div>
+                </div>
+                <div class="stage-center-v">
+                    <div class="connector-line" id="s1-arr3">
+                        <div class="connector-dash" style="width:22px; height:1px;"></div>▶
+                    </div>
+                </div>
+
+                <!-- QUEUE + WORKER -->
+                <div style="display:flex; gap:12px; align-items:flex-start; flex:1; min-width:230px;">
+                    <!-- ZSET Queue -->
+                    <div style="flex:1;">
+                        <div class="demo-meta">ZSET · Priority Queue</div>
+                        <div class="queue-container" id="s1-queue" style="min-height: 152px;">
+                            <div id="s1-empty" style="text-align:center; color:var(--text-muted); font-size:0.7rem; font-family:var(--font-mono),monospace; padding:10px 0;">
+                                empty
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Worker (pre-occupied) -->
+                    <div style="min-width: 114px;">
+                        <div class="demo-meta">WORKER</div>
+                        <div class="comp" id="s1-worker" style="gap:5px; padding:10px 8px;">
+                            <div class="job-token paid" style="font-size:0.67rem;">
+                                <span class="tier-dot"></span>J0 · PAID
+                            </div>
+                            <div class="status-badge status-processing">PROCESSING</div>
+                            <div style="font-size:0.59rem; color:var(--text-muted); font-family:var(--font-mono),monospace; text-align:center; margin-top:2px; line-height:1.4;">
+                                busy —<br>not interrupted
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="demo-controls">
+                <span class="demo-status-text" id="s1-status">Press Play to start the demo.</span>
+                <div class="progress-bar-wrap" style="width:110px;">
+                    <div class="progress-bar-fill" id="s1-progress"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tier-legend">
+            <div class="tier-legend-item" style="color:var(--green);">
+                <span class="tier-legend-dot" style="background:var(--green);"></span>
+                PAID · score&nbsp;100 (highest priority)
+            </div>
+            <div class="tier-legend-item" style="color:var(--blue);">
+                <span class="tier-legend-dot" style="background:var(--blue);"></span>
+                UNPAID · score&nbsp;200
+            </div>
+            <div class="tier-legend-item" style="color:var(--amber);">
+                <span class="tier-legend-dot" style="background:var(--amber);"></span>
+                PUBLIC · score&nbsp;300 (lowest priority)
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════
+         02  WORKER PROCESSING
+    ══════════════════════════════════════════════════════════ -->
+    <section class="demo-section" id="sec2">
+        <div class="section-header">
+            <div class="section-num">02</div>
+            <div>
+                <h2 class="section-title">Worker Processing</h2>
+                <p class="section-desc">
+                    A scheduled <code>JobWorker</code> polls the ZSET, pops the top job with
+                    <code>ZPOPMIN</code>, and begins processing. Throughout execution, it writes a
+                    heartbeat timestamp into a separate ZSET so the recovery scheduler can detect
+                    crashes. On completion the result is persisted to MySQL and the semaphore
+                    slot is released.
+                </p>
+            </div>
+        </div>
+
+        <div class="play-reveal" id="play2-wrap">
+            <button class="btn" id="play2-btn" onclick="runSection2()">▶&nbsp; Play</button>
+        </div>
+
+        <div class="demo-stage" id="stage2">
+            <div class="stage-row" style="flex-wrap:wrap; gap:8px; align-items:flex-start; padding:16px;">
+
+                <!-- Source Queue -->
+                <div class="stage-center-v">
+                    <div>
+                        <div class="demo-meta">ZSET · Queue</div>
+                        <div class="queue-container" id="s2-queue-box" style="gap:5px; min-width:100px;">
+                            <div id="s2-q-top" class="job-token paid" style="transition: opacity 0.45s; font-size:0.68rem;">
+                                <span class="tier-dot"></span>J2 · PAID
+                            </div>
+                            <div class="job-token unpaid" style="opacity:0.35; font-size:0.68rem;">
+                                <span class="tier-dot"></span>J4 · UNPAID
+                            </div>
+                            <div class="job-token public" style="opacity:0.35; font-size:0.68rem;">
+                                <span class="tier-dot"></span>J1 · PUBLIC
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stage-center-v">
+                    <div class="connector-line" id="s2-arr1">
+                        <div class="connector-dash" style="width:22px;height:1px;"></div>▶
+                    </div>
+                </div>
+
+                <!-- Worker -->
+                <div class="stage-center-v">
+                    <div class="comp" id="s2-worker" style="padding:12px 10px; gap:5px; min-width:115px;">
+                        <span class="comp-label">scheduler</span>
+                        <span class="comp-name">JobWorker</span>
+                        <div id="s2-worker-job" style="opacity:0; transition:opacity 0.4s; margin-top:4px;">
+                            <div class="job-token paid" style="font-size:0.68rem;">
+                                <span class="tier-dot"></span>J2 · PAID
+                            </div>
+                        </div>
+                        <div id="s2-worker-status" class="status-badge" style="opacity:0; transition:opacity 0.4s;"></div>
+                    </div>
+                </div>
+
+                <!-- Heartbeat branch -->
+                <div class="stage-center-v">
+                    <div class="connector-line" id="s2-arr-hb">
+                        <div class="connector-dash" style="width:20px;height:1px;"></div>▶
+                    </div>
+                </div>
+                <div class="stage-center-v">
+                    <div class="comp" id="s2-hb" style="padding:10px 10px; gap:4px;">
+                        <span class="comp-label">liveness</span>
+                        <div class="hb-row">
+                            <span class="comp-name">Heartbeat</span>
+                            <span class="hb-dot" id="s2-hb-dot" style="background:var(--border);"></span>
+                        </div>
+                        <div id="s2-hb-zset" style="font-size:0.62rem; color:var(--text-muted); font-family:var(--font-mono),monospace; margin-top:3px; opacity:0; transition:opacity 0.4s; white-space:nowrap;">
+                            hb_zset updated ✓
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stage-center-v">
+                    <div class="connector-line" id="s2-arr2">
+                        <div class="connector-dash" style="width:20px;height:1px;"></div>▶
+                    </div>
+                </div>
+
+                <!-- MySQL -->
+                <div class="stage-center-v">
+                    <div class="comp" id="s2-mysql" style="padding:10px 12px;">
+                        <span class="comp-label">persistence</span>
+                        <span class="comp-name">MySQL</span>
+                        <div id="s2-mysql-saved" style="font-size:0.62rem; color:var(--green); font-family:var(--font-mono),monospace; margin-top:4px; opacity:0; transition:opacity 0.4s; white-space:nowrap;">
+                            result saved ✓
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stage-center-v">
+                    <div class="connector-line" id="s2-arr3">
+                        <div class="connector-dash" style="width:20px;height:1px;"></div>▶
+                    </div>
+                </div>
+
+                <!-- Semaphore release -->
+                <div class="stage-center-v">
+                    <div class="comp" id="s2-sem" style="padding:10px 10px;">
+                        <span class="comp-label">semaphore</span>
+                        <span class="comp-name">release()</span>
+                        <div id="s2-sem-freed" style="font-size:0.62rem; color:var(--green); font-family:var(--font-mono),monospace; margin-top:4px; opacity:0; transition:opacity 0.4s; white-space:nowrap;">
+                            slot freed ✓
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="demo-controls">
+                <span class="demo-status-text" id="s2-status">Press Play to start.</span>
+                <div class="progress-bar-wrap" style="width:110px;">
+                    <div class="progress-bar-fill" id="s2-progress"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════
+         03  RECOVERY
+    ══════════════════════════════════════════════════════════ -->
+    <section class="demo-section" id="sec3">
+        <div class="section-header">
+            <div class="section-num">03</div>
+            <div>
+                <h2 class="section-title">Recovery &amp; Fault Handling</h2>
+                <p class="section-desc">
+                    Two background schedulers guard against silent failures.
+                    <code>HeartbeatRecoveryScheduler</code> detects workers that stopped pulsing
+                    (crash / OOM) and rescues their jobs into a retry queue.
+                    <code>RetryScheduler</code> then inspects each rescued job — re-enqueuing it
+                    if retries remain, or routing it to the Dead Letter Queue when exhausted.
+                    No job is ever silently lost.
+                </p>
+            </div>
+        </div>
+
+        <div class="play-reveal" id="play3-wrap">
+            <button class="btn" id="play3-btn" onclick="runSection3()">▶&nbsp; Play</button>
+        </div>
+
+        <div class="demo-stage" id="stage3">
+            <div style="padding: 16px 16px 0;">
+
+                <!-- PATH A -->
+                <div class="path-section-label">PATH A — Worker crash detection</div>
+                <div class="recovery-path">
+                    <div class="comp" id="s3-hb-sched" style="padding:8px 10px;">
+                        <span class="comp-label">scheduler</span>
+                        <span class="comp-name">HeartbeatRecovery</span>
+                        <span id="s3-hb-sched-detail" style="font-size:0.61rem; color:var(--text-muted); font-family:var(--font-mono),monospace; margin-top:2px; opacity:0; transition:opacity 0.4s;">scanning…</span>
+                    </div>
+                    <div class="connector-line" id="s3-arr-a1">
+                        <div class="connector-dash" style="width:20px;height:1px;"></div>▶
+                    </div>
+                    <div class="comp" id="s3-hb-zset" style="padding:8px 10px;">
+                        <span class="comp-label">Redis ZSET</span>
+                        <span class="comp-name">heartbeat_zset</span>
+                        <div id="s3-stale-job" style="margin-top:5px; opacity:0; transition:opacity 0.4s;">
+                            <div class="job-token unpaid" style="font-size:0.66rem;">
+                                <span class="tier-dot"></span>J7 · UNPAID
+                            </div>
+                            <div style="font-size:0.59rem; color:var(--red); font-family:var(--font-mono),monospace; margin-top:2px;">⚠ stale — no heartbeat</div>
+                        </div>
+                    </div>
+                    <div class="connector-line" id="s3-arr-a2">
+                        <div class="connector-dash" style="width:20px;height:1px;"></div>▶
+                    </div>
+                    <div class="comp" id="s3-rescued" style="padding:8px 10px;">
+                        <span class="comp-label">action</span>
+                        <span class="comp-name">rescue job</span>
+                        <div id="s3-rescued-detail" style="font-size:0.61rem; color:var(--green); font-family:var(--font-mono),monospace; margin-top:2px; opacity:0; transition:opacity 0.4s; white-space:nowrap;">
+                            → retry_zset ✓
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="path-divider" />
+
+                <!-- PATH B -->
+                <div class="path-section-label">PATH B — Retry / discard decision</div>
+                <div class="recovery-path">
+                    <div class="comp" id="s3-retry-sched" style="padding:8px 10px;">
+                        <span class="comp-label">scheduler</span>
+                        <span class="comp-name">RetryScheduler</span>
+                        <span id="s3-retry-sched-detail" style="font-size:0.61rem; color:var(--text-muted); font-family:var(--font-mono),monospace; margin-top:2px; opacity:0; transition:opacity 0.4s;">scanning…</span>
+                    </div>
+                    <div class="connector-line" id="s3-arr-b1">
+                        <div class="connector-dash" style="width:20px;height:1px;"></div>▶
+                    </div>
+                    <div class="comp" id="s3-retry-zset" style="padding:8px 10px;">
+                        <span class="comp-label">Redis ZSET</span>
+                        <span class="comp-name">retry_zset</span>
+                        <div id="s3-retry-job" style="margin-top:5px; opacity:0; transition:opacity 0.4s;">
+                            <div class="job-token unpaid" style="font-size:0.66rem;">
+                                <span class="tier-dot"></span>J7 · UNPAID
+                            </div>
+                            <div id="s3-retry-count-label" style="font-size:0.59rem; color:var(--text-muted); font-family:var(--font-mono),monospace; margin-top:2px;">retries: 1 / 3</div>
+                        </div>
+                    </div>
+                    <div class="connector-line" id="s3-arr-b2">
+                        <div class="connector-dash" style="width:20px;height:1px;"></div>▶
+                    </div>
+                    <!-- Decision box -->
+                    <div class="comp" id="s3-decision" style="padding:8px 12px; border-style:dashed;">
+                        <span class="comp-label">check</span>
+                        <span class="comp-name">retries &lt; max?</span>
+                        <div id="s3-decision-result" style="margin-top:4px; opacity:0; transition:opacity 0.4s; font-size:0.72rem; font-family:var(--font-mono),monospace; font-weight:600;"></div>
+                    </div>
+                    <!-- Split arrows -->
+                    <div style="display:flex; flex-direction:column; gap:7px;">
+                        <div class="split-path" id="s3-path-retry" style="opacity:0; transition:opacity 0.4s;">
+                            <div style="width:16px; height:1px; background:var(--blue);"></div>
+                            <span class="path-label path-retry">YES → re-enqueue</span>
+                            <div style="width:10px; height:1px; background:var(--blue);"></div>▶
+                        </div>
+                        <div class="split-path" id="s3-path-discard" style="opacity:0; transition:opacity 0.4s;">
+                            <div style="width:16px; height:1px; background:var(--red);"></div>
+                            <span class="path-label path-discard">NO → DLQ</span>
+                            <div style="width:22px; height:1px; background:var(--red);"></div>▶
+                        </div>
+                    </div>
+                    <!-- Outcome boxes -->
+                    <div style="display:flex; flex-direction:column; gap:7px;">
+                        <div class="comp" id="s3-requeue" style="padding:7px 10px; opacity:0; transition:opacity 0.4s;">
+                            <span class="comp-label">back to</span>
+                            <span class="comp-name">priority_zset</span>
+                        </div>
+                        <div class="comp" id="s3-dlq" style="padding:7px 10px; opacity:0; transition:opacity 0.4s; border-color:rgba(239,68,68,0.3);">
+                            <span class="comp-label">dead letter</span>
+                            <span class="comp-name" style="color:var(--red);">DLQ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="demo-controls">
+                <span class="demo-status-text" id="s3-status">Press Play to start.</span>
+                <div class="progress-bar-wrap" style="width:110px;">
+                    <div class="progress-bar-fill" id="s3-progress"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<script>
+    /* ════════════════════════════════════════════════════════════
+       DEMO PAGE — ANIMATION ENGINE
+       Three independent sections, each triggered by a Play button
+       that appears when the section scrolls into view.
+    ════════════════════════════════════════════════════════════ */
+
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+    // ── Generic DOM helpers ──────────────────────────────────────
+    const $ = id => document.getElementById(id);
+
+    function activate(id)   { const e = $(id); if (e) e.classList.add('active'); }
+    function deactivate(id) { const e = $(id); if (e) e.classList.remove('active'); }
+    function succeed(id)    { const e = $(id); if (e) e.classList.add('success'); }
+    function fade(id, show) { const e = $(id); if (e) e.style.opacity = show ? '1' : '0'; }
+    function setTxt(id, t)  { const e = $(id); if (e) e.textContent = t; }
+
+    function setStatus(n, msg, highlight = false) {
+        const e = $(`s${n}-status`);
+        if (!e) return;
+        e.textContent = msg;
+        e.className = 'demo-status-text' + (highlight ? ' highlight' : '');
+    }
+
+    function setProgress(n, pct) {
+        const e = $(`s${n}-progress`);
+        if (e) e.style.width = pct + '%';
+    }
+
+    // ── Intersection observers — reveal Play buttons on scroll ───
+    [1, 2, 3].forEach(n => {
+        const section  = $('sec' + n);
+        const playWrap = $('play' + n + '-wrap');
+        if (!section || !playWrap) return;
+        const obs = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting) {
+                playWrap.classList.add('visible');
+                obs.disconnect();
+            }
+        }, { threshold: 0.22 });
+        obs.observe(section);
+    });
+
+
+    /* ════════════════════════════════════════════════════════════
+       SECTION 1 — JOB SUBMISSION
+       5 jobs arrive in mixed tier order; each inserts at the
+       correct priority position in the ZSET. Worker stays busy.
+    ════════════════════════════════════════════════════════════ */
+    let s1Running = false;
+    const s1Queue = [];
+
+    function renderQueue1(highlightId) {
+        const container = $('s1-queue');
+        const emptyEl   = $('s1-empty');
+        if (!container) return;
+
+        container.querySelectorAll('.qi').forEach(el => el.remove());
+
+        if (s1Queue.length === 0) {
+            if (emptyEl) emptyEl.style.display = 'block';
+            return;
+        }
+        if (emptyEl) emptyEl.style.display = 'none';
+
+        // Sort: lower score = higher priority; tie-break by arrival seq
+        const sorted = [...s1Queue].sort((a, b) => a.score - b.score || a.seq - b.seq);
+
+        sorted.forEach((job, idx) => {
+            const isNew = job.id === highlightId;
+            const row = document.createElement('div');
+            row.className = 'qi queue-item';
+            row.style.cssText = 'display:flex; align-items:center; justify-content:space-between; opacity:' + (isNew ? '0' : '1');
+
+            row.innerHTML =
+                `<span style="font-size:0.59rem;color:var(--text-muted);font-family:var(--font-mono),monospace;margin-right:5px;">#${idx + 1}</span>` +
+                `<span class="job-token ${job.tier}" style="flex:1;font-size:0.67rem;">` +
+                `<span class="tier-dot"></span>${job.label}&nbsp;·&nbsp;${job.tier.toUpperCase()}</span>` +
+                `<span style="font-size:0.59rem;color:var(--text-muted);font-family:var(--font-mono),monospace;">s:${job.score}</span>`;
+
+            container.appendChild(row);
+
+            if (isNew) {
+                requestAnimationFrame(() => {
+                    row.style.transition = 'opacity 0.4s';
+                    row.style.opacity    = '1';
+                });
+            }
+        });
+    }
+
+    function resetSection1() {
+        s1Queue.length = 0;
+        renderQueue1(null);
+
+        ['s1-client', 's1-api', 's1-cap'].forEach(id => {
+            deactivate(id);
+            const e = $(id); if (e) e.classList.remove('success');
+        });
+        ['s1-arr1', 's1-arr2', 's1-arr3'].forEach(deactivate);
+        setTxt('s1-cap-detail', '5 / 5 free');
+        setStatus(1, 'Press Play to start the demo.');
+        setProgress(1, 0);
+    }
+
+    async function runSection1() {
+        if (s1Running) return;
+        s1Running = true;
+        const btn = $('play1-btn');
+        btn.disabled = true;
+        btn.textContent = '⏳ Running…';
+
+        resetSection1();
+
+        const jobs = [
+            { id:'J1', tier:'public',  score:300, label:'J1', seq:1 },
+            { id:'J2', tier:'paid',    score:100, label:'J2', seq:2 },
+            { id:'J3', tier:'public',  score:300, label:'J3', seq:3 },
+            { id:'J4', tier:'unpaid',  score:200, label:'J4', seq:4 },
+            { id:'J5', tier:'paid',    score:100, label:'J5', seq:5 },
+        ];
+
+        for (let i = 0; i < jobs.length; i++) {
+            const job = jobs[i];
+            const n   = i + 1;
+
+            // CLIENT → active
+            setStatus(1, `[${n}/5] Client submitting ${job.tier.toUpperCase()} job ${job.label}…`, true);
+            activate('s1-client');
+            await sleep(440);
+
+            // → JobService
+            activate('s1-arr1'); deactivate('s1-client'); activate('s1-api');
+            setStatus(1, `JobService.submit() — tier: ${job.tier.toUpperCase()}, computing priority score…`);
+            await sleep(440);
+
+            // → Capacity Check
+            activate('s1-arr2'); deactivate('s1-arr1'); deactivate('s1-api'); activate('s1-cap');
+            const free = 5 - n;
+            setTxt('s1-cap-detail', `${free} / 5 free`);
+            setStatus(1, `tryAcquire() → OK. Semaphore slot acquired. ${free} remaining.`);
+            await sleep(490);
+
+            // → Queue (ZSET insert)
+            activate('s1-arr3'); deactivate('s1-arr2'); deactivate('s1-cap');
+
+            s1Queue.push(job);
+            const sorted  = [...s1Queue].sort((a, b) => a.score - b.score || a.seq - b.seq);
+            const pos      = sorted.findIndex(j => j.id === job.id) + 1;
+            renderQueue1(job.id);
+
+            const jumped = job.tier === 'paid' && pos === 1 && n > 1;
+            setStatus(
+                1,
+                jumped
+                    ? `${job.label} (score 100) jumps to position #1 — surpasses ${n - 1} waiting job${n > 2 ? 's' : ''}!`
+                    : `${job.label} inserted at position #${pos} in ZSET (score ${job.score}).`,
+                jumped
+            );
+
+            setProgress(1, Math.round(n / jobs.length * 100));
+            await sleep(860);
+            deactivate('s1-arr3');
+        }
+
+        setStatus(1, '✓ Queue full (5 / 5). Worker pops position #1 (PAID) next. Lower tiers wait in line.');
+
+        btn.disabled  = false;
+        btn.textContent = '↺ Replay';
+        s1Running = false;
+    }
+
+
+    /* ════════════════════════════════════════════════════════════
+       SECTION 2 — WORKER PROCESSING
+       Worker pops top job → processes → heartbeat pulses →
+       MySQL persist → semaphore release.
+    ════════════════════════════════════════════════════════════ */
+    let s2Running = false;
+
+    function resetSection2() {
+        ['s2-worker', 's2-hb', 's2-mysql', 's2-sem'].forEach(id => {
+            deactivate(id);
+            const e = $(id); if (e) e.classList.remove('success');
+        });
+        ['s2-arr1', 's2-arr-hb', 's2-arr2', 's2-arr3'].forEach(deactivate);
+        fade('s2-worker-job', false);
+        fade('s2-worker-status', false);
+        fade('s2-hb-zset', false);
+        fade('s2-mysql-saved', false);
+        fade('s2-sem-freed', false);
+
+        const hbDot = $('s2-hb-dot');
+        if (hbDot) { hbDot.classList.remove('pulse'); hbDot.style.background = 'var(--border)'; }
+
+        const wSt = $('s2-worker-status');
+        if (wSt) { wSt.className = 'status-badge'; wSt.textContent = ''; }
+
+        const qTop = $('s2-q-top');
+        if (qTop) qTop.style.opacity = '1';
+
+        setStatus(2, 'Press Play to start.');
+        setProgress(2, 0);
+    }
+
+    async function runSection2() {
+        if (s2Running) return;
+        s2Running = true;
+        const btn = $('play2-btn');
+        btn.disabled = true;
+        btn.textContent = '⏳ Running…';
+
+        resetSection2();
+
+        // Step 1: Worker polls
+        setStatus(2, 'JobWorker wakes on schedule — polling priority_zset for next job…', true);
+        activate('s2-arr1'); activate('s2-worker');
+        await sleep(620);
+
+        // Step 2: ZPOPMIN — pop top job
+        setStatus(2, 'ZPOPMIN → J2 (PAID, score 100) popped from queue.');
+        const qTop = $('s2-q-top');
+        if (qTop) qTop.style.opacity = '0';
+        deactivate('s2-arr1');
+        setProgress(2, 20);
+        await sleep(520);
+
+        // Step 3: Job enters worker, status → PROCESSING
+        fade('s2-worker-job', true);
+        const wSt = $('s2-worker-status');
+        if (wSt) { wSt.className = 'status-badge status-processing'; wSt.textContent = 'PROCESSING'; wSt.style.opacity = '1'; }
+        setStatus(2, 'Job status → PROCESSING. Worker begins execution.');
+        setProgress(2, 35);
+        await sleep(680);
+
+        // Step 4: Heartbeat pulses × 3
+        setStatus(2, 'Worker pulsing heartbeat into heartbeat_zset (every N seconds)…', true);
+        activate('s2-arr-hb'); activate('s2-hb');
+        const hbDot = $('s2-hb-dot');
+        if (hbDot) hbDot.style.background = 'var(--green)';
+        setProgress(2, 50);
+
+        for (let p = 0; p < 3; p++) {
+            if (hbDot) {
+                hbDot.classList.add('pulse');
+                await sleep(440);
+                hbDot.classList.remove('pulse');
+                await sleep(190);
+            }
+        }
+
+        fade('s2-hb-zset', true);
+        setStatus(2, 'Heartbeat recorded. Recovery scheduler sees job as alive — will not rescue it.');
+        deactivate('s2-arr-hb');
+        setProgress(2, 65);
+        await sleep(700);
+
+        // Step 5: Complete → MySQL
+        setStatus(2, 'Job execution finished — status → COMPLETED. Persisting result to MySQL…');
+        if (wSt) { wSt.className = 'status-badge status-completed'; wSt.textContent = 'COMPLETED'; }
+        activate('s2-arr2'); activate('s2-mysql');
+        setProgress(2, 78);
+        await sleep(640);
+
+        fade('s2-mysql-saved', true);
+        succeed('s2-mysql');
+        deactivate('s2-arr2');
+        setStatus(2, 'Result persisted. Cleaning up heartbeat entry from zset.');
+        await sleep(520);
+
+        // Step 6: Release semaphore
+        setStatus(2, 'Releasing semaphore slot — freeing capacity for next job.');
+        activate('s2-arr3'); activate('s2-sem');
+        setProgress(2, 90);
+        await sleep(520);
+
+        fade('s2-sem-freed', true);
+        succeed('s2-sem'); succeed('s2-worker');
+        deactivate('s2-arr3');
+        setStatus(2, '✓ Slot released. Worker idles. Next scheduled tick will pop the next job.');
+        setProgress(2, 100);
+
+        btn.disabled  = false;
+        btn.textContent = '↺ Replay';
+        s2Running = false;
+    }
+
+
+    /* ════════════════════════════════════════════════════════════
+       SECTION 3 — RECOVERY & FAULT HANDLING
+       Path A: HeartbeatRecoveryScheduler detects stale worker,
+               moves job to retry_zset.
+       Path B: RetryScheduler checks retry count → re-enqueue
+               or → DLQ.
+    ════════════════════════════════════════════════════════════ */
+    let s3Running = false;
+
+    function resetSection3() {
+        const comps = ['s3-hb-sched','s3-hb-zset','s3-rescued','s3-retry-sched','s3-retry-zset','s3-decision','s3-requeue','s3-dlq'];
+        comps.forEach(id => { deactivate(id); const e = $(id); if (e) e.classList.remove('success'); });
+
+        const arrows = ['s3-arr-a1','s3-arr-a2','s3-arr-b1','s3-arr-b2'];
+        arrows.forEach(deactivate);
+
+        const fades = ['s3-hb-sched-detail','s3-retry-sched-detail','s3-stale-job','s3-rescued-detail',
+            's3-retry-job','s3-decision-result','s3-path-retry','s3-path-discard','s3-requeue','s3-dlq'];
+        fades.forEach(id => fade(id, false));
+
+        setTxt('s3-retry-count-label', 'retries: 1 / 3');
+        const dr = $('s3-decision-result'); if (dr) dr.textContent = '';
+
+        setStatus(3, 'Press Play to start.');
+        setProgress(3, 0);
+    }
+
+    async function runSection3() {
+        if (s3Running) return;
+        s3Running = true;
+        const btn = $('play3-btn');
+        btn.disabled = true;
+        btn.textContent = '⏳ Running…';
+
+        resetSection3();
+
+        // ── PATH A: HEARTBEAT RECOVERY ─────────────────────────
+        setStatus(3, 'HeartbeatRecoveryScheduler waking — scanning heartbeat_zset for stale entries…', true);
+        activate('s3-hb-sched');
+        fade('s3-hb-sched-detail', true);
+        setProgress(3, 10);
+        await sleep(680);
+
+        activate('s3-arr-a1'); activate('s3-hb-zset');
+        setStatus(3, 'Comparing heartbeat timestamps against now — looking for entries older than threshold.');
+        setProgress(3, 22);
+        await sleep(680);
+
+        fade('s3-stale-job', true);
+        setStatus(3, 'Found J7 (UNPAID) — last heartbeat > 30s ago. Worker process appears crashed!', true);
+        setProgress(3, 35);
+        await sleep(940);
+
+        activate('s3-arr-a2'); deactivate('s3-arr-a1'); activate('s3-rescued');
+        setStatus(3, 'Removing J7 from heartbeat_zset → moving to retry_zset for re-processing.');
+        setProgress(3, 48);
+        await sleep(680);
+
+        fade('s3-rescued-detail', true);
+        succeed('s3-rescued'); succeed('s3-hb-sched');
+        deactivate('s3-arr-a2');
+        setStatus(3, 'Path A complete. J7 rescued — no data lost. Retry scheduler takes over next.');
+        await sleep(820);
+
+        // ── PATH B: RETRY SCHEDULER ────────────────────────────
+        setStatus(3, 'RetryScheduler waking — scanning retry_zset for due-for-retry jobs…', true);
+        activate('s3-retry-sched');
+        fade('s3-retry-sched-detail', true);
+        setProgress(3, 58);
+        await sleep(680);
+
+        activate('s3-arr-b1'); activate('s3-retry-zset');
+        setStatus(3, 'Found J7 in retry_zset. Fetching job metadata — checking retry count.');
+        setProgress(3, 68);
+        await sleep(660);
+
+        fade('s3-retry-job', true);
+        await sleep(480);
+
+        activate('s3-arr-b2'); activate('s3-decision');
+        setStatus(3, 'retries (1) < maxRetries (3) → eligible for re-enqueue.', true);
+        setProgress(3, 78);
+        await sleep(700);
+
+        const dr = $('s3-decision-result');
+        if (dr) { dr.textContent = 'YES (1 < 3)'; dr.style.color = 'var(--green)'; }
+        fade('s3-decision-result', true);
+        await sleep(500);
+
+        // Show YES path first (re-enqueue)
+        fade('s3-path-retry', true);
+        fade('s3-requeue', true);
+        activate('s3-requeue');
+        setStatus(3, 'J7 re-inserted into priority_zset. retry count incremented to 2. Job gets another chance.');
+        setProgress(3, 88);
+        await sleep(900);
+
+        // Then quickly show what happens at exhaustion (DLQ path)
+        setStatus(3, 'If retries reached max (3 / 3) → job is routed to the Dead Letter Queue instead…');
+        setTxt('s3-retry-count-label', 'retries: 3 / 3');
+        if (dr) { dr.textContent = 'NO (3 = 3)'; dr.style.color = 'var(--red)'; }
+        fade('s3-path-retry', false);
+        deactivate('s3-requeue');
+        await sleep(400);
+
+        fade('s3-path-discard', true);
+        fade('s3-dlq', true);
+        activate('s3-dlq');
+        setProgress(3, 96);
+        await sleep(860);
+
+        setStatus(3, '✓ Recovery complete. Every failure path is handled — no job is ever silently lost.');
+        setProgress(3, 100);
+
+        btn.disabled  = false;
+        btn.textContent = '↺ Replay';
+        s3Running = false;
+    }
+</script>
+
+</body>
+</html>

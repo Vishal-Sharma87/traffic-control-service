@@ -4,6 +4,8 @@ import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.time.Instant;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.*;
@@ -37,7 +39,6 @@ public class WorkerHeartBeatService{
 
     @PreDestroy
     public void cleanHeartBeatThreads(){
-//        destroy all heartbeat threads before shutting the JVM down
         jobIdToThreadMap.forEach((jobId, scheduledFuture) -> scheduledFuture.cancel(true));
         asyncHeartbeatService.shutdown();
         try
@@ -53,11 +54,9 @@ public class WorkerHeartBeatService{
 
 
     public void startHeartBeat(UUID jobId){
-//         there might be a ScheduledFuture with that jobId in jobIdToThread map,
-//         first clean it up if it exists before registering new thread
-        stopHeartBeat(jobId);
+        log.info("Starting heartbeat for job {}", jobId);
 
-        log.info("HeartBeat started jobId: {} worker detail: {}", jobId, Thread.currentThread().hashCode());
+        stopHeartBeat(jobId);
 
         ScheduledFuture<?> future = asyncHeartbeatService.scheduleAtFixedRate(() -> sendHeartBeat(jobId) ,
                 heartbeatInitialDelay,
@@ -68,16 +67,12 @@ public class WorkerHeartBeatService{
     }
 
     private void sendHeartBeat(UUID jobId){
-        try {
-            currentProcessingJobService.updateHeartBeat(jobId);
-        } catch (Exception e) {
-            log.error("HeartBeat stopped jobId:{}, heartbeatThread:{}", jobId, Thread.currentThread().getName());
-        }
+        currentProcessingJobService.updateHeartBeat(jobId, Instant.now());
     }
 
     public void stopHeartBeat(UUID jobId){
-//        Stopping a thread associated with job means calling cancle() method of that thread reference
         ScheduledFuture<?> desiredThread = jobIdToThreadMap.remove(jobId);
+
         if(desiredThread != null){
             desiredThread.cancel(true);
             log.info("HeartBeat stopped jobId: {} worker detail: {}", jobId, Thread.currentThread().hashCode());
