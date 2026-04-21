@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "JobResult")
+@Table(name = "job_results")
 public class JobResult {
 
     // Maps the 16-byte binary array in MySQL directly to a Java UUID object
