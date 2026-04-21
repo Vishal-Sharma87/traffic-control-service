@@ -3,7 +3,7 @@ version: "3.8"
 services:
   database:
     image: mysql:latest
-    container_name: traffic-0control-service-mysql
+    container_name: traffic-control-service-mysql
     ports:
       - "3306:3306"
     environment:
