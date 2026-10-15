@@ -28,16 +28,17 @@ public class JobRecoveryConfig implements SchedulingConfigurer {
 
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
+        Instant start = Instant.now();
 
         taskRegistrar.
                 addTriggerTask(
                     stuckJobRecoveryService::recoverStuckJobs,
-                    ctx -> Instant.now().plusMillis(systemHealthService.getStuckCurrentDelay())
+                    ctx -> start.plusMillis(systemHealthService.getStuckCurrentDelay())
                 );
 
         taskRegistrar.addTriggerTask(
                 crashJobRecoveryService::recoverCrashJobs,
-                ctx -> Instant.now().plusMillis(systemHealthService.getCrashedCurrentDelay())
+                ctx -> start.plusMillis(systemHealthService.getCrashedCurrentDelay())
         );
     }
 }
