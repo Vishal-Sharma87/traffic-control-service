@@ -1,6 +1,5 @@
 package com.vishal.traffic_control_service.services;
 
-import com.vishal.traffic_control_service.advices.exceptions.JobMetadataNullException;
 import com.vishal.traffic_control_service.config.SystemConfigs;
 import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +9,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -91,22 +91,19 @@ public class JobProcessingWorkerService implements ApplicationRunner {
             if (poppedId == null) {
                 return false;
             }
-            log.info("Worker {} picked jobId: {}", Thread.currentThread().getName(), poppedId);
+            log.info("Worker: {} picked jobId: {}", Thread.currentThread().getName(), poppedId);
 
             jobId = UUID.fromString(poppedId);
 
             heartBeatService.startHeartBeat(jobId);
 
+            Thread.sleep(Duration.ofSeconds(60));
+
             resultService.saveJobResult(jobId, jobService.processJob());
 
             currentProcessingJobService.completeProcessing(jobId, systemConfigs.getTtlOnCompletedJobSeconds());
             return true;
-        }
-        catch (JobMetadataNullException e) {
-            log.error("**CRITICAL** Job metadata null for jobId: {}, unable to save result", e.jobId, e);
-            Thread.currentThread().interrupt();
-        }
-        catch (Exception e) {
+        }catch (Exception e) {
             if (!running.get() || Thread.currentThread().isInterrupted()) {
                 log.debug("Stopping worker loop during shutdown");
                 return false;
