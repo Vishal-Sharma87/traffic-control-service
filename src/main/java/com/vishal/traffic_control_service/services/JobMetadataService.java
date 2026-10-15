@@ -7,12 +7,11 @@ import com.vishal.traffic_control_service.models.JobMetadata;
 import com.vishal.traffic_control_service.repository.JobMetadataRepository;
 import com.vishal.traffic_control_service.script.LuaScripts;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -25,8 +24,6 @@ public class JobMetadataService {
     }
 
     public JobStatus getJobStatusOrNull(UUID jobId) {
-        log.info("Getting job status from Redis for jobId: {}", jobId);
-
         String key = RedisKeys.getJobMetadataKey(jobId);
 
         return JobStatus.fromString(jobMetadataRepository.getJobStatusOrNull(
@@ -35,19 +32,47 @@ public class JobMetadataService {
         ));
     }
 
-    public JobMetadata getJobMetadata(UUID jobId) {
-        log.info("Getting job result metadata from Redis for jobId: {}", jobId);
+    public JobMetadata getJobMetadataIfStatusProcessingElseNull(UUID jobId) {
+        List<String> keys = getJobTerminationKeys(jobId);
 
-        String key = RedisKeys.getJobMetadataKey(jobId);
+        List<String> values = multiGet(LuaScripts.getMultiGetIfStatusProcessingScript(), keys);
 
-        List<String> resultMetadata = jobMetadataRepository.getJobMetadataContent(key, JobMetadata.getKeys());
+        return buildMetadata(values);
+    }
 
-        if(resultMetadata == null || resultMetadata.stream().anyMatch(Objects::isNull)) return null;
+    public JobMetadata getJobMetadataIfStatusProcessingOrNeedDiscardElseNull(UUID jobId) {
+        List<String> keys = getJobTerminationKeys(jobId);
 
+        List<String> values = multiGet(LuaScripts.getMultiGetIfStatusProcessingZOrNeedDiscardScript(), keys);
+
+        return buildMetadata(values);
+    }
+
+    private JobMetadata buildMetadata(List<String> values) {
+        if (values.isEmpty()) {
+            return null;
+        }
         return new JobMetadata(
-                Instant.ofEpochMilli(Long.parseLong(resultMetadata.get(0))),
-                Instant.ofEpochMilli(Long.parseLong(resultMetadata.get(1))),
-                JobTier.valueOf(resultMetadata.get(2)),
-                Integer.parseInt(resultMetadata.get(3)));
+                Instant.ofEpochMilli(Long.parseLong(values.get(0))),
+                Instant.ofEpochMilli(Long.parseLong(values.get(1))),
+                JobTier.valueOf(values.get(2)),
+                Integer.parseInt(values.get(3)));
+    }
+
+    private List<String> getJobTerminationKeys(UUID jobId) {
+        List<String> keys = new ArrayList<>(JobMetadata.getKeys().size() + 1);
+
+        keys.add(RedisKeys.getJobMetadataKey(jobId));
+        keys.addAll(JobMetadata.getKeys());
+        return keys;
+    }
+
+    private List<String> multiGet(RedisScript<List> multiGetBasedScript, List<String> keys) {
+        return jobMetadataRepository.multiGetIfStatusProcessing(
+                        multiGetBasedScript,
+                        keys)
+                .stream()
+                .map(String.class::cast)
+                .toList();
     }
 }
