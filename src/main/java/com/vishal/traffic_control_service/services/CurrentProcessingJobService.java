@@ -25,15 +25,16 @@ public class CurrentProcessingJobService {
     public void updateHeartBeat(UUID jobId, Instant currentTime) {
         List<String> keys =  List.of(
                 RedisKeys.getJobMetadataKey(jobId),
-                RedisKeys.getProcessingStorageByHeartbeatKey()
+                RedisKeys.getProcessingStorageByHeartbeatKey(),
+                RedisKeys.getSystemConfigTieredKeyPrefix()
         );
 
-        Long newHeartBeatScore = currentTime.toEpochMilli();
+        long currentMillis = currentTime.toEpochMilli();
 
         currentProcessingJobRepository.updateHeartbeatIfExists(
                 LuaScripts.updateHeartbeatIfExistsScript(),
                 keys,
-                newHeartBeatScore,
+                String.valueOf(currentMillis),
                 jobId.toString()
         );
     }
@@ -57,15 +58,18 @@ public class CurrentProcessingJobService {
         log.info("Job completed and set ttl as {}", ttlOnSuccessSeconds);
     }
 
-    public Set<String> getCrashedJobs() {
+    public Set<String> getCrashedJobs(Instant currentTime) {
+
         return currentProcessingJobRepository.getCrashedJobIds(
-                RedisKeys.getProcessingStorageByHeartbeatKey()
+                RedisKeys.getProcessingStorageByHeartbeatKey(),
+                currentTime
         );
     }
 
-    public Set<String> getStuckJobs() {
+    public Set<String> getStuckJobs(Instant currentTime) {
+
         return currentProcessingJobRepository.getStuckJobIds(
-                RedisKeys.getProcessingStorageByStartedAtKey()
-            );
+                RedisKeys.getProcessingStorageByStartedAtKey(),
+                currentTime);
     }
 }
