@@ -5,7 +5,7 @@ import com.vishal.traffic_control_service.enums.JobTier;
 import jakarta.persistence.*;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 @Entity
@@ -19,13 +19,13 @@ public class JobResult {
     private UUID jobId;
 
     @Column(name = "arrived_at", nullable = false)
-    private LocalDateTime arrivedAt;
+    private Instant arrivedAt;
 
     @Column(name = "first_tried_at", nullable = false)
-    private LocalDateTime firstTriedAt;
+    private Instant firstTriedAt;
 
     @Column(name = "completed_at", nullable = false)
-    private LocalDateTime completedAt;
+    private Instant completedAt;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "job_tier", nullable = false)
@@ -40,12 +40,17 @@ public class JobResult {
     // Mandatory no-args constructor for Hibernate
     protected JobResult() {}
 
-    public JobResult(UUID jobId, LocalDateTime arrivedAt, LocalDateTime firstTriedAt,
-                     JobTier jobTier, int retryCount, String result) {
+    public JobResult(UUID jobId,
+                     Instant arrivedAt,
+                     Instant firstTriedAt,
+                     JobTier jobTier,
+                     int retryCount,
+                     String result) {
+
         this.jobId = jobId;
         this.arrivedAt = arrivedAt;
         this.firstTriedAt = firstTriedAt;
-        this.completedAt = LocalDateTime.now(); // Automatically set upon completion
+        this.completedAt = Instant.now(); // Automatically set upon completion
         this.jobTier = jobTier;
         this.retryCount = retryCount;
         this.result = result;

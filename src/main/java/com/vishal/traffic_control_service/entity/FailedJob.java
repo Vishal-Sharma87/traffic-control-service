@@ -5,8 +5,7 @@ import com.vishal.traffic_control_service.enums.FailureCause;
 import com.vishal.traffic_control_service.enums.JobTier;
 import jakarta.persistence.*;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 @Entity
@@ -31,13 +30,13 @@ public class FailedJob {
     private int totalRetries;
 
     @Column(name= "arrived_at", columnDefinition = "DATETIME", nullable = false)
-    private LocalDateTime arrivedAt;
+    private Instant arrivedAt;
 
     @Column(name = "first_tried_at", columnDefinition = "DATETIME", nullable = false)
-    private LocalDateTime firstTriedAt;
+    private Instant firstTriedAt;
 
     @Column(name = "discarded_at", columnDefinition = "DATETIME", nullable = false)
-    private LocalDateTime discardedAt;
+    private Instant discardedAt;
 
 
     public FailedJob() {
@@ -48,14 +47,15 @@ public class FailedJob {
                      JobTier jobTier,
                      FailureCause failureCause,
                      int totalRetries,
-                     LocalDateTime arrivedAt,
-                     LocalDateTime firstTriedAt) {
+                     Instant arrivedAt,
+                     Instant firstTriedAt) {
+
         this.jobId = jobId;
         this.jobTier = jobTier;
         this.failureCause = failureCause;
         this.totalRetries = totalRetries;
         this.arrivedAt = arrivedAt;
         this.firstTriedAt = firstTriedAt;
-        this.discardedAt = LocalDateTime.now(); // Set when the job is marked as failed
+        this.discardedAt = Instant.now(); // Set when the job is marked as failed
     }
 }
