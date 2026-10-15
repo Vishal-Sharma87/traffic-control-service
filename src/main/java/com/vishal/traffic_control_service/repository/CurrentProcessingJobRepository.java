@@ -4,6 +4,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Repository;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 
@@ -16,7 +17,7 @@ public class CurrentProcessingJobRepository {
         this.stringRedisTemplate = stringRedisTemplate;
     }
 
-    public void updateHeartbeatIfExists(RedisScript<Void> updateHeartbeatIfExistsScript, List<String> keys, Long nextHeartbeatScore, String member) {
+    public void updateHeartbeatIfExists(RedisScript<Void> updateHeartbeatIfExistsScript, List<String> keys, String nextHeartbeatScore, String member) {
         stringRedisTemplate.execute(updateHeartbeatIfExistsScript, keys, nextHeartbeatScore, member);
     }
 
@@ -24,12 +25,12 @@ public class CurrentProcessingJobRepository {
         stringRedisTemplate.execute(completeProcessingScript, keys, member, ttl);
     }
 
-    public Set<String> getStuckJobIds(String key){
-        return stringRedisTemplate.opsForZSet().rangeByScore(key, 0, System.currentTimeMillis());
+    public Set<String> getStuckJobIds(String key, Instant max){
+        return stringRedisTemplate.opsForZSet().rangeByScore(key, 0, max.toEpochMilli());
     }
 
-    public Set<String> getCrashedJobIds(String key){
-        return stringRedisTemplate.opsForZSet().rangeByScore(key, 0, System.currentTimeMillis());
+    public Set<String> getCrashedJobIds(String key, Instant max){
+        return stringRedisTemplate.opsForZSet().rangeByScore(key, 0, max.toEpochMilli());
     }
 
 
