@@ -9,6 +9,7 @@ import com.vishal.traffic_control_service.script.LuaScripts;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -40,12 +41,15 @@ public class CrashJobRecoveryService {
 
     public void recoverCrashJobs() {
         try {
-            Set<String> crashJobIds =  currentProcessingJobService.getCrashedJobs();
+            Instant currentTime = Instant.now();
+            Set<String> crashJobIds =  currentProcessingJobService.getCrashedJobs(currentTime);
 
             if (crashJobIds.isEmpty()) {
                 systemHealthService.crashSchedulerSuccess();
                 return;
             }
+
+            log.info("Recovering crashed jobs at currentTime {} ms", currentTime.toEpochMilli());
             crashJobIds.forEach(this::recoverOneCrashJob);
 
             systemHealthService.crashSchedulerSuccess();
