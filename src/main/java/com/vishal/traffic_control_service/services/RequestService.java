@@ -45,12 +45,10 @@ public class RequestService {
 
 
     public UUID submitNewJob(JobTier jobTier) {
-        log.info("Submitting new job");
-
         if (systemHealthService.isHealthOk()) {
-            log.info("System health check passed. Proceeding with job submission.");
-
             UUID jobId = UuidCreator.getTimeOrderedEpoch();
+
+            log.info("Trying new job admission, jobId: {}", jobId);
 
             List<String> keys  = List.of(
                     RedisKeys.getSystemCapacityKey(),
@@ -64,11 +62,13 @@ public class RequestService {
                     jobId.toString(),
                     systemConfigs.getJobScore(jobTier),
                     jobTier.name(),
-                    String.valueOf(Instant.now().toEpochMilli()) // TODO replaced "formatted time" into "long"
+                    String.valueOf(Instant.now().toEpochMilli())
             )){
                 log.info("System capacity reached. Rejecting job submission for jobId: {}", jobId);
                 throw new MainQueueFullException(mainQueueFullMessage);
             }
+
+            log.info("Job submission succeeded jobId: {}", jobId);
             return jobId;
         }
 
