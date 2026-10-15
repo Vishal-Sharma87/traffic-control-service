@@ -1,7 +1,6 @@
 package com.vishal.traffic_control_service.services;
 
 import com.vishal.traffic_control_service.advices.exceptions.JobExpiredOrNotExistsException;
-import com.vishal.traffic_control_service.advices.exceptions.JobMetadataNullException;
 import com.vishal.traffic_control_service.dtos.responseDtos.JobPollResponseDto;
 import com.vishal.traffic_control_service.entity.JobResult;
 import com.vishal.traffic_control_service.enums.JobStatus;
@@ -12,8 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+
 import java.util.UUID;
 
 @Slf4j
@@ -26,7 +24,6 @@ public class ResultService {
     private final String jobFailedResponseMessage;
     private final String jobNeedDiscardErrorMessage;
     private final String jobExpiredOrNotExistsErrorMessage;
-    private final String jobMetadataNullErrorMessage;
 
     private final JobMetadataService jobMetadataService;
 
@@ -40,7 +37,6 @@ public class ResultService {
             @Value("${traffic-control.metadata-status.response.success.failed}") String jobFailedResponseMessage,
             @Value("${traffic-control.metadata-status.response.error.need-discard}") String jobNeedDiscardErrorMessage,
             @Value("${traffic-control.metadata-status.response.error.expired-or-not-exists}") String jobExpiredOrNotExistsErrorMessage,
-            @Value("${traffic-control.metadata-status.response.error.metadata-null}") String jobMetadataNullErrorMessage,
             JobMetadataService jobMetadataService,
             JobResultRepository jobResultRepository
     ) {
@@ -50,7 +46,6 @@ public class ResultService {
         this.jobNeedDiscardErrorMessage = jobNeedDiscardErrorMessage;
         this.jobFailedResponseMessage = jobFailedResponseMessage;
         this.jobExpiredOrNotExistsErrorMessage = jobExpiredOrNotExistsErrorMessage;
-        this.jobMetadataNullErrorMessage = jobMetadataNullErrorMessage;
 
         this.jobMetadataService = jobMetadataService;
 
@@ -58,23 +53,23 @@ public class ResultService {
     }
 
     public void saveJobResult(UUID jobId, String result) {
-        log.info("Saving result for jobId: {} with result: {}", jobId, result);
+        JobMetadata jobMetadata = jobMetadataService.getJobMetadataIfStatusProcessingElseNull(jobId);
 
-        JobMetadata jobMetadata = jobMetadataService.getJobMetadata(jobId);
-
-        if(jobMetadata == null) {
-            log.error("Job result metadata not found for jobId: {}", jobId);
-            throw new JobMetadataNullException(jobMetadataNullErrorMessage, jobId);
+        if (jobMetadata == null) {
+            log.warn("Job status mismatch, discarding save, jobId: {}", jobId);
+            return;
         }
 
-        jobResultRepository.save(
-                new JobResult(
-                        jobId,
-                        LocalDateTime.ofInstant(jobMetadata.arrivedAt(), ZoneId.systemDefault()),
-                        LocalDateTime.ofInstant(jobMetadata.firstTriedAt(), ZoneId.systemDefault()),
-                        jobMetadata.jobTier(),
-                        jobMetadata.retryCount(),
-                        result));
+        jobResultRepository.save(new JobResult(
+                jobId,
+                jobMetadata.arrivedAt(),
+                jobMetadata.firstTriedAt(),
+                jobMetadata.jobTier(),
+                jobMetadata.retryCount(),
+                result)
+        );
+
+        log.info("Job result saved. jobId: {}", jobId);
     }
 
     public JobPollResponseDto fetchResult(UUID jobId) {
@@ -83,10 +78,12 @@ public class ResultService {
         return switch (currentJobStatus) {
             case COMPLETED -> fetchCompletedResult(jobId);
             case PENDING -> generateJobPollResponseDto(jobId, JobStatus.PENDING, null, jobPendingResponseMessage);
-            case PROCESSING -> generateJobPollResponseDto(jobId, JobStatus.PROCESSING, null, jobProcessingResponseMessage);
+            case PROCESSING ->
+                    generateJobPollResponseDto(jobId, JobStatus.PROCESSING, null, jobProcessingResponseMessage);
             case FAILED -> generateJobPollResponseDto(jobId, JobStatus.FAILED, null, jobFailedResponseMessage);
-            case NEED_DISCARD -> generateJobPollResponseDto(jobId, JobStatus.NEED_DISCARD, null, jobNeedDiscardErrorMessage);
-            case null-> throw new JobExpiredOrNotExistsException(jobExpiredOrNotExistsErrorMessage);
+            case NEED_DISCARD ->
+                    generateJobPollResponseDto(jobId, JobStatus.NEED_DISCARD, null, jobNeedDiscardErrorMessage);
+            case null -> throw new JobExpiredOrNotExistsException(jobExpiredOrNotExistsErrorMessage);
         };
     }
 
@@ -98,7 +95,7 @@ public class ResultService {
                 jobCompletedResponseMessage);
     }
 
-    private JobPollResponseDto generateJobPollResponseDto(UUID jobId, JobStatus jobStatus,@Nullable String response, String message){
+    private JobPollResponseDto generateJobPollResponseDto(UUID jobId, JobStatus jobStatus, @Nullable String response, String message) {
         return JobPollResponseDto.builder()
                 .jobId(jobId)
                 .currentJobStatus(jobStatus)
