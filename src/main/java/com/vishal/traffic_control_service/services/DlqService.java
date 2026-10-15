@@ -7,8 +7,6 @@ import com.vishal.traffic_control_service.repository.FailedJobRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.UUID;
 
 @Slf4j
@@ -31,8 +29,8 @@ public class DlqService {
                         jobMetadata.jobTier(),
                         failureCause,
                         jobMetadata.retryCount(),
-                        LocalDateTime.ofInstant(jobMetadata.arrivedAt(), ZoneId.systemDefault()),
-                        LocalDateTime.ofInstant(jobMetadata.firstTriedAt(), ZoneId.systemDefault())
+                        jobMetadata.arrivedAt(),
+                        jobMetadata.firstTriedAt()
                         ));
     }
 
