@@ -15,8 +15,8 @@ public class JobRecoveryRepository {
         this.stringRedisTemplate = stringRedisTemplate;
     }
 
-    public void discardAndMarkFailed(RedisScript<Void> discardAndMarkFailedScript, List<String> keys, String member, String ttl) {
-        stringRedisTemplate.execute(discardAndMarkFailedScript, keys, member, ttl);
+    public boolean discardAndMarkFailed(RedisScript<Long> discardAndMarkFailedScript, List<String> keys, String member, String ttl) {
+        return 1L == stringRedisTemplate.execute(discardAndMarkFailedScript, keys, member, ttl);
     }
 
     public String recoverOneJob(RedisScript<String> recoverOneJobScript, List<String> keys, String member){
