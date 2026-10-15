@@ -28,27 +28,34 @@ public class JobDiscardService {
 
     public void discard(UUID jobId, FailureCause failureCause, long ttlFailedJobSeconds) {
         log.info("Discarding jobId: {}, failureCause: {}", jobId, failureCause);
-        JobMetadata jobDiscardMetadata = jobMetadataService.getJobMetadata(jobId);
+        JobMetadata jobDiscardMetadata = jobMetadataService.getJobMetadataIfStatusProcessingOrNeedDiscardElseNull(jobId);
 
-
-        if (jobDiscardMetadata != null){
-            log.info("Adding jobId: {} to DLQ with failure cause: {}", jobId, failureCause);
-            dlqService.addEntry(jobId, failureCause, jobDiscardMetadata);
+        if (jobDiscardMetadata == null) {
+            log.warn("JobMetadata status mismatch for discarding jobId: {}", jobId);
+            return;
         }
+
+        log.info("Adding jobId: {} to DLQ with failure cause: {}", jobId, failureCause);
+        dlqService.addEntry(jobId, failureCause, jobDiscardMetadata);
 
         List<String> keys = List.of(
                 RedisKeys.getJobMetadataKey(jobId),
                 RedisKeys.getProcessingStorageByHeartbeatKey(),
                 RedisKeys.getProcessingStorageByStartedAtKey()
         );
-        jobRecoveryRepository.discardAndMarkFailed(
+
+        boolean discarded = jobRecoveryRepository.discardAndMarkFailed(
                 LuaScripts.getDiscardAndMarkFailedScript(),
                 keys,
                 jobId.toString(),
-                String.valueOf(ttlFailedJobSeconds)
-        );
+                String.valueOf(ttlFailedJobSeconds));
 
-        log.info("JobId:{} discarded with ttl:{}", jobId, ttlFailedJobSeconds);
+        if(discarded){
+            log.info("JobId:{} discarded with ttl:{}", jobId, ttlFailedJobSeconds);
+        }else{
+            log.warn("Job status for discard mismatch, Job discard fail jobId: {} ", jobId);
+        }
+
     }
 
 }
