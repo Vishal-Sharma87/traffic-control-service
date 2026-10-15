@@ -1,6 +1,7 @@
 package com.vishal.traffic_control_service.script;
 
 import org.springframework.data.redis.core.script.RedisScript;
+import java.util.List;
 
 /**
  * Factory methods for Lua scripts used by the Redis-backed job processing flow.
@@ -34,23 +35,25 @@ public class LuaScripts {
         return RedisScript.of(script, String.class);
     }
 
-    /**
-     * Updates the job's score in the heartbeat Sorted Set, but only if the job's current status is 'PROCESSING'.
-     *
-     * <p><b>Redis Contract:</b>
-     * <ul>
-     *   <li>{@code KEYS[1]}: Full job hash key</li>
-     *   <li>{@code KEYS[2]}: Heartbeat Sorted Set key</li>
-     *   <li>{@code ARGV[1]}: New expiration/heartbeat score (timestamp)</li>
-     *   <li>{@code ARGV[2]}: Job ID (member in the Sorted Set)</li>
-     * </ul>
-     */
+
     public static RedisScript<Void> updateHeartbeatIfExistsScript() {
         String script = """
                 local jobHashKey = KEYS[1]
                 local heartbeatZsetKey = KEYS[2]
-                local score = ARGV[1]
+                local tierConfigPrefix = KEYS[3]
+                
+                local now = tonumber(ARGV[1])
                 local jobId = ARGV[2]
+                
+                local jobTier = redis.call('HGET', jobHashKey, 'jobTier')
+                if jobTier == false or jobTier == nil then
+                    return
+                end
+                
+                local configKey = tierConfigPrefix..jobTier
+                local heartbeatTimeout = redis.call('HGET', configKey, 'heartbeatTimeout')
+                
+                local score = now + tonumber(heartbeatTimeout)
                 
                 local status = redis.call('HGET', jobHashKey, 'status')
                 if status == 'PROCESSING' then
@@ -293,9 +296,15 @@ public class LuaScripts {
      *   <li>{@code ARGV[2]}: TTL for job hash key Default to 600 seconds</li>
      * </ul>
      */
-    public static RedisScript<Void> getDiscardAndMarkFailedScript() {
+    public static RedisScript<Long> getDiscardAndMarkFailedScript() {
         String script = """
                 local jobHashKey = KEYS[1]
+                
+                local status = redis.call('HGET', jobHashKey, 'status')
+                if status == false or (status ~= 'PROCESSING' and status ~= 'NEED_DISCARD') then
+                    return 0
+                end
+                
                 local heartbeatZsetKey = KEYS[2]
                 local startedAtZsetKey = KEYS[3]
                 local jobId = ARGV[1]
@@ -305,7 +314,75 @@ public class LuaScripts {
                 redis.call('ZREM', startedAtZsetKey, jobId)
                 redis.call('HSET', jobHashKey, 'status', 'FAILED')
                 redis.call('EXPIRE', jobHashKey, failedJobTtl)
+                
+                return 1
                 """;
-        return RedisScript.of(script, Void.class);
+        return RedisScript.of(script, Long.class);
     }
+
+    /**
+     * Retrieves multiple fields from a job's hash if its status is 'PROCESSING'.
+     *
+     * <p><b>Redis Contract:</b>
+     * <ul>
+     *   <li>{@code KEYS[1]}: Full job hash key</li>
+     *   <li>{@code KEYS[2...n]}: Field names to retrieve</li>
+     * </ul>
+     */
+    public static RedisScript<List> getMultiGetIfStatusProcessingScript() {
+        String script = """
+                local jobHashKey = KEYS[1]
+                
+                local status = redis.call('HGET', jobHashKey, 'status')
+                
+                if status == false or status ~= 'PROCESSING' then
+                    return {}
+                end
+                
+                local result = {}
+                
+                for i = 2, #KEYS do
+                    local field = KEYS[i]
+                    local value = redis.call('HGET', jobHashKey, field)
+
+                    if value == false or value == nil then
+                        return {}
+                    end
+
+                    table.insert(result, value)
+                end
+                
+                return result
+                """;
+        return RedisScript.of(script, List.class);
+    }
+
+    public static RedisScript<List> getMultiGetIfStatusProcessingZOrNeedDiscardScript() {
+        String script = """
+                local jobHashKey = KEYS[1]
+                
+                local status = redis.call('HGET', jobHashKey, 'status')
+                
+                if status == false or (status ~= 'PROCESSING' and status ~= 'NEED_DISCARD') then
+                    return {}
+                end
+                
+                local result = {}
+                
+                for i = 2, #KEYS do
+                    local field = KEYS[i]
+                    local value = redis.call('HGET', jobHashKey, field)
+
+                    if value == false or value == nil then
+                        return {}
+                    end
+
+                    table.insert(result, value)
+                end
+                
+                return result
+                """;
+        return RedisScript.of(script, List.class);
+    }
+
 }
