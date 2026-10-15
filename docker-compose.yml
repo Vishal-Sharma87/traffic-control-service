@@ -1,14 +1,15 @@
 services:
+
   database:
     image: mysql:8.0
-    container_name: traffic-control-service-mysql
+    container_name: tcs-mysql
     ports:
       - "3306:3306"
     environment:
       MYSQL_DATABASE: "${MYSQL_DATABASE}"
       MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
     volumes:
-      - traffic-control-service-db-data:/var/lib/mysql
+      - tcs-db-data:/var/lib/mysql
     healthcheck:
       test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
       interval: 5s
@@ -17,7 +18,7 @@ services:
 
   redis:
     image: redis:7.2-alpine
-    container_name: traffic-control-service-redis
+    container_name: tcs-redis
     ports:
       - "6379:6379"
     command:
@@ -26,7 +27,7 @@ services:
       - --appendfilename redis-data.aof
       - --dir /data
     volumes:
-      - traffic-control-service-redis-data:/data
+      - tcs-redis-data:/data
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
       interval: 5s
@@ -34,5 +35,5 @@ services:
       retries: 5
 
 volumes:
-  traffic-control-service-db-data:
-  traffic-control-service-redis-data:
+  tcs-db-data:
+  tcs-redis-data:

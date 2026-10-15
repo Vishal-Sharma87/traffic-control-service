@@ -1,6 +1,11 @@
 spring:
   application:
     name: traffic-control-service
+
+  config:
+    import:
+      - "optional:file:.env[.properties]"
+
   data:
     redis:
       host: "${REDIS_HOST}"
@@ -8,7 +13,7 @@ spring:
 
   # Hibernate & JPA Configuration for MySQL Database
   datasource:
-    url: jdbc:mysql://localhost:3306/traffic_control_db?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/tcs_db?createDatabaseIfNotExist=true
     username: root
     password: "${MYSQL_ROOT_PASSWORD}"
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -21,25 +26,15 @@ spring:
       hibernate:
         format_sql: true
 
-# =========================================================
-# Traffic Control Service Configuration
-# =========================================================
-traffic-control:
 
-  # -------------------------------------------------------
-  # Queue Configuration
-  # -------------------------------------------------------
+traffic-control:
   queue:
     main:
-      # Maximum number of jobs allowed in the main queue (soft cap via Semaphore)
       capacity: "${MAIN_QUEUE_CAPACITY}"
       error:
-        # Returned when queue is at capacity (503 Service Unavailable)
         queue-full: "${MAIN_QUEUE_FULL_ERROR_MESSAGE}"
 
-  # -------------------------------------------------------
-  # Job Metadata & Status Response Messages
-  # -------------------------------------------------------
+
   metadata-status:
     completed:
       ttl: "${COMPLETED_METADATA_TTL}"
@@ -80,34 +75,30 @@ traffic-control:
         heartbeat-timeout:   "${PUBLIC_MAX_HEARTBEAT_TIMEOUT}"
         max-retries:         "${PUBLIC_MAX_RETRIES_PER_JOB}"
 
-  # -------------------------------------------------------
   # Scheduler Configuration
   # Dynamic delay — grows on Redis failure, shrinks on recovery
-  # -------------------------------------------------------
   scheduler:
 
     stuck:
       # Minimum delay between scheduler cycles (ms) — baseline during healthy operation
-      delay-floor: "${STUCK_SCHEDULER_FLOOR_MS}"      # e.g. 1000ms
+      delay-floor: ${STUCK_SCHEDULER_FLOOR_MS}    # e.g. 1000ms
       # Maximum delay between scheduler cycles (ms) — cap during sustained failure
-      delay-ceiling: "${STUCK_SCHEDULER_CEILING_MS}"  # e.g. 60000ms
+      delay-ceiling: ${STUCK_SCHEDULER_CEILING_MS}  # e.g. 60000ms
 
     crash:
       # Minimum delay between scheduler cycles (ms) — baseline during healthy operation
-      delay-floor: "${CRASHED_SCHEDULER_FLOOR_MS}"    # e.g. 750ms
+      delay-floor: ${CRASHED_SCHEDULER_FLOOR_MS}    # e.g. 750ms
       # Maximum delay between scheduler cycles (ms) — cap during sustained Redis outage
-      delay-ceiling: "${CRASHED_SCHEDULER_CEILING_MS}" # e.g. 30000ms
+      delay-ceiling: ${CRASHED_SCHEDULER_CEILING_MS} # e.g. 30000ms
 
-  # -------------------------------------------------------
   # System Health Gate Configuration
   # Controls job acceptance based on downstream (Redis) health
-  # -------------------------------------------------------
   system:
     # Max value netSystemFailCount can reach — prevents runaway counter
-    fail-ceiling: "${SYSTEM_FAIL_CAP}"
+    fail-ceiling: ${SYSTEM_FAIL_CAP}
 
     # Gate threshold — new jobs rejected when netSystemFailCount >= threshold
-    threshold: "${SYSTEM_THRESHOLD}"
+    threshold: ${SYSTEM_THRESHOLD}
 
     response:
       error:
@@ -115,20 +106,18 @@ traffic-control:
         unhealthy: "${SYSTEM_UNHEALTHY_ERROR_MESSAGE}"
 
 
-# =========================================================
 # Thread Pool Configuration
-# =========================================================
 threads:
   count:
     # Number of job worker threads
-    job-worker-count: "${JOB_WORKERS_COUNT}"
+    job-worker-count: ${JOB_WORKERS_COUNT}
 
     # Number of heartbeat threads — must equal job-worker-count (1:1 ratio)
-    heartbeat-count: "${HEARTBEAT_WORKER_COUNT}"
+    heartbeat-count: ${HEARTBEAT_WORKER_COUNT}
 
   heartbeat:
     # Delay before first heartbeat fires (ms)
-    initial-delay: "${HEARTBEAT_INITIAL_DELAY}"
+    initial-delay: ${HEARTBEAT_INITIAL_DELAY}
 
     # Interval between consecutive heartbeat pulses (ms)
-    interval: "${HEARTBEAT_INTERVAL}"
+    interval: ${HEARTBEAT_INTERVAL}
