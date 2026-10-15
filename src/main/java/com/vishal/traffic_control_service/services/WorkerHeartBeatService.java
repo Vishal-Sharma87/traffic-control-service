@@ -52,22 +52,29 @@ public class WorkerHeartBeatService{
         }
     }
 
+    public void startHeartBeat(UUID jobId) {
+        try {
+            stopHeartBeat(jobId);
 
-    public void startHeartBeat(UUID jobId){
-        log.info("Starting heartbeat for job {}", jobId);
-
-        stopHeartBeat(jobId);
-
-        ScheduledFuture<?> future = asyncHeartbeatService.scheduleAtFixedRate(() -> sendHeartBeat(jobId) ,
-                heartbeatInitialDelay,
-                heartbeatInterval,
-                TimeUnit.MILLISECONDS
-        );
-        jobIdToThreadMap.put(jobId, future);
+            ScheduledFuture<?> future = asyncHeartbeatService.scheduleAtFixedRate(
+                    () -> sendHeartBeat(jobId),
+                    heartbeatInitialDelay,
+                    heartbeatInterval,
+                    TimeUnit.MILLISECONDS
+            );
+            jobIdToThreadMap.put(jobId, future);
+            log.debug("Heartbeat started for jobId: {}", jobId);
+        } catch (Exception e) {
+            log.error("Failed to schedule heartbeat for jobId: {}", jobId, e);
+        }
     }
 
-    private void sendHeartBeat(UUID jobId){
-        currentProcessingJobService.updateHeartBeat(jobId, Instant.now());
+    private void sendHeartBeat(UUID jobId) {
+        try {
+            currentProcessingJobService.updateHeartBeat(jobId, Instant.now());
+        } catch (Exception e) {
+            log.error("Heartbeat tick failed for jobId: {}", jobId, e);
+        }
     }
 
     public void stopHeartBeat(UUID jobId){
@@ -75,7 +82,7 @@ public class WorkerHeartBeatService{
 
         if(desiredThread != null){
             desiredThread.cancel(true);
-            log.info("HeartBeat stopped jobId: {} worker detail: {}", jobId, Thread.currentThread().hashCode());
+            log.info("HeartBeat stopped jobId: {} worker detail: {}", jobId, desiredThread.hashCode());
         }
     }
 }
