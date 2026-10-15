@@ -20,6 +20,8 @@ logs/
 # .yml files (ignore all except default one)
 application-*.yml
 
+docker-compose.override.yml
+
 
 # ignore .env file
 .env
