@@ -58,7 +58,6 @@ public class RequestService {
             if(!requestRepository.enqueueJobRequestIfAllowed(
                     LuaScripts.getEnqueueJobRequestIfAllowedScript(),
                     keys,
-                    String.valueOf(systemConfigs.getQueueCapacity()),
                     jobId.toString(),
                     systemConfigs.getJobScore(jobTier),
                     jobTier.name(),
