@@ -9,7 +9,6 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -91,27 +90,35 @@ public class JobProcessingWorkerService implements ApplicationRunner {
             if (poppedId == null) {
                 return false;
             }
-            log.info("Worker: {} picked jobId: {}", Thread.currentThread().getName(), poppedId);
+
+            log.info("Job found, jobId: {}",  poppedId);
 
             jobId = UUID.fromString(poppedId);
 
+            log.info("Starting heart beat for jobId: {}", jobId);
             heartBeatService.startHeartBeat(jobId);
 
-            Thread.sleep(Duration.ofSeconds(60));
 
+            log.info("DB write start for jobId: {}", jobId);
             resultService.saveJobResult(jobId, jobService.processJob());
 
+            log.info("DB write ends at {}", System.currentTimeMillis());
+
+            log.info("Performing completeProcessingScript for jobId: {}", jobId);
             currentProcessingJobService.completeProcessing(jobId, systemConfigs.getTtlOnCompletedJobSeconds());
+
+            log.info("completeProcessingScript succeeds for jobId: {}", jobId);
             return true;
         }catch (Exception e) {
             if (!running.get() || Thread.currentThread().isInterrupted()) {
                 log.debug("Stopping worker loop during shutdown");
                 return false;
             }
-            log.error("Unexpected error in worker loop", e);
+            log.error("Unexpected error in worker loop, exception message: {}", e.getMessage());
             sleepQuietly(250);
         }finally {
             if (jobId != null) {
+                log.info("Heartbeat stop calling for, jobId: {}", jobId);
                 heartBeatService.stopHeartBeat(jobId);
             }
         }

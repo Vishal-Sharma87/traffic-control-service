@@ -1,0 +1,795 @@
+2026-10-17T20:39:45.182+05:30  INFO 28170 --- [traffic-control-service] [nio-8080-exec-1] c.v.t.services.RequestService            : Trying new job admission, jobId: 01a14a69-6b5e-72f3-9656-34bf7c4ef62a
+2026-10-17T20:39:45.185+05:30  INFO 28170 --- [traffic-control-service] [nio-8080-exec-1] c.v.t.services.RequestService            : Job submission succeeded jobId: 01a14a69-6b5e-72f3-9656-34bf7c4ef62a
+2026-10-17T20:39:45.262+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a69-6b5e-72f3-9656-34bf7c4ef62a, query start time: 1792249785261
+2026-10-17T20:39:45.263+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a69-6b5e-72f3-9656-34bf7c4ef62a at 1792249785263
+2026-10-17T20:39:45.263+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a69-6b5e-72f3-9656-34bf7c4ef62a 1200ms sleep at 1792249785263
+2026-10-17T20:39:46.464+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792249786464
+2026-10-17T20:39:46.464+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a69-6b5e-72f3-9656-34bf7c4ef62a at 1792249786464
+2026-10-17T20:39:46.464+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:39:46.714+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a69-6b5e-72f3-9656-34bf7c4ef62a at 1792249786714
+2026-10-17T20:39:46.715+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a69-6b5e-72f3-9656-34bf7c4ef62a worker detail: 1281292287
+2026-10-17T20:39:52.944+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792249792944 ms
+2026-10-17T20:39:52.944+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a69-6b5e-72f3-9656-34bf7c4ef62a at: 1792249792944
+2026-10-17T20:39:52.944+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a69-6b5e-72f3-9656-34bf7c4ef62a at: 1792249792944
+2026-10-17T20:39:52.947+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a69-6b5e-72f3-9656-34bf7c4ef62a at: 1792249792947
+2026-10-17T20:39:52.947+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] jobId:01a14a69-6b5e-72f3-9656-34bf7c4ef62a at: 1792249792947 has been identified as a crash job and will be retried
+2026-10-17T20:39:53.000+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a69-6b5e-72f3-9656-34bf7c4ef62a, query start time: 1792249792999
+2026-10-17T20:39:53.000+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a69-6b5e-72f3-9656-34bf7c4ef62a at 1792249793000
+2026-10-17T20:39:53.000+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a69-6b5e-72f3-9656-34bf7c4ef62a 1200ms sleep at 1792249793000
+2026-10-17T20:39:54.201+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792249794201
+2026-10-17T20:39:54.201+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a69-6b5e-72f3-9656-34bf7c4ef62a at 1792249794201
+2026-10-17T20:39:54.201+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:39:54.451+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a69-6b5e-72f3-9656-34bf7c4ef62a at 1792249794451
+2026-10-17T20:39:54.451+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a69-6b5e-72f3-9656-34bf7c4ef62a worker detail: 1050464346
+2026-10-17T20:39:57.947+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792249797947 ms
+2026-10-17T20:39:57.947+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a69-6b5e-72f3-9656-34bf7c4ef62a at: 1792249797947
+2026-10-17T20:39:57.947+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a69-6b5e-72f3-9656-34bf7c4ef62a at: 1792249797947
+2026-10-17T20:39:57.950+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a69-6b5e-72f3-9656-34bf7c4ef62a at: 1792249797950
+2026-10-17T20:39:57.950+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Max retries exhausted and job is getting discarded: jobId: 01a14a69-6b5e-72f3-9656-34bf7c4ef62a at: 1792249797950
+2026-10-17T20:39:57.950+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Discarding jobId: 01a14a69-6b5e-72f3-9656-34bf7c4ef62a, failureCause: HEARTBEAT_STOPPED
+2026-10-17T20:39:57.950+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Adding jobId: 01a14a69-6b5e-72f3-9656-34bf7c4ef62a to DLQ with failure cause: HEARTBEAT_STOPPED
+2026-10-17T20:39:57.950+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.DlqService                : Adding entry to DLQ for jobId: 01a14a69-6b5e-72f3-9656-34bf7c4ef62a. Failure cause: HEARTBEAT_STOPPED
+Hibernate: 
+    select
+        fj1_0.job_id,
+        fj1_0.arrived_at,
+        fj1_0.discarded_at,
+        fj1_0.failure_cause,
+        fj1_0.first_tried_at,
+        fj1_0.job_tier,
+        fj1_0.total_retries 
+    from
+        failed_jobs fj1_0 
+    where
+        fj1_0.job_id=?
+Hibernate: 
+    insert 
+    into
+        failed_jobs
+        (arrived_at, discarded_at, failure_cause, first_tried_at, job_tier, total_retries, job_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-10-17T20:39:57.957+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : JobId:01a14a69-6b5e-72f3-9656-34bf7c4ef62a discarded with ttl:600
+2026-10-17T20:39:57.957+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash scheduler] Job discarded, jobId: 01a14a69-6b5e-72f3-9656-34bf7c4ef62a, discarded at: 1792249797957
+2026-10-17T20:40:00.241+05:30  INFO 28170 --- [traffic-control-service] [nio-8080-exec-2] c.v.t.services.RequestService            : Trying new job admission, jobId: 01a14a69-a631-7b61-b28f-c21b3b741a76
+2026-10-17T20:40:00.242+05:30  INFO 28170 --- [traffic-control-service] [nio-8080-exec-2] c.v.t.services.RequestService            : Job submission succeeded jobId: 01a14a69-a631-7b61-b28f-c21b3b741a76
+2026-10-17T20:40:00.278+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a69-a631-7b61-b28f-c21b3b741a76, query start time: 1792249800276
+2026-10-17T20:40:00.278+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a69-a631-7b61-b28f-c21b3b741a76 at 1792249800278
+2026-10-17T20:40:00.278+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a69-a631-7b61-b28f-c21b3b741a76 1200ms sleep at 1792249800278
+2026-10-17T20:40:01.478+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792249801478
+2026-10-17T20:40:01.478+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a69-a631-7b61-b28f-c21b3b741a76 at 1792249801478
+2026-10-17T20:40:01.479+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:40:01.729+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a69-a631-7b61-b28f-c21b3b741a76 at 1792249801729
+2026-10-17T20:40:01.729+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a69-a631-7b61-b28f-c21b3b741a76 worker detail: 1521563623
+2026-10-17T20:40:07.958+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792249807958 ms
+2026-10-17T20:40:07.958+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a69-a631-7b61-b28f-c21b3b741a76 at: 1792249807958
+2026-10-17T20:40:07.958+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a69-a631-7b61-b28f-c21b3b741a76 at: 1792249807958
+2026-10-17T20:40:07.961+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a69-a631-7b61-b28f-c21b3b741a76 at: 1792249807961
+2026-10-17T20:40:07.961+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] jobId:01a14a69-a631-7b61-b28f-c21b3b741a76 at: 1792249807961 has been identified as a crash job and will be retried
+2026-10-17T20:40:07.972+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a69-a631-7b61-b28f-c21b3b741a76, query start time: 1792249807971
+2026-10-17T20:40:07.972+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a69-a631-7b61-b28f-c21b3b741a76 at 1792249807972
+2026-10-17T20:40:07.972+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a69-a631-7b61-b28f-c21b3b741a76 1200ms sleep at 1792249807972
+2026-10-17T20:40:09.172+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792249809172
+2026-10-17T20:40:09.172+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a69-a631-7b61-b28f-c21b3b741a76 at 1792249809172
+2026-10-17T20:40:09.172+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:40:09.423+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a69-a631-7b61-b28f-c21b3b741a76 at 1792249809422
+2026-10-17T20:40:09.423+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a69-a631-7b61-b28f-c21b3b741a76 worker detail: 170118736
+2026-10-17T20:40:12.961+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792249812961 ms
+2026-10-17T20:40:12.962+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a69-a631-7b61-b28f-c21b3b741a76 at: 1792249812962
+2026-10-17T20:40:12.962+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a69-a631-7b61-b28f-c21b3b741a76 at: 1792249812962
+2026-10-17T20:40:12.964+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a69-a631-7b61-b28f-c21b3b741a76 at: 1792249812964
+2026-10-17T20:40:12.964+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Max retries exhausted and job is getting discarded: jobId: 01a14a69-a631-7b61-b28f-c21b3b741a76 at: 1792249812964
+2026-10-17T20:40:12.964+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Discarding jobId: 01a14a69-a631-7b61-b28f-c21b3b741a76, failureCause: HEARTBEAT_STOPPED
+2026-10-17T20:40:12.964+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Adding jobId: 01a14a69-a631-7b61-b28f-c21b3b741a76 to DLQ with failure cause: HEARTBEAT_STOPPED
+2026-10-17T20:40:12.964+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.DlqService                : Adding entry to DLQ for jobId: 01a14a69-a631-7b61-b28f-c21b3b741a76. Failure cause: HEARTBEAT_STOPPED
+Hibernate: 
+    select
+        fj1_0.job_id,
+        fj1_0.arrived_at,
+        fj1_0.discarded_at,
+        fj1_0.failure_cause,
+        fj1_0.first_tried_at,
+        fj1_0.job_tier,
+        fj1_0.total_retries 
+    from
+        failed_jobs fj1_0 
+    where
+        fj1_0.job_id=?
+Hibernate: 
+    insert 
+    into
+        failed_jobs
+        (arrived_at, discarded_at, failure_cause, first_tried_at, job_tier, total_retries, job_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-10-17T20:40:12.972+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : JobId:01a14a69-a631-7b61-b28f-c21b3b741a76 discarded with ttl:600
+2026-10-17T20:40:12.972+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash scheduler] Job discarded, jobId: 01a14a69-a631-7b61-b28f-c21b3b741a76, discarded at: 1792249812972
+2026-10-17T20:40:15.272+05:30  INFO 28170 --- [traffic-control-service] [nio-8080-exec-3] c.v.t.services.RequestService            : Trying new job admission, jobId: 01a14a69-e0e8-7072-9995-75f6e0cf5b06
+2026-10-17T20:40:15.273+05:30  INFO 28170 --- [traffic-control-service] [nio-8080-exec-3] c.v.t.services.RequestService            : Job submission succeeded jobId: 01a14a69-e0e8-7072-9995-75f6e0cf5b06
+2026-10-17T20:40:15.289+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a69-e0e8-7072-9995-75f6e0cf5b06, query start time: 1792249815288
+2026-10-17T20:40:15.289+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a69-e0e8-7072-9995-75f6e0cf5b06 at 1792249815289
+2026-10-17T20:40:15.289+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a69-e0e8-7072-9995-75f6e0cf5b06 1200ms sleep at 1792249815289
+2026-10-17T20:40:16.489+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792249816489
+2026-10-17T20:40:16.490+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a69-e0e8-7072-9995-75f6e0cf5b06 at 1792249816490
+2026-10-17T20:40:16.490+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:40:16.740+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a69-e0e8-7072-9995-75f6e0cf5b06 at 1792249816740
+2026-10-17T20:40:16.740+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a69-e0e8-7072-9995-75f6e0cf5b06 worker detail: 1962216469
+2026-10-17T20:40:22.973+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792249822973 ms
+2026-10-17T20:40:22.973+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a69-e0e8-7072-9995-75f6e0cf5b06 at: 1792249822973
+2026-10-17T20:40:22.973+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a69-e0e8-7072-9995-75f6e0cf5b06 at: 1792249822973
+2026-10-17T20:40:22.974+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a69-e0e8-7072-9995-75f6e0cf5b06 at: 1792249822974
+2026-10-17T20:40:22.974+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] jobId:01a14a69-e0e8-7072-9995-75f6e0cf5b06 at: 1792249822974 has been identified as a crash job and will be retried
+2026-10-17T20:40:22.979+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a69-e0e8-7072-9995-75f6e0cf5b06, query start time: 1792249822978
+2026-10-17T20:40:22.979+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a69-e0e8-7072-9995-75f6e0cf5b06 at 1792249822979
+2026-10-17T20:40:22.979+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a69-e0e8-7072-9995-75f6e0cf5b06 1200ms sleep at 1792249822979
+2026-10-17T20:40:24.179+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792249824179
+2026-10-17T20:40:24.179+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a69-e0e8-7072-9995-75f6e0cf5b06 at 1792249824179
+2026-10-17T20:40:24.180+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:40:24.430+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a69-e0e8-7072-9995-75f6e0cf5b06 at 1792249824430
+2026-10-17T20:40:24.430+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a69-e0e8-7072-9995-75f6e0cf5b06 worker detail: 1893354365
+2026-10-17T20:40:27.974+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792249827974 ms
+2026-10-17T20:40:27.974+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a69-e0e8-7072-9995-75f6e0cf5b06 at: 1792249827974
+2026-10-17T20:40:27.974+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a69-e0e8-7072-9995-75f6e0cf5b06 at: 1792249827974
+2026-10-17T20:40:27.977+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a69-e0e8-7072-9995-75f6e0cf5b06 at: 1792249827977
+2026-10-17T20:40:27.977+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Max retries exhausted and job is getting discarded: jobId: 01a14a69-e0e8-7072-9995-75f6e0cf5b06 at: 1792249827977
+2026-10-17T20:40:27.977+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Discarding jobId: 01a14a69-e0e8-7072-9995-75f6e0cf5b06, failureCause: HEARTBEAT_STOPPED
+2026-10-17T20:40:27.977+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Adding jobId: 01a14a69-e0e8-7072-9995-75f6e0cf5b06 to DLQ with failure cause: HEARTBEAT_STOPPED
+2026-10-17T20:40:27.977+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.DlqService                : Adding entry to DLQ for jobId: 01a14a69-e0e8-7072-9995-75f6e0cf5b06. Failure cause: HEARTBEAT_STOPPED
+Hibernate: 
+    select
+        fj1_0.job_id,
+        fj1_0.arrived_at,
+        fj1_0.discarded_at,
+        fj1_0.failure_cause,
+        fj1_0.first_tried_at,
+        fj1_0.job_tier,
+        fj1_0.total_retries 
+    from
+        failed_jobs fj1_0 
+    where
+        fj1_0.job_id=?
+Hibernate: 
+    insert 
+    into
+        failed_jobs
+        (arrived_at, discarded_at, failure_cause, first_tried_at, job_tier, total_retries, job_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-10-17T20:40:27.984+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : JobId:01a14a69-e0e8-7072-9995-75f6e0cf5b06 discarded with ttl:600
+2026-10-17T20:40:27.984+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash scheduler] Job discarded, jobId: 01a14a69-e0e8-7072-9995-75f6e0cf5b06, discarded at: 1792249827984
+2026-10-17T20:40:30.297+05:30  INFO 28170 --- [traffic-control-service] [nio-8080-exec-4] c.v.t.services.RequestService            : Trying new job admission, jobId: 01a14a6a-1b98-76c0-9607-51c2104b5e7e
+2026-10-17T20:40:30.297+05:30  INFO 28170 --- [traffic-control-service] [nio-8080-exec-4] c.v.t.services.RequestService            : Job submission succeeded jobId: 01a14a6a-1b98-76c0-9607-51c2104b5e7e
+2026-10-17T20:40:30.304+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a6a-1b98-76c0-9607-51c2104b5e7e, query start time: 1792249830303
+2026-10-17T20:40:30.304+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a6a-1b98-76c0-9607-51c2104b5e7e at 1792249830304
+2026-10-17T20:40:30.305+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a6a-1b98-76c0-9607-51c2104b5e7e 1200ms sleep at 1792249830305
+2026-10-17T20:40:31.505+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792249831505
+2026-10-17T20:40:31.505+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a6a-1b98-76c0-9607-51c2104b5e7e at 1792249831505
+2026-10-17T20:40:31.505+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:40:31.755+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a6a-1b98-76c0-9607-51c2104b5e7e at 1792249831755
+2026-10-17T20:40:31.755+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a6a-1b98-76c0-9607-51c2104b5e7e worker detail: 583683645
+2026-10-17T20:40:37.985+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792249837985 ms
+2026-10-17T20:40:37.985+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a6a-1b98-76c0-9607-51c2104b5e7e at: 1792249837985
+2026-10-17T20:40:37.985+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a6a-1b98-76c0-9607-51c2104b5e7e at: 1792249837985
+2026-10-17T20:40:37.987+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a6a-1b98-76c0-9607-51c2104b5e7e at: 1792249837987
+2026-10-17T20:40:37.988+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] jobId:01a14a6a-1b98-76c0-9607-51c2104b5e7e at: 1792249837988 has been identified as a crash job and will be retried
+2026-10-17T20:40:38.040+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a6a-1b98-76c0-9607-51c2104b5e7e, query start time: 1792249838039
+2026-10-17T20:40:38.040+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a6a-1b98-76c0-9607-51c2104b5e7e at 1792249838040
+2026-10-17T20:40:38.040+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a6a-1b98-76c0-9607-51c2104b5e7e 1200ms sleep at 1792249838040
+2026-10-17T20:40:39.240+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792249839240
+2026-10-17T20:40:39.240+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a6a-1b98-76c0-9607-51c2104b5e7e at 1792249839240
+2026-10-17T20:40:39.240+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:40:39.491+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a6a-1b98-76c0-9607-51c2104b5e7e at 1792249839491
+2026-10-17T20:40:39.491+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a6a-1b98-76c0-9607-51c2104b5e7e worker detail: 539138806
+2026-10-17T20:40:42.988+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792249842988 ms
+2026-10-17T20:40:42.988+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a6a-1b98-76c0-9607-51c2104b5e7e at: 1792249842988
+2026-10-17T20:40:42.988+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a6a-1b98-76c0-9607-51c2104b5e7e at: 1792249842988
+2026-10-17T20:40:42.991+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a6a-1b98-76c0-9607-51c2104b5e7e at: 1792249842991
+2026-10-17T20:40:42.991+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Max retries exhausted and job is getting discarded: jobId: 01a14a6a-1b98-76c0-9607-51c2104b5e7e at: 1792249842991
+2026-10-17T20:40:42.991+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Discarding jobId: 01a14a6a-1b98-76c0-9607-51c2104b5e7e, failureCause: HEARTBEAT_STOPPED
+2026-10-17T20:40:42.991+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Adding jobId: 01a14a6a-1b98-76c0-9607-51c2104b5e7e to DLQ with failure cause: HEARTBEAT_STOPPED
+2026-10-17T20:40:42.991+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.DlqService                : Adding entry to DLQ for jobId: 01a14a6a-1b98-76c0-9607-51c2104b5e7e. Failure cause: HEARTBEAT_STOPPED
+Hibernate: 
+    select
+        fj1_0.job_id,
+        fj1_0.arrived_at,
+        fj1_0.discarded_at,
+        fj1_0.failure_cause,
+        fj1_0.first_tried_at,
+        fj1_0.job_tier,
+        fj1_0.total_retries 
+    from
+        failed_jobs fj1_0 
+    where
+        fj1_0.job_id=?
+Hibernate: 
+    insert 
+    into
+        failed_jobs
+        (arrived_at, discarded_at, failure_cause, first_tried_at, job_tier, total_retries, job_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-10-17T20:40:42.998+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : JobId:01a14a6a-1b98-76c0-9607-51c2104b5e7e discarded with ttl:600
+2026-10-17T20:40:42.998+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash scheduler] Job discarded, jobId: 01a14a6a-1b98-76c0-9607-51c2104b5e7e, discarded at: 1792249842998
+2026-10-17T20:40:45.323+05:30  INFO 28170 --- [traffic-control-service] [nio-8080-exec-5] c.v.t.services.RequestService            : Trying new job admission, jobId: 01a14a6a-564b-7d98-8f13-2da7735f1c11
+2026-10-17T20:40:45.325+05:30  INFO 28170 --- [traffic-control-service] [nio-8080-exec-5] c.v.t.services.RequestService            : Job submission succeeded jobId: 01a14a6a-564b-7d98-8f13-2da7735f1c11
+2026-10-17T20:40:45.421+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a6a-564b-7d98-8f13-2da7735f1c11, query start time: 1792249845419
+2026-10-17T20:40:45.421+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a6a-564b-7d98-8f13-2da7735f1c11 at 1792249845421
+2026-10-17T20:40:45.421+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a6a-564b-7d98-8f13-2da7735f1c11 1200ms sleep at 1792249845421
+2026-10-17T20:40:46.621+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792249846621
+2026-10-17T20:40:46.621+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a6a-564b-7d98-8f13-2da7735f1c11 at 1792249846621
+2026-10-17T20:40:46.622+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:40:46.872+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a6a-564b-7d98-8f13-2da7735f1c11 at 1792249846872
+2026-10-17T20:40:46.872+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a6a-564b-7d98-8f13-2da7735f1c11 worker detail: 1354568470
+2026-10-17T20:40:52.999+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792249852999 ms
+2026-10-17T20:40:53.000+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a6a-564b-7d98-8f13-2da7735f1c11 at: 1792249853000
+2026-10-17T20:40:53.000+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a6a-564b-7d98-8f13-2da7735f1c11 at: 1792249853000
+2026-10-17T20:40:53.002+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a6a-564b-7d98-8f13-2da7735f1c11 at: 1792249853002
+2026-10-17T20:40:53.002+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] jobId:01a14a6a-564b-7d98-8f13-2da7735f1c11 at: 1792249853002 has been identified as a crash job and will be retried
+2026-10-17T20:40:53.002+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a6a-564b-7d98-8f13-2da7735f1c11, query start time: 1792249853000
+2026-10-17T20:40:53.002+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a6a-564b-7d98-8f13-2da7735f1c11 at 1792249853002
+2026-10-17T20:40:53.002+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a6a-564b-7d98-8f13-2da7735f1c11 1200ms sleep at 1792249853002
+2026-10-17T20:40:54.202+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792249854202
+2026-10-17T20:40:54.203+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a6a-564b-7d98-8f13-2da7735f1c11 at 1792249854203
+2026-10-17T20:40:54.203+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:40:54.453+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a6a-564b-7d98-8f13-2da7735f1c11 at 1792249854453
+2026-10-17T20:40:54.453+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a6a-564b-7d98-8f13-2da7735f1c11 worker detail: 1392968065
+2026-10-17T20:40:58.003+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792249858002 ms
+2026-10-17T20:40:58.003+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a6a-564b-7d98-8f13-2da7735f1c11 at: 1792249858003
+2026-10-17T20:40:58.003+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a6a-564b-7d98-8f13-2da7735f1c11 at: 1792249858003
+2026-10-17T20:40:58.003+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a6a-564b-7d98-8f13-2da7735f1c11 at: 1792249858003
+2026-10-17T20:40:58.003+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Max retries exhausted and job is getting discarded: jobId: 01a14a6a-564b-7d98-8f13-2da7735f1c11 at: 1792249858003
+2026-10-17T20:40:58.003+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Discarding jobId: 01a14a6a-564b-7d98-8f13-2da7735f1c11, failureCause: HEARTBEAT_STOPPED
+2026-10-17T20:40:58.004+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Adding jobId: 01a14a6a-564b-7d98-8f13-2da7735f1c11 to DLQ with failure cause: HEARTBEAT_STOPPED
+2026-10-17T20:40:58.004+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.DlqService                : Adding entry to DLQ for jobId: 01a14a6a-564b-7d98-8f13-2da7735f1c11. Failure cause: HEARTBEAT_STOPPED
+Hibernate: 
+    select
+        fj1_0.job_id,
+        fj1_0.arrived_at,
+        fj1_0.discarded_at,
+        fj1_0.failure_cause,
+        fj1_0.first_tried_at,
+        fj1_0.job_tier,
+        fj1_0.total_retries 
+    from
+        failed_jobs fj1_0 
+    where
+        fj1_0.job_id=?
+Hibernate: 
+    insert 
+    into
+        failed_jobs
+        (arrived_at, discarded_at, failure_cause, first_tried_at, job_tier, total_retries, job_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-10-17T20:40:58.012+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : JobId:01a14a6a-564b-7d98-8f13-2da7735f1c11 discarded with ttl:600
+2026-10-17T20:40:58.012+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash scheduler] Job discarded, jobId: 01a14a6a-564b-7d98-8f13-2da7735f1c11, discarded at: 1792249858012
+2026-10-17T20:41:00.354+05:30  INFO 28170 --- [traffic-control-service] [nio-8080-exec-6] c.v.t.services.RequestService            : Trying new job admission, jobId: 01a14a6a-9102-7cec-9d57-99a8399d918f
+2026-10-17T20:41:00.354+05:30  INFO 28170 --- [traffic-control-service] [nio-8080-exec-6] c.v.t.services.RequestService            : Job submission succeeded jobId: 01a14a6a-9102-7cec-9d57-99a8399d918f
+2026-10-17T20:41:00.382+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a6a-9102-7cec-9d57-99a8399d918f, query start time: 1792249860381
+2026-10-17T20:41:00.382+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a6a-9102-7cec-9d57-99a8399d918f at 1792249860382
+2026-10-17T20:41:00.382+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a6a-9102-7cec-9d57-99a8399d918f 1200ms sleep at 1792249860382
+2026-10-17T20:41:01.582+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792249861582
+2026-10-17T20:41:01.582+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a6a-9102-7cec-9d57-99a8399d918f at 1792249861582
+2026-10-17T20:41:01.582+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:41:01.832+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a6a-9102-7cec-9d57-99a8399d918f at 1792249861832
+2026-10-17T20:41:01.833+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a6a-9102-7cec-9d57-99a8399d918f worker detail: 1441746732
+2026-10-17T20:41:08.013+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792249868013 ms
+2026-10-17T20:41:08.014+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a6a-9102-7cec-9d57-99a8399d918f at: 1792249868014
+2026-10-17T20:41:08.014+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a6a-9102-7cec-9d57-99a8399d918f at: 1792249868014
+2026-10-17T20:41:08.016+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a6a-9102-7cec-9d57-99a8399d918f at: 1792249868016
+2026-10-17T20:41:08.016+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] jobId:01a14a6a-9102-7cec-9d57-99a8399d918f at: 1792249868016 has been identified as a crash job and will be retried
+2026-10-17T20:41:08.026+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a6a-9102-7cec-9d57-99a8399d918f, query start time: 1792249868025
+2026-10-17T20:41:08.026+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a6a-9102-7cec-9d57-99a8399d918f at 1792249868026
+2026-10-17T20:41:08.026+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a6a-9102-7cec-9d57-99a8399d918f 1200ms sleep at 1792249868026
+2026-10-17T20:41:09.226+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792249869226
+2026-10-17T20:41:09.226+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a6a-9102-7cec-9d57-99a8399d918f at 1792249869226
+2026-10-17T20:41:09.226+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:41:09.477+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a6a-9102-7cec-9d57-99a8399d918f at 1792249869476
+2026-10-17T20:41:09.477+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a6a-9102-7cec-9d57-99a8399d918f worker detail: 1495380206
+2026-10-17T20:41:13.017+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792249873017 ms
+2026-10-17T20:41:13.017+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a6a-9102-7cec-9d57-99a8399d918f at: 1792249873017
+2026-10-17T20:41:13.017+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a6a-9102-7cec-9d57-99a8399d918f at: 1792249873017
+2026-10-17T20:41:13.019+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a6a-9102-7cec-9d57-99a8399d918f at: 1792249873019
+2026-10-17T20:41:13.020+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Max retries exhausted and job is getting discarded: jobId: 01a14a6a-9102-7cec-9d57-99a8399d918f at: 1792249873020
+2026-10-17T20:41:13.020+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Discarding jobId: 01a14a6a-9102-7cec-9d57-99a8399d918f, failureCause: HEARTBEAT_STOPPED
+2026-10-17T20:41:13.020+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Adding jobId: 01a14a6a-9102-7cec-9d57-99a8399d918f to DLQ with failure cause: HEARTBEAT_STOPPED
+2026-10-17T20:41:13.020+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.DlqService                : Adding entry to DLQ for jobId: 01a14a6a-9102-7cec-9d57-99a8399d918f. Failure cause: HEARTBEAT_STOPPED
+Hibernate: 
+    select
+        fj1_0.job_id,
+        fj1_0.arrived_at,
+        fj1_0.discarded_at,
+        fj1_0.failure_cause,
+        fj1_0.first_tried_at,
+        fj1_0.job_tier,
+        fj1_0.total_retries 
+    from
+        failed_jobs fj1_0 
+    where
+        fj1_0.job_id=?
+Hibernate: 
+    insert 
+    into
+        failed_jobs
+        (arrived_at, discarded_at, failure_cause, first_tried_at, job_tier, total_retries, job_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-10-17T20:41:13.027+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : JobId:01a14a6a-9102-7cec-9d57-99a8399d918f discarded with ttl:600
+2026-10-17T20:41:13.027+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash scheduler] Job discarded, jobId: 01a14a6a-9102-7cec-9d57-99a8399d918f, discarded at: 1792249873027
+2026-10-17T20:41:15.374+05:30  INFO 28170 --- [traffic-control-service] [nio-8080-exec-7] c.v.t.services.RequestService            : Trying new job admission, jobId: 01a14a6a-cbae-71a9-9d9f-f065e0934699
+2026-10-17T20:41:15.375+05:30  INFO 28170 --- [traffic-control-service] [nio-8080-exec-7] c.v.t.services.RequestService            : Job submission succeeded jobId: 01a14a6a-cbae-71a9-9d9f-f065e0934699
+2026-10-17T20:41:15.389+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a6a-cbae-71a9-9d9f-f065e0934699, query start time: 1792249875388
+2026-10-17T20:41:15.389+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a6a-cbae-71a9-9d9f-f065e0934699 at 1792249875389
+2026-10-17T20:41:15.390+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a6a-cbae-71a9-9d9f-f065e0934699 1200ms sleep at 1792249875390
+2026-10-17T20:41:16.590+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792249876590
+2026-10-17T20:41:16.590+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a6a-cbae-71a9-9d9f-f065e0934699 at 1792249876590
+2026-10-17T20:41:16.590+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:41:16.840+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a6a-cbae-71a9-9d9f-f065e0934699 at 1792249876840
+2026-10-17T20:41:16.841+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a6a-cbae-71a9-9d9f-f065e0934699 worker detail: 1900613968
+2026-10-17T20:41:23.028+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792249883027 ms
+2026-10-17T20:41:23.028+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a6a-cbae-71a9-9d9f-f065e0934699 at: 1792249883028
+2026-10-17T20:41:23.028+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a6a-cbae-71a9-9d9f-f065e0934699 at: 1792249883028
+2026-10-17T20:41:23.030+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a6a-cbae-71a9-9d9f-f065e0934699 at: 1792249883030
+2026-10-17T20:41:23.030+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] jobId:01a14a6a-cbae-71a9-9d9f-f065e0934699 at: 1792249883030 has been identified as a crash job and will be retried
+2026-10-17T20:41:23.034+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a6a-cbae-71a9-9d9f-f065e0934699, query start time: 1792249883034
+2026-10-17T20:41:23.034+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a6a-cbae-71a9-9d9f-f065e0934699 at 1792249883034
+2026-10-17T20:41:23.034+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a6a-cbae-71a9-9d9f-f065e0934699 1200ms sleep at 1792249883034
+2026-10-17T20:41:24.235+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792249884235
+2026-10-17T20:41:24.235+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a6a-cbae-71a9-9d9f-f065e0934699 at 1792249884235
+2026-10-17T20:41:24.235+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:41:24.485+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a6a-cbae-71a9-9d9f-f065e0934699 at 1792249884485
+2026-10-17T20:41:24.485+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a6a-cbae-71a9-9d9f-f065e0934699 worker detail: 199366717
+2026-10-17T20:41:28.031+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792249888030 ms
+2026-10-17T20:41:28.031+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a6a-cbae-71a9-9d9f-f065e0934699 at: 1792249888031
+2026-10-17T20:41:28.031+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a6a-cbae-71a9-9d9f-f065e0934699 at: 1792249888031
+2026-10-17T20:41:28.033+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a6a-cbae-71a9-9d9f-f065e0934699 at: 1792249888033
+2026-10-17T20:41:28.033+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Max retries exhausted and job is getting discarded: jobId: 01a14a6a-cbae-71a9-9d9f-f065e0934699 at: 1792249888033
+2026-10-17T20:41:28.033+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Discarding jobId: 01a14a6a-cbae-71a9-9d9f-f065e0934699, failureCause: HEARTBEAT_STOPPED
+2026-10-17T20:41:28.034+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Adding jobId: 01a14a6a-cbae-71a9-9d9f-f065e0934699 to DLQ with failure cause: HEARTBEAT_STOPPED
+2026-10-17T20:41:28.034+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.DlqService                : Adding entry to DLQ for jobId: 01a14a6a-cbae-71a9-9d9f-f065e0934699. Failure cause: HEARTBEAT_STOPPED
+Hibernate: 
+    select
+        fj1_0.job_id,
+        fj1_0.arrived_at,
+        fj1_0.discarded_at,
+        fj1_0.failure_cause,
+        fj1_0.first_tried_at,
+        fj1_0.job_tier,
+        fj1_0.total_retries 
+    from
+        failed_jobs fj1_0 
+    where
+        fj1_0.job_id=?
+Hibernate: 
+    insert 
+    into
+        failed_jobs
+        (arrived_at, discarded_at, failure_cause, first_tried_at, job_tier, total_retries, job_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-10-17T20:41:28.040+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : JobId:01a14a6a-cbae-71a9-9d9f-f065e0934699 discarded with ttl:600
+2026-10-17T20:41:28.040+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash scheduler] Job discarded, jobId: 01a14a6a-cbae-71a9-9d9f-f065e0934699, discarded at: 1792249888040
+2026-10-17T20:41:30.394+05:30  INFO 28170 --- [traffic-control-service] [nio-8080-exec-9] c.v.t.services.RequestService            : Trying new job admission, jobId: 01a14a6b-065a-70dc-805a-dc53d4161096
+2026-10-17T20:41:30.395+05:30  INFO 28170 --- [traffic-control-service] [nio-8080-exec-9] c.v.t.services.RequestService            : Job submission succeeded jobId: 01a14a6b-065a-70dc-805a-dc53d4161096
+2026-10-17T20:41:30.403+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a6b-065a-70dc-805a-dc53d4161096, query start time: 1792249890402
+2026-10-17T20:41:30.403+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a6b-065a-70dc-805a-dc53d4161096 at 1792249890403
+2026-10-17T20:41:30.403+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a6b-065a-70dc-805a-dc53d4161096 1200ms sleep at 1792249890403
+2026-10-17T20:41:31.603+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792249891603
+2026-10-17T20:41:31.603+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a6b-065a-70dc-805a-dc53d4161096 at 1792249891603
+2026-10-17T20:41:31.603+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:41:31.853+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a6b-065a-70dc-805a-dc53d4161096 at 1792249891853
+2026-10-17T20:41:31.853+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a6b-065a-70dc-805a-dc53d4161096 worker detail: 118550246
+2026-10-17T20:41:38.041+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792249898040 ms
+2026-10-17T20:41:38.041+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a6b-065a-70dc-805a-dc53d4161096 at: 1792249898041
+2026-10-17T20:41:38.041+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a6b-065a-70dc-805a-dc53d4161096 at: 1792249898041
+2026-10-17T20:41:38.041+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a6b-065a-70dc-805a-dc53d4161096 at: 1792249898041
+2026-10-17T20:41:38.041+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] jobId:01a14a6b-065a-70dc-805a-dc53d4161096 at: 1792249898041 has been identified as a crash job and will be retried
+2026-10-17T20:41:38.044+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a6b-065a-70dc-805a-dc53d4161096, query start time: 1792249898043
+2026-10-17T20:41:38.044+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a6b-065a-70dc-805a-dc53d4161096 at 1792249898044
+2026-10-17T20:41:38.044+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a6b-065a-70dc-805a-dc53d4161096 1200ms sleep at 1792249898044
+2026-10-17T20:41:39.244+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792249899244
+2026-10-17T20:41:39.244+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a6b-065a-70dc-805a-dc53d4161096 at 1792249899244
+2026-10-17T20:41:39.244+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:41:39.494+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a6b-065a-70dc-805a-dc53d4161096 at 1792249899494
+2026-10-17T20:41:39.494+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a6b-065a-70dc-805a-dc53d4161096 worker detail: 1013757365
+2026-10-17T20:41:43.042+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792249903042 ms
+2026-10-17T20:41:43.042+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a6b-065a-70dc-805a-dc53d4161096 at: 1792249903042
+2026-10-17T20:41:43.042+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a6b-065a-70dc-805a-dc53d4161096 at: 1792249903042
+2026-10-17T20:41:43.045+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a6b-065a-70dc-805a-dc53d4161096 at: 1792249903045
+2026-10-17T20:41:43.045+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Max retries exhausted and job is getting discarded: jobId: 01a14a6b-065a-70dc-805a-dc53d4161096 at: 1792249903045
+2026-10-17T20:41:43.045+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Discarding jobId: 01a14a6b-065a-70dc-805a-dc53d4161096, failureCause: HEARTBEAT_STOPPED
+2026-10-17T20:41:43.045+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Adding jobId: 01a14a6b-065a-70dc-805a-dc53d4161096 to DLQ with failure cause: HEARTBEAT_STOPPED
+2026-10-17T20:41:43.045+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.DlqService                : Adding entry to DLQ for jobId: 01a14a6b-065a-70dc-805a-dc53d4161096. Failure cause: HEARTBEAT_STOPPED
+Hibernate: 
+    select
+        fj1_0.job_id,
+        fj1_0.arrived_at,
+        fj1_0.discarded_at,
+        fj1_0.failure_cause,
+        fj1_0.first_tried_at,
+        fj1_0.job_tier,
+        fj1_0.total_retries 
+    from
+        failed_jobs fj1_0 
+    where
+        fj1_0.job_id=?
+Hibernate: 
+    insert 
+    into
+        failed_jobs
+        (arrived_at, discarded_at, failure_cause, first_tried_at, job_tier, total_retries, job_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-10-17T20:41:43.052+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : JobId:01a14a6b-065a-70dc-805a-dc53d4161096 discarded with ttl:600
+2026-10-17T20:41:43.053+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash scheduler] Job discarded, jobId: 01a14a6b-065a-70dc-805a-dc53d4161096, discarded at: 1792249903053
+2026-10-17T20:41:45.415+05:30  INFO 28170 --- [traffic-control-service] [io-8080-exec-10] c.v.t.services.RequestService            : Trying new job admission, jobId: 01a14a6b-4107-721b-aeef-172d86a5810c
+2026-10-17T20:41:45.416+05:30  INFO 28170 --- [traffic-control-service] [io-8080-exec-10] c.v.t.services.RequestService            : Job submission succeeded jobId: 01a14a6b-4107-721b-aeef-172d86a5810c
+2026-10-17T20:41:45.416+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a6b-4107-721b-aeef-172d86a5810c, query start time: 1792249905415
+2026-10-17T20:41:45.416+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a6b-4107-721b-aeef-172d86a5810c at 1792249905416
+2026-10-17T20:41:45.416+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a6b-4107-721b-aeef-172d86a5810c 1200ms sleep at 1792249905416
+2026-10-17T20:41:46.616+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792249906616
+2026-10-17T20:41:46.616+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a6b-4107-721b-aeef-172d86a5810c at 1792249906616
+2026-10-17T20:41:46.616+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:41:46.866+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a6b-4107-721b-aeef-172d86a5810c at 1792249906866
+2026-10-17T20:41:46.867+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a6b-4107-721b-aeef-172d86a5810c worker detail: 481634708
+2026-10-17T20:41:53.058+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792249913058 ms
+2026-10-17T20:41:53.058+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a6b-4107-721b-aeef-172d86a5810c at: 1792249913058
+2026-10-17T20:41:53.058+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a6b-4107-721b-aeef-172d86a5810c at: 1792249913058
+2026-10-17T20:41:53.061+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a6b-4107-721b-aeef-172d86a5810c at: 1792249913061
+2026-10-17T20:41:53.061+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] jobId:01a14a6b-4107-721b-aeef-172d86a5810c at: 1792249913061 has been identified as a crash job and will be retried
+2026-10-17T20:41:53.095+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a6b-4107-721b-aeef-172d86a5810c, query start time: 1792249913094
+2026-10-17T20:41:53.095+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a6b-4107-721b-aeef-172d86a5810c at 1792249913095
+2026-10-17T20:41:53.095+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a6b-4107-721b-aeef-172d86a5810c 1200ms sleep at 1792249913095
+2026-10-17T20:41:54.295+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792249914295
+2026-10-17T20:41:54.295+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a6b-4107-721b-aeef-172d86a5810c at 1792249914295
+2026-10-17T20:41:54.295+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:41:54.545+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a6b-4107-721b-aeef-172d86a5810c at 1792249914545
+2026-10-17T20:41:54.546+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a6b-4107-721b-aeef-172d86a5810c worker detail: 2090290251
+2026-10-17T20:41:58.061+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792249918061 ms
+2026-10-17T20:41:58.061+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a6b-4107-721b-aeef-172d86a5810c at: 1792249918061
+2026-10-17T20:41:58.061+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a6b-4107-721b-aeef-172d86a5810c at: 1792249918061
+2026-10-17T20:41:58.064+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a6b-4107-721b-aeef-172d86a5810c at: 1792249918064
+2026-10-17T20:41:58.064+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Max retries exhausted and job is getting discarded: jobId: 01a14a6b-4107-721b-aeef-172d86a5810c at: 1792249918064
+2026-10-17T20:41:58.064+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Discarding jobId: 01a14a6b-4107-721b-aeef-172d86a5810c, failureCause: HEARTBEAT_STOPPED
+2026-10-17T20:41:58.064+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Adding jobId: 01a14a6b-4107-721b-aeef-172d86a5810c to DLQ with failure cause: HEARTBEAT_STOPPED
+2026-10-17T20:41:58.064+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.DlqService                : Adding entry to DLQ for jobId: 01a14a6b-4107-721b-aeef-172d86a5810c. Failure cause: HEARTBEAT_STOPPED
+Hibernate: 
+    select
+        fj1_0.job_id,
+        fj1_0.arrived_at,
+        fj1_0.discarded_at,
+        fj1_0.failure_cause,
+        fj1_0.first_tried_at,
+        fj1_0.job_tier,
+        fj1_0.total_retries 
+    from
+        failed_jobs fj1_0 
+    where
+        fj1_0.job_id=?
+Hibernate: 
+    insert 
+    into
+        failed_jobs
+        (arrived_at, discarded_at, failure_cause, first_tried_at, job_tier, total_retries, job_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-10-17T20:41:58.071+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : JobId:01a14a6b-4107-721b-aeef-172d86a5810c discarded with ttl:600
+2026-10-17T20:41:58.071+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash scheduler] Job discarded, jobId: 01a14a6b-4107-721b-aeef-172d86a5810c, discarded at: 1792249918071
+2026-10-17T20:42:00.444+05:30  INFO 28170 --- [traffic-control-service] [nio-8080-exec-1] c.v.t.services.RequestService            : Trying new job admission, jobId: 01a14a6b-7bbc-7e1d-a789-fcd11733cb98
+2026-10-17T20:42:00.445+05:30  INFO 28170 --- [traffic-control-service] [nio-8080-exec-1] c.v.t.services.RequestService            : Job submission succeeded jobId: 01a14a6b-7bbc-7e1d-a789-fcd11733cb98
+2026-10-17T20:42:00.457+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a6b-7bbc-7e1d-a789-fcd11733cb98, query start time: 1792249920456
+2026-10-17T20:42:00.457+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a6b-7bbc-7e1d-a789-fcd11733cb98 at 1792249920457
+2026-10-17T20:42:00.457+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a6b-7bbc-7e1d-a789-fcd11733cb98 1200ms sleep at 1792249920457
+2026-10-17T20:42:01.657+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792249921657
+2026-10-17T20:42:01.658+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a6b-7bbc-7e1d-a789-fcd11733cb98 at 1792249921658
+2026-10-17T20:42:01.658+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:42:01.908+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a6b-7bbc-7e1d-a789-fcd11733cb98 at 1792249921908
+2026-10-17T20:42:01.908+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a6b-7bbc-7e1d-a789-fcd11733cb98 worker detail: 726849293
+2026-10-17T20:42:08.072+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792249928071 ms
+2026-10-17T20:42:08.072+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a6b-7bbc-7e1d-a789-fcd11733cb98 at: 1792249928072
+2026-10-17T20:42:08.072+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a6b-7bbc-7e1d-a789-fcd11733cb98 at: 1792249928072
+2026-10-17T20:42:08.072+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a6b-7bbc-7e1d-a789-fcd11733cb98 at: 1792249928072
+2026-10-17T20:42:08.072+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] jobId:01a14a6b-7bbc-7e1d-a789-fcd11733cb98 at: 1792249928072 has been identified as a crash job and will be retried
+2026-10-17T20:42:08.108+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a6b-7bbc-7e1d-a789-fcd11733cb98, query start time: 1792249928107
+2026-10-17T20:42:08.108+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a6b-7bbc-7e1d-a789-fcd11733cb98 at 1792249928108
+2026-10-17T20:42:08.108+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a6b-7bbc-7e1d-a789-fcd11733cb98 1200ms sleep at 1792249928108
+2026-10-17T20:42:09.308+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792249929308
+2026-10-17T20:42:09.309+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a6b-7bbc-7e1d-a789-fcd11733cb98 at 1792249929309
+2026-10-17T20:42:09.309+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:42:09.559+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a6b-7bbc-7e1d-a789-fcd11733cb98 at 1792249929559
+2026-10-17T20:42:09.559+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a6b-7bbc-7e1d-a789-fcd11733cb98 worker detail: 745370324
+2026-10-17T20:42:13.073+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792249933073 ms
+2026-10-17T20:42:13.073+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a6b-7bbc-7e1d-a789-fcd11733cb98 at: 1792249933073
+2026-10-17T20:42:13.073+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a6b-7bbc-7e1d-a789-fcd11733cb98 at: 1792249933073
+2026-10-17T20:42:13.075+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a6b-7bbc-7e1d-a789-fcd11733cb98 at: 1792249933075
+2026-10-17T20:42:13.075+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Max retries exhausted and job is getting discarded: jobId: 01a14a6b-7bbc-7e1d-a789-fcd11733cb98 at: 1792249933075
+2026-10-17T20:42:13.075+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Discarding jobId: 01a14a6b-7bbc-7e1d-a789-fcd11733cb98, failureCause: HEARTBEAT_STOPPED
+2026-10-17T20:42:13.076+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Adding jobId: 01a14a6b-7bbc-7e1d-a789-fcd11733cb98 to DLQ with failure cause: HEARTBEAT_STOPPED
+2026-10-17T20:42:13.076+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.DlqService                : Adding entry to DLQ for jobId: 01a14a6b-7bbc-7e1d-a789-fcd11733cb98. Failure cause: HEARTBEAT_STOPPED
+Hibernate: 
+    select
+        fj1_0.job_id,
+        fj1_0.arrived_at,
+        fj1_0.discarded_at,
+        fj1_0.failure_cause,
+        fj1_0.first_tried_at,
+        fj1_0.job_tier,
+        fj1_0.total_retries 
+    from
+        failed_jobs fj1_0 
+    where
+        fj1_0.job_id=?
+Hibernate: 
+    insert 
+    into
+        failed_jobs
+        (arrived_at, discarded_at, failure_cause, first_tried_at, job_tier, total_retries, job_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-10-17T20:42:13.082+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : JobId:01a14a6b-7bbc-7e1d-a789-fcd11733cb98 discarded with ttl:600
+2026-10-17T20:42:13.082+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash scheduler] Job discarded, jobId: 01a14a6b-7bbc-7e1d-a789-fcd11733cb98, discarded at: 1792249933082
+2026-10-17T20:42:15.479+05:30  INFO 28170 --- [traffic-control-service] [nio-8080-exec-2] c.v.t.services.RequestService            : Trying new job admission, jobId: 01a14a6b-b677-7adb-82a9-cd8b06fbce73
+2026-10-17T20:42:15.480+05:30  INFO 28170 --- [traffic-control-service] [nio-8080-exec-2] c.v.t.services.RequestService            : Job submission succeeded jobId: 01a14a6b-b677-7adb-82a9-cd8b06fbce73
+2026-10-17T20:42:15.482+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a6b-b677-7adb-82a9-cd8b06fbce73, query start time: 1792249935482
+2026-10-17T20:42:15.482+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a6b-b677-7adb-82a9-cd8b06fbce73 at 1792249935482
+2026-10-17T20:42:15.482+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a6b-b677-7adb-82a9-cd8b06fbce73 1200ms sleep at 1792249935482
+2026-10-17T20:42:16.682+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792249936682
+2026-10-17T20:42:16.682+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a6b-b677-7adb-82a9-cd8b06fbce73 at 1792249936682
+2026-10-17T20:42:16.682+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:42:16.932+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a6b-b677-7adb-82a9-cd8b06fbce73 at 1792249936932
+2026-10-17T20:42:16.933+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a6b-b677-7adb-82a9-cd8b06fbce73 worker detail: 1712738805
+2026-10-17T20:42:23.083+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792249943083 ms
+2026-10-17T20:42:23.083+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a6b-b677-7adb-82a9-cd8b06fbce73 at: 1792249943083
+2026-10-17T20:42:23.083+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a6b-b677-7adb-82a9-cd8b06fbce73 at: 1792249943083
+2026-10-17T20:42:23.086+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a6b-b677-7adb-82a9-cd8b06fbce73 at: 1792249943086
+2026-10-17T20:42:23.086+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] jobId:01a14a6b-b677-7adb-82a9-cd8b06fbce73 at: 1792249943086 has been identified as a crash job and will be retried
+2026-10-17T20:42:23.093+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a6b-b677-7adb-82a9-cd8b06fbce73, query start time: 1792249943093
+2026-10-17T20:42:23.093+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a6b-b677-7adb-82a9-cd8b06fbce73 at 1792249943093
+2026-10-17T20:42:23.094+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a6b-b677-7adb-82a9-cd8b06fbce73 1200ms sleep at 1792249943094
+2026-10-17T20:42:24.294+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792249944294
+2026-10-17T20:42:24.294+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a6b-b677-7adb-82a9-cd8b06fbce73 at 1792249944294
+2026-10-17T20:42:24.294+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:42:24.544+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a6b-b677-7adb-82a9-cd8b06fbce73 at 1792249944544
+2026-10-17T20:42:24.544+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a6b-b677-7adb-82a9-cd8b06fbce73 worker detail: 402355862
+2026-10-17T20:42:28.086+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792249948086 ms
+2026-10-17T20:42:28.086+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a6b-b677-7adb-82a9-cd8b06fbce73 at: 1792249948086
+2026-10-17T20:42:28.086+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a6b-b677-7adb-82a9-cd8b06fbce73 at: 1792249948086
+2026-10-17T20:42:28.089+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a6b-b677-7adb-82a9-cd8b06fbce73 at: 1792249948089
+2026-10-17T20:42:28.089+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Max retries exhausted and job is getting discarded: jobId: 01a14a6b-b677-7adb-82a9-cd8b06fbce73 at: 1792249948089
+2026-10-17T20:42:28.089+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Discarding jobId: 01a14a6b-b677-7adb-82a9-cd8b06fbce73, failureCause: HEARTBEAT_STOPPED
+2026-10-17T20:42:28.089+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Adding jobId: 01a14a6b-b677-7adb-82a9-cd8b06fbce73 to DLQ with failure cause: HEARTBEAT_STOPPED
+2026-10-17T20:42:28.089+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.DlqService                : Adding entry to DLQ for jobId: 01a14a6b-b677-7adb-82a9-cd8b06fbce73. Failure cause: HEARTBEAT_STOPPED
+Hibernate: 
+    select
+        fj1_0.job_id,
+        fj1_0.arrived_at,
+        fj1_0.discarded_at,
+        fj1_0.failure_cause,
+        fj1_0.first_tried_at,
+        fj1_0.job_tier,
+        fj1_0.total_retries 
+    from
+        failed_jobs fj1_0 
+    where
+        fj1_0.job_id=?
+Hibernate: 
+    insert 
+    into
+        failed_jobs
+        (arrived_at, discarded_at, failure_cause, first_tried_at, job_tier, total_retries, job_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-10-17T20:42:28.097+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : JobId:01a14a6b-b677-7adb-82a9-cd8b06fbce73 discarded with ttl:600
+2026-10-17T20:42:28.097+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash scheduler] Job discarded, jobId: 01a14a6b-b677-7adb-82a9-cd8b06fbce73, discarded at: 1792249948097
+2026-10-17T20:42:30.506+05:30  INFO 28170 --- [traffic-control-service] [nio-8080-exec-4] c.v.t.services.RequestService            : Trying new job admission, jobId: 01a14a6b-f12a-7598-b8fe-944c74300e5c
+2026-10-17T20:42:30.508+05:30  INFO 28170 --- [traffic-control-service] [nio-8080-exec-4] c.v.t.services.RequestService            : Job submission succeeded jobId: 01a14a6b-f12a-7598-b8fe-944c74300e5c
+2026-10-17T20:42:30.572+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a6b-f12a-7598-b8fe-944c74300e5c, query start time: 1792249950572
+2026-10-17T20:42:30.572+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a6b-f12a-7598-b8fe-944c74300e5c at 1792249950572
+2026-10-17T20:42:30.572+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a6b-f12a-7598-b8fe-944c74300e5c 1200ms sleep at 1792249950572
+2026-10-17T20:42:31.773+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792249951773
+2026-10-17T20:42:31.773+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a6b-f12a-7598-b8fe-944c74300e5c at 1792249951773
+2026-10-17T20:42:31.773+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:42:32.023+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a6b-f12a-7598-b8fe-944c74300e5c at 1792249952023
+2026-10-17T20:42:32.023+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a6b-f12a-7598-b8fe-944c74300e5c worker detail: 157101887
+2026-10-17T20:42:38.098+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792249958097 ms
+2026-10-17T20:42:38.098+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a6b-f12a-7598-b8fe-944c74300e5c at: 1792249958098
+2026-10-17T20:42:38.098+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a6b-f12a-7598-b8fe-944c74300e5c at: 1792249958098
+2026-10-17T20:42:38.099+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a6b-f12a-7598-b8fe-944c74300e5c at: 1792249958099
+2026-10-17T20:42:38.099+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] jobId:01a14a6b-f12a-7598-b8fe-944c74300e5c at: 1792249958099 has been identified as a crash job and will be retried
+2026-10-17T20:42:38.129+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a6b-f12a-7598-b8fe-944c74300e5c, query start time: 1792249958129
+2026-10-17T20:42:38.129+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a6b-f12a-7598-b8fe-944c74300e5c at 1792249958129
+2026-10-17T20:42:38.129+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a6b-f12a-7598-b8fe-944c74300e5c 1200ms sleep at 1792249958129
+2026-10-17T20:42:39.330+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792249959330
+2026-10-17T20:42:39.330+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a6b-f12a-7598-b8fe-944c74300e5c at 1792249959330
+2026-10-17T20:42:39.330+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:42:39.580+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a6b-f12a-7598-b8fe-944c74300e5c at 1792249959580
+2026-10-17T20:42:39.580+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a6b-f12a-7598-b8fe-944c74300e5c worker detail: 245378530
+2026-10-17T20:42:43.099+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792249963099 ms
+2026-10-17T20:42:43.099+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a6b-f12a-7598-b8fe-944c74300e5c at: 1792249963099
+2026-10-17T20:42:43.099+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a6b-f12a-7598-b8fe-944c74300e5c at: 1792249963099
+2026-10-17T20:42:43.102+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a6b-f12a-7598-b8fe-944c74300e5c at: 1792249963102
+2026-10-17T20:42:43.102+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Max retries exhausted and job is getting discarded: jobId: 01a14a6b-f12a-7598-b8fe-944c74300e5c at: 1792249963102
+2026-10-17T20:42:43.102+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Discarding jobId: 01a14a6b-f12a-7598-b8fe-944c74300e5c, failureCause: HEARTBEAT_STOPPED
+2026-10-17T20:42:43.102+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Adding jobId: 01a14a6b-f12a-7598-b8fe-944c74300e5c to DLQ with failure cause: HEARTBEAT_STOPPED
+2026-10-17T20:42:43.102+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.DlqService                : Adding entry to DLQ for jobId: 01a14a6b-f12a-7598-b8fe-944c74300e5c. Failure cause: HEARTBEAT_STOPPED
+Hibernate: 
+    select
+        fj1_0.job_id,
+        fj1_0.arrived_at,
+        fj1_0.discarded_at,
+        fj1_0.failure_cause,
+        fj1_0.first_tried_at,
+        fj1_0.job_tier,
+        fj1_0.total_retries 
+    from
+        failed_jobs fj1_0 
+    where
+        fj1_0.job_id=?
+Hibernate: 
+    insert 
+    into
+        failed_jobs
+        (arrived_at, discarded_at, failure_cause, first_tried_at, job_tier, total_retries, job_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-10-17T20:42:43.110+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : JobId:01a14a6b-f12a-7598-b8fe-944c74300e5c discarded with ttl:600
+2026-10-17T20:42:43.110+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash scheduler] Job discarded, jobId: 01a14a6b-f12a-7598-b8fe-944c74300e5c, discarded at: 1792249963110
+2026-10-17T20:42:45.529+05:30  INFO 28170 --- [traffic-control-service] [nio-8080-exec-5] c.v.t.services.RequestService            : Trying new job admission, jobId: 01a14a6c-2bd9-7344-9cb0-abd3284f1276
+2026-10-17T20:42:45.530+05:30  INFO 28170 --- [traffic-control-service] [nio-8080-exec-5] c.v.t.services.RequestService            : Job submission succeeded jobId: 01a14a6c-2bd9-7344-9cb0-abd3284f1276
+2026-10-17T20:42:45.565+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a6c-2bd9-7344-9cb0-abd3284f1276, query start time: 1792249965564
+2026-10-17T20:42:45.565+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a6c-2bd9-7344-9cb0-abd3284f1276 at 1792249965565
+2026-10-17T20:42:45.565+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a6c-2bd9-7344-9cb0-abd3284f1276 1200ms sleep at 1792249965565
+2026-10-17T20:42:46.765+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792249966765
+2026-10-17T20:42:46.765+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a6c-2bd9-7344-9cb0-abd3284f1276 at 1792249966765
+2026-10-17T20:42:46.765+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:42:47.015+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a6c-2bd9-7344-9cb0-abd3284f1276 at 1792249967015
+2026-10-17T20:42:47.016+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a6c-2bd9-7344-9cb0-abd3284f1276 worker detail: 1337067916
+2026-10-17T20:42:53.111+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792249973111 ms
+2026-10-17T20:42:53.111+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a6c-2bd9-7344-9cb0-abd3284f1276 at: 1792249973111
+2026-10-17T20:42:53.112+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a6c-2bd9-7344-9cb0-abd3284f1276 at: 1792249973112
+2026-10-17T20:42:53.114+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a6c-2bd9-7344-9cb0-abd3284f1276 at: 1792249973114
+2026-10-17T20:42:53.114+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] jobId:01a14a6c-2bd9-7344-9cb0-abd3284f1276 at: 1792249973114 has been identified as a crash job and will be retried
+2026-10-17T20:42:53.114+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a6c-2bd9-7344-9cb0-abd3284f1276, query start time: 1792249973112
+2026-10-17T20:42:53.114+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a6c-2bd9-7344-9cb0-abd3284f1276 at 1792249973114
+2026-10-17T20:42:53.114+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a6c-2bd9-7344-9cb0-abd3284f1276 1200ms sleep at 1792249973114
+2026-10-17T20:42:54.314+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792249974314
+2026-10-17T20:42:54.314+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a6c-2bd9-7344-9cb0-abd3284f1276 at 1792249974314
+2026-10-17T20:42:54.314+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:42:54.565+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a6c-2bd9-7344-9cb0-abd3284f1276 at 1792249974565
+2026-10-17T20:42:54.565+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-1] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a6c-2bd9-7344-9cb0-abd3284f1276 worker detail: 79181698
+2026-10-17T20:42:58.115+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792249978114 ms
+2026-10-17T20:42:58.115+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a6c-2bd9-7344-9cb0-abd3284f1276 at: 1792249978115
+2026-10-17T20:42:58.115+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a6c-2bd9-7344-9cb0-abd3284f1276 at: 1792249978115
+2026-10-17T20:42:58.117+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a6c-2bd9-7344-9cb0-abd3284f1276 at: 1792249978117
+2026-10-17T20:42:58.117+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Max retries exhausted and job is getting discarded: jobId: 01a14a6c-2bd9-7344-9cb0-abd3284f1276 at: 1792249978117
+2026-10-17T20:42:58.117+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Discarding jobId: 01a14a6c-2bd9-7344-9cb0-abd3284f1276, failureCause: HEARTBEAT_STOPPED
+2026-10-17T20:42:58.117+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Adding jobId: 01a14a6c-2bd9-7344-9cb0-abd3284f1276 to DLQ with failure cause: HEARTBEAT_STOPPED
+2026-10-17T20:42:58.117+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.DlqService                : Adding entry to DLQ for jobId: 01a14a6c-2bd9-7344-9cb0-abd3284f1276. Failure cause: HEARTBEAT_STOPPED
+Hibernate: 
+    select
+        fj1_0.job_id,
+        fj1_0.arrived_at,
+        fj1_0.discarded_at,
+        fj1_0.failure_cause,
+        fj1_0.first_tried_at,
+        fj1_0.job_tier,
+        fj1_0.total_retries 
+    from
+        failed_jobs fj1_0 
+    where
+        fj1_0.job_id=?
+Hibernate: 
+    insert 
+    into
+        failed_jobs
+        (arrived_at, discarded_at, failure_cause, first_tried_at, job_tier, total_retries, job_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-10-17T20:42:58.126+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : JobId:01a14a6c-2bd9-7344-9cb0-abd3284f1276 discarded with ttl:600
+2026-10-17T20:42:58.126+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash scheduler] Job discarded, jobId: 01a14a6c-2bd9-7344-9cb0-abd3284f1276, discarded at: 1792249978126
+2026-10-17T20:43:00.549+05:30  INFO 28170 --- [traffic-control-service] [nio-8080-exec-6] c.v.t.services.RequestService            : Trying new job admission, jobId: 01a14a6c-6685-7f8b-87b9-0b1517c3c535
+2026-10-17T20:43:00.550+05:30  INFO 28170 --- [traffic-control-service] [nio-8080-exec-6] c.v.t.services.RequestService            : Job submission succeeded jobId: 01a14a6c-6685-7f8b-87b9-0b1517c3c535
+2026-10-17T20:43:00.572+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a6c-6685-7f8b-87b9-0b1517c3c535, query start time: 1792249980571
+2026-10-17T20:43:00.572+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a6c-6685-7f8b-87b9-0b1517c3c535 at 1792249980572
+2026-10-17T20:43:00.572+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a6c-6685-7f8b-87b9-0b1517c3c535 1200ms sleep at 1792249980572
+2026-10-17T20:43:01.772+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792249981772
+2026-10-17T20:43:01.773+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a6c-6685-7f8b-87b9-0b1517c3c535 at 1792249981773
+2026-10-17T20:43:01.773+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:43:02.023+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a6c-6685-7f8b-87b9-0b1517c3c535 at 1792249982023
+2026-10-17T20:43:02.023+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a6c-6685-7f8b-87b9-0b1517c3c535 worker detail: 549504696
+2026-10-17T20:43:08.127+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792249988126 ms
+2026-10-17T20:43:08.127+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a6c-6685-7f8b-87b9-0b1517c3c535 at: 1792249988127
+2026-10-17T20:43:08.127+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a6c-6685-7f8b-87b9-0b1517c3c535 at: 1792249988127
+2026-10-17T20:43:08.128+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a6c-6685-7f8b-87b9-0b1517c3c535 at: 1792249988128
+2026-10-17T20:43:08.128+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] jobId:01a14a6c-6685-7f8b-87b9-0b1517c3c535 at: 1792249988128 has been identified as a crash job and will be retried
+2026-10-17T20:43:08.149+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a6c-6685-7f8b-87b9-0b1517c3c535, query start time: 1792249988148
+2026-10-17T20:43:08.149+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a6c-6685-7f8b-87b9-0b1517c3c535 at 1792249988149
+2026-10-17T20:43:08.149+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a6c-6685-7f8b-87b9-0b1517c3c535 1200ms sleep at 1792249988149
+2026-10-17T20:43:09.349+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792249989349
+2026-10-17T20:43:09.349+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a6c-6685-7f8b-87b9-0b1517c3c535 at 1792249989349
+2026-10-17T20:43:09.349+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:43:09.599+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a6c-6685-7f8b-87b9-0b1517c3c535 at 1792249989599
+2026-10-17T20:43:09.600+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a6c-6685-7f8b-87b9-0b1517c3c535 worker detail: 278443551
+2026-10-17T20:43:13.128+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792249993128 ms
+2026-10-17T20:43:13.128+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a6c-6685-7f8b-87b9-0b1517c3c535 at: 1792249993128
+2026-10-17T20:43:13.128+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a6c-6685-7f8b-87b9-0b1517c3c535 at: 1792249993128
+2026-10-17T20:43:13.129+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a6c-6685-7f8b-87b9-0b1517c3c535 at: 1792249993129
+2026-10-17T20:43:13.129+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Max retries exhausted and job is getting discarded: jobId: 01a14a6c-6685-7f8b-87b9-0b1517c3c535 at: 1792249993129
+2026-10-17T20:43:13.129+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Discarding jobId: 01a14a6c-6685-7f8b-87b9-0b1517c3c535, failureCause: HEARTBEAT_STOPPED
+2026-10-17T20:43:13.129+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Adding jobId: 01a14a6c-6685-7f8b-87b9-0b1517c3c535 to DLQ with failure cause: HEARTBEAT_STOPPED
+2026-10-17T20:43:13.129+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.DlqService                : Adding entry to DLQ for jobId: 01a14a6c-6685-7f8b-87b9-0b1517c3c535. Failure cause: HEARTBEAT_STOPPED
+Hibernate: 
+    select
+        fj1_0.job_id,
+        fj1_0.arrived_at,
+        fj1_0.discarded_at,
+        fj1_0.failure_cause,
+        fj1_0.first_tried_at,
+        fj1_0.job_tier,
+        fj1_0.total_retries 
+    from
+        failed_jobs fj1_0 
+    where
+        fj1_0.job_id=?
+Hibernate: 
+    insert 
+    into
+        failed_jobs
+        (arrived_at, discarded_at, failure_cause, first_tried_at, job_tier, total_retries, job_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-10-17T20:43:13.139+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : JobId:01a14a6c-6685-7f8b-87b9-0b1517c3c535 discarded with ttl:600
+2026-10-17T20:43:13.139+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash scheduler] Job discarded, jobId: 01a14a6c-6685-7f8b-87b9-0b1517c3c535, discarded at: 1792249993139
+2026-10-17T20:43:15.577+05:30  INFO 28170 --- [traffic-control-service] [nio-8080-exec-7] c.v.t.services.RequestService            : Trying new job admission, jobId: 01a14a6c-a139-7fbc-8973-3ebfc7632c35
+2026-10-17T20:43:15.578+05:30  INFO 28170 --- [traffic-control-service] [nio-8080-exec-7] c.v.t.services.RequestService            : Job submission succeeded jobId: 01a14a6c-a139-7fbc-8973-3ebfc7632c35
+2026-10-17T20:43:15.631+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a6c-a139-7fbc-8973-3ebfc7632c35, query start time: 1792249995630
+2026-10-17T20:43:15.631+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a6c-a139-7fbc-8973-3ebfc7632c35 at 1792249995631
+2026-10-17T20:43:15.631+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a6c-a139-7fbc-8973-3ebfc7632c35 1200ms sleep at 1792249995631
+2026-10-17T20:43:16.831+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792249996831
+2026-10-17T20:43:16.831+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a6c-a139-7fbc-8973-3ebfc7632c35 at 1792249996831
+2026-10-17T20:43:16.831+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:43:17.081+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a6c-a139-7fbc-8973-3ebfc7632c35 at 1792249997081
+2026-10-17T20:43:17.081+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-2] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a6c-a139-7fbc-8973-3ebfc7632c35 worker detail: 621416561
+2026-10-17T20:43:23.140+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792250003140 ms
+2026-10-17T20:43:23.140+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a6c-a139-7fbc-8973-3ebfc7632c35 at: 1792250003140
+2026-10-17T20:43:23.140+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a6c-a139-7fbc-8973-3ebfc7632c35 at: 1792250003140
+2026-10-17T20:43:23.143+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a6c-a139-7fbc-8973-3ebfc7632c35 at: 1792250003143
+2026-10-17T20:43:23.143+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] jobId:01a14a6c-a139-7fbc-8973-3ebfc7632c35 at: 1792250003143 has been identified as a crash job and will be retried
+2026-10-17T20:43:23.176+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a6c-a139-7fbc-8973-3ebfc7632c35, query start time: 1792250003175
+2026-10-17T20:43:23.176+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a6c-a139-7fbc-8973-3ebfc7632c35 at 1792250003176
+2026-10-17T20:43:23.176+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a6c-a139-7fbc-8973-3ebfc7632c35 1200ms sleep at 1792250003176
+2026-10-17T20:43:24.376+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792250004376
+2026-10-17T20:43:24.376+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Exception throw called for jobId: 01a14a6c-a139-7fbc-8973-3ebfc7632c35 at 1792250004376
+2026-10-17T20:43:24.376+05:30 ERROR 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : Unexpected error in worker loop, exception message: Simulated Exception during heart beat
+2026-10-17T20:43:24.626+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a6c-a139-7fbc-8973-3ebfc7632c35 at 1792250004626
+2026-10-17T20:43:24.626+05:30  INFO 28170 --- [traffic-control-service] [pool-4-thread-3] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a6c-a139-7fbc-8973-3ebfc7632c35 worker detail: 335702587
+2026-10-17T20:43:28.143+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : Recovering crashed jobs at currentTime 1792250008143 ms
+2026-10-17T20:43:28.144+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Attempting to recover jobId: 01a14a6c-a139-7fbc-8973-3ebfc7632c35 at: 1792250008144
+2026-10-17T20:43:28.144+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] performing recoverOneJob script for jobId: 01a14a6c-a139-7fbc-8973-3ebfc7632c35 at: 1792250008144
+2026-10-17T20:43:28.146+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Job recovery result for jobId: 01a14a6c-a139-7fbc-8973-3ebfc7632c35 at: 1792250008146
+2026-10-17T20:43:28.146+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash Scheduler] Max retries exhausted and job is getting discarded: jobId: 01a14a6c-a139-7fbc-8973-3ebfc7632c35 at: 1792250008146
+2026-10-17T20:43:28.146+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Discarding jobId: 01a14a6c-a139-7fbc-8973-3ebfc7632c35, failureCause: HEARTBEAT_STOPPED
+2026-10-17T20:43:28.146+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Adding jobId: 01a14a6c-a139-7fbc-8973-3ebfc7632c35 to DLQ with failure cause: HEARTBEAT_STOPPED
+2026-10-17T20:43:28.146+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.DlqService                : Adding entry to DLQ for jobId: 01a14a6c-a139-7fbc-8973-3ebfc7632c35. Failure cause: HEARTBEAT_STOPPED
+Hibernate: 
+    select
+        fj1_0.job_id,
+        fj1_0.arrived_at,
+        fj1_0.discarded_at,
+        fj1_0.failure_cause,
+        fj1_0.first_tried_at,
+        fj1_0.job_tier,
+        fj1_0.total_retries 
+    from
+        failed_jobs fj1_0 
+    where
+        fj1_0.job_id=?
+Hibernate: 
+    insert 
+    into
+        failed_jobs
+        (arrived_at, discarded_at, failure_cause, first_tried_at, job_tier, total_retries, job_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-10-17T20:43:28.154+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : JobId:01a14a6c-a139-7fbc-8973-3ebfc7632c35 discarded with ttl:600
+2026-10-17T20:43:28.154+05:30  INFO 28170 --- [traffic-control-service] [   scheduling-1] c.v.t.services.CrashJobRecoveryService   : [Crash scheduler] Job discarded, jobId: 01a14a6c-a139-7fbc-8973-3ebfc7632c35, discarded at: 1792250008154

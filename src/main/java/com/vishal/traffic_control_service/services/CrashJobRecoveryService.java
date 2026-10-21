@@ -61,7 +61,7 @@ public class CrashJobRecoveryService {
     }
 
     private void recoverOneCrashJob(String jobId) {
-        log.info("Attempting to recover crash job with jobId: {}", jobId);
+        log.info("[Crash Scheduler] Attempting to recover jobId: {}", jobId);
 
         List<String> recoverOneCrashJobKeys =  List.of(
                 RedisKeys.getMainQueueKey(),
@@ -72,23 +72,28 @@ public class CrashJobRecoveryService {
                 RedisKeys.getSystemCapacityKey()
         );
 
+        log.info("[Crash Scheduler] performing recoverOneJob script for jobId: {}", jobId);
         String status =  jobRecoveryRepository.recoverOneJob(
                 LuaScripts.getRecoverOneJobScript(),
                 recoverOneCrashJobKeys,
                 jobId
         );
 
+        log.info("[Crash Scheduler] Job recovery result for jobId: {}", jobId);
+
         if (status == null || status.isEmpty() || JobStatus.fromString(status).equals(JobStatus.NEED_DISCARD)) {
-            log.info("Job with jobId:{} is identified as a crash job and needs to be discarded. Status after recovery attempt: {}", jobId, status);
+            log.info("[Crash Scheduler] Max retries exhausted and job is getting discarded: jobId: {}", jobId);
 
             jobDiscardService.discard(
                     UUID.fromString(jobId),
                     FailureCause.HEARTBEAT_STOPPED,
                     systemConfigs.getTtlOfFailedJobSeconds());
+
+            log.info("[Crash scheduler] Job discarded, jobId: {}", jobId);
             return;
         }
 
-        log.info("Job with jobId:{} is identified as a crash job. Status after recovery attempt: {}", jobId, status);
+        log.info("[Crash Scheduler] jobId:{} has been identified as a crash job and will be retried", jobId);
     }
 
 }

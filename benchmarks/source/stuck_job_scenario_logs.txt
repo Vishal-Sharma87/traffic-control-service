@@ -1,0 +1,793 @@
+2026-10-17T21:12:57.006+05:30  INFO 43631 --- [traffic-control-service] [nio-8080-exec-1] c.v.t.services.RequestService            : Trying new job admission, jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a
+2026-10-17T21:12:57.009+05:30  INFO 43631 --- [traffic-control-service] [nio-8080-exec-1] c.v.t.services.RequestService            : Job submission succeeded jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a
+2026-10-17T21:12:57.099+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a, query start time: 1792251777097
+2026-10-17T21:12:57.099+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a at 1792251777099
+2026-10-17T21:12:57.100+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a 35s sleep at 1792251777100
+2026-10-17T21:13:10.339+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : Attempting to recover stuck job with jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a
+2026-10-17T21:13:10.339+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] performing recoverOneJob script for jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a at: 1792251790339
+2026-10-17T21:13:10.340+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] recoverOneJob script ends for jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a at: 1792251790340
+2026-10-17T21:13:10.341+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] jobId:01a14a87-cfee-723a-9b35-da410e6afb4a at: 1792251790341 has been identified as a stuck job and will be retried
+2026-10-17T21:13:10.369+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a, query start time: 1792251790368
+2026-10-17T21:13:10.369+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a at 1792251790369
+2026-10-17T21:13:10.369+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a worker detail: 752656591
+2026-10-17T21:13:10.369+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a 35s sleep at 1792251790369
+2026-10-17T21:13:25.342+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : Attempting to recover stuck job with jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a
+2026-10-17T21:13:25.342+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] performing recoverOneJob script for jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a at: 1792251805342
+2026-10-17T21:13:25.343+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] recoverOneJob script ends for jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a at: 1792251805343
+2026-10-17T21:13:25.343+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] Max retries exhausted and job is getting discarded: jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a at: 1792251805343
+2026-10-17T21:13:25.343+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Discarding jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a, failureCause: MAX_TIME_EXCEEDED
+2026-10-17T21:13:25.345+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Adding jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a to DLQ with failure cause: MAX_TIME_EXCEEDED
+2026-10-17T21:13:25.346+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.DlqService                : Adding entry to DLQ for jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a. Failure cause: MAX_TIME_EXCEEDED
+Hibernate: 
+    select
+        fj1_0.job_id,
+        fj1_0.arrived_at,
+        fj1_0.discarded_at,
+        fj1_0.failure_cause,
+        fj1_0.first_tried_at,
+        fj1_0.job_tier,
+        fj1_0.total_retries 
+    from
+        failed_jobs fj1_0 
+    where
+        fj1_0.job_id=?
+Hibernate: 
+    insert 
+    into
+        failed_jobs
+        (arrived_at, discarded_at, failure_cause, first_tried_at, job_tier, total_retries, job_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-10-17T21:13:25.446+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : JobId:01a14a87-cfee-723a-9b35-da410e6afb4a discarded with ttl:600
+2026-10-17T21:13:25.446+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a discarded at: 1792251805446
+2026-10-17T21:13:32.100+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792251812100
+2026-10-17T21:13:32.101+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write start for jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a at 1792251812101
+2026-10-17T21:13:32.102+05:30  WARN 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.services.ResultService             : Job status mismatch, discarding save, jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a
+2026-10-17T21:13:32.102+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write ends at 1792251812102
+2026-10-17T21:13:32.102+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Performing completeProcessingScript for jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a at 1792251812102
+2026-10-17T21:13:32.102+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.CurrentProcessingJobService      : Completing processing for job 01a14a87-cfee-723a-9b35-da410e6afb4a
+2026-10-17T21:13:32.105+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.CurrentProcessingJobService      : Job completed and set ttl as 86400
+2026-10-17T21:13:32.105+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] completeProcessingScript succeeds for jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a at 1792251812105
+2026-10-17T21:13:32.105+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a at 1792251812105
+2026-10-17T21:13:32.105+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a worker detail: 1200045243
+2026-10-17T21:13:45.369+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792251825369
+2026-10-17T21:13:45.369+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write start for jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a at 1792251825369
+2026-10-17T21:13:45.370+05:30  WARN 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.services.ResultService             : Job status mismatch, discarding save, jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a
+2026-10-17T21:13:45.370+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write ends at 1792251825370
+2026-10-17T21:13:45.370+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Performing completeProcessingScript for jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a at 1792251825370
+2026-10-17T21:13:45.370+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.CurrentProcessingJobService      : Completing processing for job 01a14a87-cfee-723a-9b35-da410e6afb4a
+2026-10-17T21:13:45.371+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.CurrentProcessingJobService      : Job completed and set ttl as 86400
+2026-10-17T21:13:45.371+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] completeProcessingScript succeeds for jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a at 1792251825371
+2026-10-17T21:13:45.371+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a87-cfee-723a-9b35-da410e6afb4a at 1792251825371
+2026-10-17T21:13:53.085+05:30  INFO 43631 --- [traffic-control-service] [nio-8080-exec-2] c.v.t.services.RequestService            : Trying new job admission, jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c
+2026-10-17T21:13:53.085+05:30  INFO 43631 --- [traffic-control-service] [nio-8080-exec-2] c.v.t.services.RequestService            : Job submission succeeded jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c
+2026-10-17T21:13:53.087+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c, query start time: 1792251833086
+2026-10-17T21:13:53.087+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c at 1792251833087
+2026-10-17T21:13:53.087+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c 35s sleep at 1792251833087
+2026-10-17T21:14:05.450+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : Attempting to recover stuck job with jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c
+2026-10-17T21:14:05.450+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] performing recoverOneJob script for jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c at: 1792251845450
+2026-10-17T21:14:05.450+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] recoverOneJob script ends for jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c at: 1792251845450
+2026-10-17T21:14:05.450+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] jobId:01a14a88-aafc-71cc-8c98-7ea1c8a3962c at: 1792251845450 has been identified as a stuck job and will be retried
+2026-10-17T21:14:05.451+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c, query start time: 1792251845450
+2026-10-17T21:14:05.451+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c at 1792251845451
+2026-10-17T21:14:05.451+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c worker detail: 2142735821
+2026-10-17T21:14:05.451+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c 35s sleep at 1792251845451
+2026-10-17T21:14:15.453+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : Attempting to recover stuck job with jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c
+2026-10-17T21:14:15.453+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] performing recoverOneJob script for jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c at: 1792251855453
+2026-10-17T21:14:15.454+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] recoverOneJob script ends for jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c at: 1792251855454
+2026-10-17T21:14:15.454+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] Max retries exhausted and job is getting discarded: jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c at: 1792251855454
+2026-10-17T21:14:15.454+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Discarding jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c, failureCause: MAX_TIME_EXCEEDED
+2026-10-17T21:14:15.454+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Adding jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c to DLQ with failure cause: MAX_TIME_EXCEEDED
+2026-10-17T21:14:15.454+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.DlqService                : Adding entry to DLQ for jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c. Failure cause: MAX_TIME_EXCEEDED
+Hibernate: 
+    select
+        fj1_0.job_id,
+        fj1_0.arrived_at,
+        fj1_0.discarded_at,
+        fj1_0.failure_cause,
+        fj1_0.first_tried_at,
+        fj1_0.job_tier,
+        fj1_0.total_retries 
+    from
+        failed_jobs fj1_0 
+    where
+        fj1_0.job_id=?
+Hibernate: 
+    insert 
+    into
+        failed_jobs
+        (arrived_at, discarded_at, failure_cause, first_tried_at, job_tier, total_retries, job_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-10-17T21:14:15.466+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : JobId:01a14a88-aafc-71cc-8c98-7ea1c8a3962c discarded with ttl:600
+2026-10-17T21:14:15.467+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c discarded at: 1792251855467
+2026-10-17T21:14:28.087+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792251868087
+2026-10-17T21:14:28.087+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write start for jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c at 1792251868087
+2026-10-17T21:14:28.088+05:30  WARN 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.services.ResultService             : Job status mismatch, discarding save, jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c
+2026-10-17T21:14:28.088+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write ends at 1792251868088
+2026-10-17T21:14:28.088+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Performing completeProcessingScript for jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c at 1792251868088
+2026-10-17T21:14:28.088+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.CurrentProcessingJobService      : Completing processing for job 01a14a88-aafc-71cc-8c98-7ea1c8a3962c
+2026-10-17T21:14:28.090+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.CurrentProcessingJobService      : Job completed and set ttl as 86400
+2026-10-17T21:14:28.090+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] completeProcessingScript succeeds for jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c at 1792251868090
+2026-10-17T21:14:28.090+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c at 1792251868090
+2026-10-17T21:14:28.090+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c worker detail: 2013973545
+2026-10-17T21:14:40.451+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792251880451
+2026-10-17T21:14:40.451+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write start for jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c at 1792251880451
+2026-10-17T21:14:40.452+05:30  WARN 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.services.ResultService             : Job status mismatch, discarding save, jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c
+2026-10-17T21:14:40.452+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write ends at 1792251880452
+2026-10-17T21:14:40.452+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Performing completeProcessingScript for jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c at 1792251880452
+2026-10-17T21:14:40.452+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.CurrentProcessingJobService      : Completing processing for job 01a14a88-aafc-71cc-8c98-7ea1c8a3962c
+2026-10-17T21:14:40.454+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.CurrentProcessingJobService      : Job completed and set ttl as 86400
+2026-10-17T21:14:40.454+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] completeProcessingScript succeeds for jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c at 1792251880454
+2026-10-17T21:14:40.454+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a88-aafc-71cc-8c98-7ea1c8a3962c at 1792251880454
+2026-10-17T21:14:49.105+05:30  INFO 43631 --- [traffic-control-service] [nio-8080-exec-3] c.v.t.services.RequestService            : Trying new job admission, jobId: 01a14a89-85d1-77b4-877b-3920ac819596
+2026-10-17T21:14:49.108+05:30  INFO 43631 --- [traffic-control-service] [nio-8080-exec-3] c.v.t.services.RequestService            : Job submission succeeded jobId: 01a14a89-85d1-77b4-877b-3920ac819596
+2026-10-17T21:14:49.137+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a89-85d1-77b4-877b-3920ac819596, query start time: 1792251889137
+2026-10-17T21:14:49.138+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a89-85d1-77b4-877b-3920ac819596 at 1792251889138
+2026-10-17T21:14:49.138+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a89-85d1-77b4-877b-3920ac819596 35s sleep at 1792251889138
+2026-10-17T21:15:00.471+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : Attempting to recover stuck job with jobId: 01a14a89-85d1-77b4-877b-3920ac819596
+2026-10-17T21:15:00.471+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] performing recoverOneJob script for jobId: 01a14a89-85d1-77b4-877b-3920ac819596 at: 1792251900471
+2026-10-17T21:15:00.472+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] recoverOneJob script ends for jobId: 01a14a89-85d1-77b4-877b-3920ac819596 at: 1792251900472
+2026-10-17T21:15:00.472+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] jobId:01a14a89-85d1-77b4-877b-3920ac819596 at: 1792251900472 has been identified as a stuck job and will be retried
+2026-10-17T21:15:00.546+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a89-85d1-77b4-877b-3920ac819596, query start time: 1792251900546
+2026-10-17T21:15:00.546+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a89-85d1-77b4-877b-3920ac819596 at 1792251900546
+2026-10-17T21:15:00.546+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a89-85d1-77b4-877b-3920ac819596 worker detail: 1139650448
+2026-10-17T21:15:00.546+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a89-85d1-77b4-877b-3920ac819596 35s sleep at 1792251900546
+2026-10-17T21:15:15.474+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : Attempting to recover stuck job with jobId: 01a14a89-85d1-77b4-877b-3920ac819596
+2026-10-17T21:15:15.474+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] performing recoverOneJob script for jobId: 01a14a89-85d1-77b4-877b-3920ac819596 at: 1792251915474
+2026-10-17T21:15:15.474+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] recoverOneJob script ends for jobId: 01a14a89-85d1-77b4-877b-3920ac819596 at: 1792251915474
+2026-10-17T21:15:15.474+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] Max retries exhausted and job is getting discarded: jobId: 01a14a89-85d1-77b4-877b-3920ac819596 at: 1792251915474
+2026-10-17T21:15:15.474+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Discarding jobId: 01a14a89-85d1-77b4-877b-3920ac819596, failureCause: MAX_TIME_EXCEEDED
+2026-10-17T21:15:15.475+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Adding jobId: 01a14a89-85d1-77b4-877b-3920ac819596 to DLQ with failure cause: MAX_TIME_EXCEEDED
+2026-10-17T21:15:15.475+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.DlqService                : Adding entry to DLQ for jobId: 01a14a89-85d1-77b4-877b-3920ac819596. Failure cause: MAX_TIME_EXCEEDED
+Hibernate: 
+    select
+        fj1_0.job_id,
+        fj1_0.arrived_at,
+        fj1_0.discarded_at,
+        fj1_0.failure_cause,
+        fj1_0.first_tried_at,
+        fj1_0.job_tier,
+        fj1_0.total_retries 
+    from
+        failed_jobs fj1_0 
+    where
+        fj1_0.job_id=?
+Hibernate: 
+    insert 
+    into
+        failed_jobs
+        (arrived_at, discarded_at, failure_cause, first_tried_at, job_tier, total_retries, job_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-10-17T21:15:15.482+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : JobId:01a14a89-85d1-77b4-877b-3920ac819596 discarded with ttl:600
+2026-10-17T21:15:15.482+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] jobId: 01a14a89-85d1-77b4-877b-3920ac819596 discarded at: 1792251915482
+2026-10-17T21:15:24.138+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792251924138
+2026-10-17T21:15:24.138+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write start for jobId: 01a14a89-85d1-77b4-877b-3920ac819596 at 1792251924138
+2026-10-17T21:15:24.139+05:30  WARN 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.services.ResultService             : Job status mismatch, discarding save, jobId: 01a14a89-85d1-77b4-877b-3920ac819596
+2026-10-17T21:15:24.139+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write ends at 1792251924139
+2026-10-17T21:15:24.139+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Performing completeProcessingScript for jobId: 01a14a89-85d1-77b4-877b-3920ac819596 at 1792251924139
+2026-10-17T21:15:24.139+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.CurrentProcessingJobService      : Completing processing for job 01a14a89-85d1-77b4-877b-3920ac819596
+2026-10-17T21:15:24.141+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.CurrentProcessingJobService      : Job completed and set ttl as 86400
+2026-10-17T21:15:24.141+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] completeProcessingScript succeeds for jobId: 01a14a89-85d1-77b4-877b-3920ac819596 at 1792251924141
+2026-10-17T21:15:24.141+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a89-85d1-77b4-877b-3920ac819596 at 1792251924141
+2026-10-17T21:15:24.141+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a89-85d1-77b4-877b-3920ac819596 worker detail: 402602271
+2026-10-17T21:15:35.546+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792251935546
+2026-10-17T21:15:35.546+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write start for jobId: 01a14a89-85d1-77b4-877b-3920ac819596 at 1792251935546
+2026-10-17T21:15:35.547+05:30  WARN 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.services.ResultService             : Job status mismatch, discarding save, jobId: 01a14a89-85d1-77b4-877b-3920ac819596
+2026-10-17T21:15:35.547+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write ends at 1792251935547
+2026-10-17T21:15:35.547+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Performing completeProcessingScript for jobId: 01a14a89-85d1-77b4-877b-3920ac819596 at 1792251935547
+2026-10-17T21:15:35.547+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.CurrentProcessingJobService      : Completing processing for job 01a14a89-85d1-77b4-877b-3920ac819596
+2026-10-17T21:15:35.550+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.CurrentProcessingJobService      : Job completed and set ttl as 86400
+2026-10-17T21:15:35.550+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] completeProcessingScript succeeds for jobId: 01a14a89-85d1-77b4-877b-3920ac819596 at 1792251935550
+2026-10-17T21:15:35.550+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a89-85d1-77b4-877b-3920ac819596 at 1792251935550
+2026-10-17T21:15:45.127+05:30  INFO 43631 --- [traffic-control-service] [nio-8080-exec-4] c.v.t.services.RequestService            : Trying new job admission, jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3
+2026-10-17T21:15:45.130+05:30  INFO 43631 --- [traffic-control-service] [nio-8080-exec-4] c.v.t.services.RequestService            : Job submission succeeded jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3
+2026-10-17T21:15:45.141+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3, query start time: 1792251945141
+2026-10-17T21:15:45.141+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3 at 1792251945141
+2026-10-17T21:15:45.141+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3 35s sleep at 1792251945141
+2026-10-17T21:15:55.486+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : Attempting to recover stuck job with jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3
+2026-10-17T21:15:55.486+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] performing recoverOneJob script for jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3 at: 1792251955486
+2026-10-17T21:15:55.486+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] recoverOneJob script ends for jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3 at: 1792251955486
+2026-10-17T21:15:55.486+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] jobId:01a14a8a-60a6-76e5-9b18-c285d5cecbc3 at: 1792251955486 has been identified as a stuck job and will be retried
+2026-10-17T21:15:55.487+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3, query start time: 1792251955487
+2026-10-17T21:15:55.487+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3 at 1792251955487
+2026-10-17T21:15:55.487+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3 worker detail: 903669937
+2026-10-17T21:15:55.487+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3 35s sleep at 1792251955487
+2026-10-17T21:16:05.487+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : Attempting to recover stuck job with jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3
+2026-10-17T21:16:05.487+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] performing recoverOneJob script for jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3 at: 1792251965487
+2026-10-17T21:16:05.488+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] recoverOneJob script ends for jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3 at: 1792251965488
+2026-10-17T21:16:05.488+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] Max retries exhausted and job is getting discarded: jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3 at: 1792251965488
+2026-10-17T21:16:05.488+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Discarding jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3, failureCause: MAX_TIME_EXCEEDED
+2026-10-17T21:16:05.488+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Adding jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3 to DLQ with failure cause: MAX_TIME_EXCEEDED
+2026-10-17T21:16:05.488+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.DlqService                : Adding entry to DLQ for jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3. Failure cause: MAX_TIME_EXCEEDED
+Hibernate: 
+    select
+        fj1_0.job_id,
+        fj1_0.arrived_at,
+        fj1_0.discarded_at,
+        fj1_0.failure_cause,
+        fj1_0.first_tried_at,
+        fj1_0.job_tier,
+        fj1_0.total_retries 
+    from
+        failed_jobs fj1_0 
+    where
+        fj1_0.job_id=?
+Hibernate: 
+    insert 
+    into
+        failed_jobs
+        (arrived_at, discarded_at, failure_cause, first_tried_at, job_tier, total_retries, job_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-10-17T21:16:05.495+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : JobId:01a14a8a-60a6-76e5-9b18-c285d5cecbc3 discarded with ttl:600
+2026-10-17T21:16:05.496+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3 discarded at: 1792251965496
+2026-10-17T21:16:20.142+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792251980141
+2026-10-17T21:16:20.142+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write start for jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3 at 1792251980142
+2026-10-17T21:16:20.142+05:30  WARN 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.services.ResultService             : Job status mismatch, discarding save, jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3
+2026-10-17T21:16:20.142+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write ends at 1792251980142
+2026-10-17T21:16:20.142+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Performing completeProcessingScript for jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3 at 1792251980142
+2026-10-17T21:16:20.142+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.CurrentProcessingJobService      : Completing processing for job 01a14a8a-60a6-76e5-9b18-c285d5cecbc3
+2026-10-17T21:16:20.145+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.CurrentProcessingJobService      : Job completed and set ttl as 86400
+2026-10-17T21:16:20.145+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] completeProcessingScript succeeds for jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3 at 1792251980145
+2026-10-17T21:16:20.145+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3 at 1792251980145
+2026-10-17T21:16:20.145+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3 worker detail: 1828326289
+2026-10-17T21:16:30.487+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792251990487
+2026-10-17T21:16:30.487+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write start for jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3 at 1792251990487
+2026-10-17T21:16:30.488+05:30  WARN 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.services.ResultService             : Job status mismatch, discarding save, jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3
+2026-10-17T21:16:30.488+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write ends at 1792251990488
+2026-10-17T21:16:30.488+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Performing completeProcessingScript for jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3 at 1792251990488
+2026-10-17T21:16:30.488+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.CurrentProcessingJobService      : Completing processing for job 01a14a8a-60a6-76e5-9b18-c285d5cecbc3
+2026-10-17T21:16:30.489+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.CurrentProcessingJobService      : Job completed and set ttl as 86400
+2026-10-17T21:16:30.489+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] completeProcessingScript succeeds for jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3 at 1792251990489
+2026-10-17T21:16:30.489+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a8a-60a6-76e5-9b18-c285d5cecbc3 at 1792251990489
+2026-10-17T21:16:41.152+05:30  INFO 43631 --- [traffic-control-service] [nio-8080-exec-5] c.v.t.services.RequestService            : Trying new job admission, jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48
+2026-10-17T21:16:41.153+05:30  INFO 43631 --- [traffic-control-service] [nio-8080-exec-5] c.v.t.services.RequestService            : Job submission succeeded jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48
+2026-10-17T21:16:41.168+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48, query start time: 1792252001168
+2026-10-17T21:16:41.169+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48 at 1792252001169
+2026-10-17T21:16:41.169+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48 35s sleep at 1792252001169
+2026-10-17T21:16:55.500+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : Attempting to recover stuck job with jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48
+2026-10-17T21:16:55.500+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] performing recoverOneJob script for jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48 at: 1792252015500
+2026-10-17T21:16:55.501+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] recoverOneJob script ends for jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48 at: 1792252015501
+2026-10-17T21:16:55.501+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] jobId:01a14a8b-3b80-74fd-9e0c-881ed5e9fd48 at: 1792252015501 has been identified as a stuck job and will be retried
+2026-10-17T21:16:55.525+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48, query start time: 1792252015524
+2026-10-17T21:16:55.525+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48 at 1792252015525
+2026-10-17T21:16:55.525+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48 worker detail: 637938190
+2026-10-17T21:16:55.525+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48 35s sleep at 1792252015525
+2026-10-17T21:17:10.502+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : Attempting to recover stuck job with jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48
+2026-10-17T21:17:10.502+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] performing recoverOneJob script for jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48 at: 1792252030502
+2026-10-17T21:17:10.503+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] recoverOneJob script ends for jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48 at: 1792252030503
+2026-10-17T21:17:10.503+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] Max retries exhausted and job is getting discarded: jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48 at: 1792252030503
+2026-10-17T21:17:10.503+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Discarding jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48, failureCause: MAX_TIME_EXCEEDED
+2026-10-17T21:17:10.503+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Adding jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48 to DLQ with failure cause: MAX_TIME_EXCEEDED
+2026-10-17T21:17:10.503+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.DlqService                : Adding entry to DLQ for jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48. Failure cause: MAX_TIME_EXCEEDED
+Hibernate: 
+    select
+        fj1_0.job_id,
+        fj1_0.arrived_at,
+        fj1_0.discarded_at,
+        fj1_0.failure_cause,
+        fj1_0.first_tried_at,
+        fj1_0.job_tier,
+        fj1_0.total_retries 
+    from
+        failed_jobs fj1_0 
+    where
+        fj1_0.job_id=?
+Hibernate: 
+    insert 
+    into
+        failed_jobs
+        (arrived_at, discarded_at, failure_cause, first_tried_at, job_tier, total_retries, job_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-10-17T21:17:10.510+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : JobId:01a14a8b-3b80-74fd-9e0c-881ed5e9fd48 discarded with ttl:600
+2026-10-17T21:17:10.510+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48 discarded at: 1792252030510
+2026-10-17T21:17:16.169+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792252036169
+2026-10-17T21:17:16.169+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write start for jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48 at 1792252036169
+2026-10-17T21:17:16.170+05:30  WARN 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.services.ResultService             : Job status mismatch, discarding save, jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48
+2026-10-17T21:17:16.170+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write ends at 1792252036170
+2026-10-17T21:17:16.170+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Performing completeProcessingScript for jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48 at 1792252036170
+2026-10-17T21:17:16.170+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.CurrentProcessingJobService      : Completing processing for job 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48
+2026-10-17T21:17:16.172+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.CurrentProcessingJobService      : Job completed and set ttl as 86400
+2026-10-17T21:17:16.172+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] completeProcessingScript succeeds for jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48 at 1792252036172
+2026-10-17T21:17:16.172+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48 at 1792252036172
+2026-10-17T21:17:16.172+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48 worker detail: 336735556
+2026-10-17T21:17:30.525+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792252050525
+2026-10-17T21:17:30.525+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write start for jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48 at 1792252050525
+2026-10-17T21:17:30.526+05:30  WARN 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.services.ResultService             : Job status mismatch, discarding save, jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48
+2026-10-17T21:17:30.526+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write ends at 1792252050526
+2026-10-17T21:17:30.526+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Performing completeProcessingScript for jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48 at 1792252050526
+2026-10-17T21:17:30.526+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.CurrentProcessingJobService      : Completing processing for job 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48
+2026-10-17T21:17:30.526+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.CurrentProcessingJobService      : Job completed and set ttl as 86400
+2026-10-17T21:17:30.526+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] completeProcessingScript succeeds for jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48 at 1792252050526
+2026-10-17T21:17:30.526+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a8b-3b80-74fd-9e0c-881ed5e9fd48 at 1792252050526
+2026-10-17T21:17:37.173+05:30  INFO 43631 --- [traffic-control-service] [nio-8080-exec-6] c.v.t.services.RequestService            : Trying new job admission, jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e
+2026-10-17T21:17:37.175+05:30  INFO 43631 --- [traffic-control-service] [nio-8080-exec-6] c.v.t.services.RequestService            : Job submission succeeded jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e
+2026-10-17T21:17:37.217+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e, query start time: 1792252057217
+2026-10-17T21:17:37.218+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e at 1792252057218
+2026-10-17T21:17:37.218+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e 35s sleep at 1792252057218
+2026-10-17T21:17:50.514+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : Attempting to recover stuck job with jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e
+2026-10-17T21:17:50.514+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] performing recoverOneJob script for jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e at: 1792252070514
+2026-10-17T21:17:50.515+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] recoverOneJob script ends for jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e at: 1792252070515
+2026-10-17T21:17:50.515+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] jobId:01a14a8c-1655-71d2-95eb-b6a1ed30d51e at: 1792252070515 has been identified as a stuck job and will be retried
+2026-10-17T21:17:50.519+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e, query start time: 1792252070519
+2026-10-17T21:17:50.519+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e at 1792252070519
+2026-10-17T21:17:50.519+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e worker detail: 2057508749
+2026-10-17T21:17:50.519+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e 35s sleep at 1792252070519
+2026-10-17T21:18:05.517+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : Attempting to recover stuck job with jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e
+2026-10-17T21:18:05.517+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] performing recoverOneJob script for jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e at: 1792252085517
+2026-10-17T21:18:05.517+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] recoverOneJob script ends for jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e at: 1792252085517
+2026-10-17T21:18:05.517+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] Max retries exhausted and job is getting discarded: jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e at: 1792252085517
+2026-10-17T21:18:05.517+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Discarding jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e, failureCause: MAX_TIME_EXCEEDED
+2026-10-17T21:18:05.518+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Adding jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e to DLQ with failure cause: MAX_TIME_EXCEEDED
+2026-10-17T21:18:05.518+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.DlqService                : Adding entry to DLQ for jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e. Failure cause: MAX_TIME_EXCEEDED
+Hibernate: 
+    select
+        fj1_0.job_id,
+        fj1_0.arrived_at,
+        fj1_0.discarded_at,
+        fj1_0.failure_cause,
+        fj1_0.first_tried_at,
+        fj1_0.job_tier,
+        fj1_0.total_retries 
+    from
+        failed_jobs fj1_0 
+    where
+        fj1_0.job_id=?
+Hibernate: 
+    insert 
+    into
+        failed_jobs
+        (arrived_at, discarded_at, failure_cause, first_tried_at, job_tier, total_retries, job_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-10-17T21:18:05.526+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : JobId:01a14a8c-1655-71d2-95eb-b6a1ed30d51e discarded with ttl:600
+2026-10-17T21:18:05.526+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e discarded at: 1792252085526
+2026-10-17T21:18:12.218+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792252092218
+2026-10-17T21:18:12.218+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write start for jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e at 1792252092218
+2026-10-17T21:18:12.219+05:30  WARN 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.services.ResultService             : Job status mismatch, discarding save, jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e
+2026-10-17T21:18:12.219+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write ends at 1792252092219
+2026-10-17T21:18:12.219+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Performing completeProcessingScript for jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e at 1792252092219
+2026-10-17T21:18:12.219+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.CurrentProcessingJobService      : Completing processing for job 01a14a8c-1655-71d2-95eb-b6a1ed30d51e
+2026-10-17T21:18:12.221+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.CurrentProcessingJobService      : Job completed and set ttl as 86400
+2026-10-17T21:18:12.221+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] completeProcessingScript succeeds for jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e at 1792252092221
+2026-10-17T21:18:12.221+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e at 1792252092221
+2026-10-17T21:18:12.221+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e worker detail: 2084883403
+2026-10-17T21:18:25.519+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792252105519
+2026-10-17T21:18:25.520+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write start for jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e at 1792252105520
+2026-10-17T21:18:25.520+05:30  WARN 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.services.ResultService             : Job status mismatch, discarding save, jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e
+2026-10-17T21:18:25.520+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write ends at 1792252105520
+2026-10-17T21:18:25.520+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Performing completeProcessingScript for jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e at 1792252105520
+2026-10-17T21:18:25.520+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.CurrentProcessingJobService      : Completing processing for job 01a14a8c-1655-71d2-95eb-b6a1ed30d51e
+2026-10-17T21:18:25.522+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.CurrentProcessingJobService      : Job completed and set ttl as 86400
+2026-10-17T21:18:25.523+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] completeProcessingScript succeeds for jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e at 1792252105523
+2026-10-17T21:18:25.523+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a8c-1655-71d2-95eb-b6a1ed30d51e at 1792252105523
+2026-10-17T21:18:33.194+05:30  INFO 43631 --- [traffic-control-service] [nio-8080-exec-7] c.v.t.services.RequestService            : Trying new job admission, jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e
+2026-10-17T21:18:33.196+05:30  INFO 43631 --- [traffic-control-service] [nio-8080-exec-7] c.v.t.services.RequestService            : Job submission succeeded jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e
+2026-10-17T21:18:33.219+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e, query start time: 1792252113218
+2026-10-17T21:18:33.219+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e at 1792252113219
+2026-10-17T21:18:33.219+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e 35s sleep at 1792252113219
+2026-10-17T21:18:45.530+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : Attempting to recover stuck job with jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e
+2026-10-17T21:18:45.530+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] performing recoverOneJob script for jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e at: 1792252125530
+2026-10-17T21:18:45.531+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] recoverOneJob script ends for jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e at: 1792252125531
+2026-10-17T21:18:45.531+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] jobId:01a14a8c-f12a-7584-b4fa-31437a72050e at: 1792252125531 has been identified as a stuck job and will be retried
+2026-10-17T21:18:45.596+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e, query start time: 1792252125596
+2026-10-17T21:18:45.596+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e at 1792252125596
+2026-10-17T21:18:45.596+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e worker detail: 1519570595
+2026-10-17T21:18:45.596+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e 35s sleep at 1792252125596
+2026-10-17T21:19:00.532+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : Attempting to recover stuck job with jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e
+2026-10-17T21:19:00.532+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] performing recoverOneJob script for jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e at: 1792252140532
+2026-10-17T21:19:00.533+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] recoverOneJob script ends for jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e at: 1792252140533
+2026-10-17T21:19:00.533+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] Max retries exhausted and job is getting discarded: jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e at: 1792252140533
+2026-10-17T21:19:00.533+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Discarding jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e, failureCause: MAX_TIME_EXCEEDED
+2026-10-17T21:19:00.533+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Adding jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e to DLQ with failure cause: MAX_TIME_EXCEEDED
+2026-10-17T21:19:00.533+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.DlqService                : Adding entry to DLQ for jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e. Failure cause: MAX_TIME_EXCEEDED
+Hibernate: 
+    select
+        fj1_0.job_id,
+        fj1_0.arrived_at,
+        fj1_0.discarded_at,
+        fj1_0.failure_cause,
+        fj1_0.first_tried_at,
+        fj1_0.job_tier,
+        fj1_0.total_retries 
+    from
+        failed_jobs fj1_0 
+    where
+        fj1_0.job_id=?
+Hibernate: 
+    insert 
+    into
+        failed_jobs
+        (arrived_at, discarded_at, failure_cause, first_tried_at, job_tier, total_retries, job_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-10-17T21:19:00.540+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : JobId:01a14a8c-f12a-7584-b4fa-31437a72050e discarded with ttl:600
+2026-10-17T21:19:00.540+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e discarded at: 1792252140540
+2026-10-17T21:19:08.219+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792252148219
+2026-10-17T21:19:08.219+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write start for jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e at 1792252148219
+2026-10-17T21:19:08.220+05:30  WARN 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.services.ResultService             : Job status mismatch, discarding save, jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e
+2026-10-17T21:19:08.220+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write ends at 1792252148220
+2026-10-17T21:19:08.220+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Performing completeProcessingScript for jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e at 1792252148220
+2026-10-17T21:19:08.220+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.CurrentProcessingJobService      : Completing processing for job 01a14a8c-f12a-7584-b4fa-31437a72050e
+2026-10-17T21:19:08.222+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.CurrentProcessingJobService      : Job completed and set ttl as 86400
+2026-10-17T21:19:08.222+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] completeProcessingScript succeeds for jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e at 1792252148222
+2026-10-17T21:19:08.222+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e at 1792252148222
+2026-10-17T21:19:08.222+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e worker detail: 829815448
+2026-10-17T21:19:20.597+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792252160596
+2026-10-17T21:19:20.597+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write start for jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e at 1792252160597
+2026-10-17T21:19:20.597+05:30  WARN 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.services.ResultService             : Job status mismatch, discarding save, jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e
+2026-10-17T21:19:20.597+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write ends at 1792252160597
+2026-10-17T21:19:20.597+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Performing completeProcessingScript for jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e at 1792252160597
+2026-10-17T21:19:20.597+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.CurrentProcessingJobService      : Completing processing for job 01a14a8c-f12a-7584-b4fa-31437a72050e
+2026-10-17T21:19:20.599+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.CurrentProcessingJobService      : Job completed and set ttl as 86400
+2026-10-17T21:19:20.600+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] completeProcessingScript succeeds for jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e at 1792252160600
+2026-10-17T21:19:20.600+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a8c-f12a-7584-b4fa-31437a72050e at 1792252160600
+2026-10-17T21:19:29.215+05:30  INFO 43631 --- [traffic-control-service] [nio-8080-exec-8] c.v.t.services.RequestService            : Trying new job admission, jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4
+2026-10-17T21:19:29.217+05:30  INFO 43631 --- [traffic-control-service] [nio-8080-exec-8] c.v.t.services.RequestService            : Job submission succeeded jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4
+2026-10-17T21:19:29.236+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4, query start time: 1792252169235
+2026-10-17T21:19:29.236+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4 at 1792252169236
+2026-10-17T21:19:29.236+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4 35s sleep at 1792252169236
+2026-10-17T21:19:40.544+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : Attempting to recover stuck job with jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4
+2026-10-17T21:19:40.544+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] performing recoverOneJob script for jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4 at: 1792252180544
+2026-10-17T21:19:40.545+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] recoverOneJob script ends for jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4 at: 1792252180545
+2026-10-17T21:19:40.545+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] jobId:01a14a8d-cbff-7def-9922-db6a39b31aa4 at: 1792252180545 has been identified as a stuck job and will be retried
+2026-10-17T21:19:40.560+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4, query start time: 1792252180559
+2026-10-17T21:19:40.560+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4 at 1792252180560
+2026-10-17T21:19:40.560+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4 worker detail: 780828972
+2026-10-17T21:19:40.560+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4 35s sleep at 1792252180560
+2026-10-17T21:19:55.546+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : Attempting to recover stuck job with jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4
+2026-10-17T21:19:55.546+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] performing recoverOneJob script for jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4 at: 1792252195546
+2026-10-17T21:19:55.547+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] recoverOneJob script ends for jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4 at: 1792252195547
+2026-10-17T21:19:55.547+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] Max retries exhausted and job is getting discarded: jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4 at: 1792252195547
+2026-10-17T21:19:55.547+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Discarding jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4, failureCause: MAX_TIME_EXCEEDED
+2026-10-17T21:19:55.547+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Adding jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4 to DLQ with failure cause: MAX_TIME_EXCEEDED
+2026-10-17T21:19:55.547+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.DlqService                : Adding entry to DLQ for jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4. Failure cause: MAX_TIME_EXCEEDED
+Hibernate: 
+    select
+        fj1_0.job_id,
+        fj1_0.arrived_at,
+        fj1_0.discarded_at,
+        fj1_0.failure_cause,
+        fj1_0.first_tried_at,
+        fj1_0.job_tier,
+        fj1_0.total_retries 
+    from
+        failed_jobs fj1_0 
+    where
+        fj1_0.job_id=?
+Hibernate: 
+    insert 
+    into
+        failed_jobs
+        (arrived_at, discarded_at, failure_cause, first_tried_at, job_tier, total_retries, job_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-10-17T21:19:55.557+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : JobId:01a14a8d-cbff-7def-9922-db6a39b31aa4 discarded with ttl:600
+2026-10-17T21:19:55.557+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4 discarded at: 1792252195557
+2026-10-17T21:20:04.236+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792252204236
+2026-10-17T21:20:04.236+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write start for jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4 at 1792252204236
+2026-10-17T21:20:04.237+05:30  WARN 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.services.ResultService             : Job status mismatch, discarding save, jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4
+2026-10-17T21:20:04.237+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write ends at 1792252204237
+2026-10-17T21:20:04.237+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Performing completeProcessingScript for jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4 at 1792252204237
+2026-10-17T21:20:04.237+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.CurrentProcessingJobService      : Completing processing for job 01a14a8d-cbff-7def-9922-db6a39b31aa4
+2026-10-17T21:20:04.238+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.CurrentProcessingJobService      : Job completed and set ttl as 86400
+2026-10-17T21:20:04.238+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] completeProcessingScript succeeds for jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4 at 1792252204238
+2026-10-17T21:20:04.238+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4 at 1792252204238
+2026-10-17T21:20:04.238+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4 worker detail: 94794661
+2026-10-17T21:20:15.560+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792252215560
+2026-10-17T21:20:15.560+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write start for jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4 at 1792252215560
+2026-10-17T21:20:15.561+05:30  WARN 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.services.ResultService             : Job status mismatch, discarding save, jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4
+2026-10-17T21:20:15.561+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write ends at 1792252215561
+2026-10-17T21:20:15.561+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Performing completeProcessingScript for jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4 at 1792252215561
+2026-10-17T21:20:15.561+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.CurrentProcessingJobService      : Completing processing for job 01a14a8d-cbff-7def-9922-db6a39b31aa4
+2026-10-17T21:20:15.563+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.CurrentProcessingJobService      : Job completed and set ttl as 86400
+2026-10-17T21:20:15.563+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] completeProcessingScript succeeds for jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4 at 1792252215563
+2026-10-17T21:20:15.563+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a8d-cbff-7def-9922-db6a39b31aa4 at 1792252215563
+2026-10-17T21:20:25.236+05:30  INFO 43631 --- [traffic-control-service] [nio-8080-exec-9] c.v.t.services.RequestService            : Trying new job admission, jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5
+2026-10-17T21:20:25.239+05:30  INFO 43631 --- [traffic-control-service] [nio-8080-exec-9] c.v.t.services.RequestService            : Job submission succeeded jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5
+2026-10-17T21:20:25.268+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5, query start time: 1792252225267
+2026-10-17T21:20:25.268+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5 at 1792252225268
+2026-10-17T21:20:25.268+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5 35s sleep at 1792252225268
+2026-10-17T21:20:35.561+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : Attempting to recover stuck job with jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5
+2026-10-17T21:20:35.561+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] performing recoverOneJob script for jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5 at: 1792252235561
+2026-10-17T21:20:35.561+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] recoverOneJob script ends for jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5 at: 1792252235561
+2026-10-17T21:20:35.561+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] jobId:01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5 at: 1792252235561 has been identified as a stuck job and will be retried
+2026-10-17T21:20:35.580+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5, query start time: 1792252235580
+2026-10-17T21:20:35.580+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5 at 1792252235580
+2026-10-17T21:20:35.581+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5 worker detail: 1513378935
+2026-10-17T21:20:35.581+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5 35s sleep at 1792252235581
+2026-10-17T21:20:50.563+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : Attempting to recover stuck job with jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5
+2026-10-17T21:20:50.563+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] performing recoverOneJob script for jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5 at: 1792252250563
+2026-10-17T21:20:50.563+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] recoverOneJob script ends for jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5 at: 1792252250563
+2026-10-17T21:20:50.563+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] Max retries exhausted and job is getting discarded: jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5 at: 1792252250563
+2026-10-17T21:20:50.563+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Discarding jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5, failureCause: MAX_TIME_EXCEEDED
+2026-10-17T21:20:50.564+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Adding jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5 to DLQ with failure cause: MAX_TIME_EXCEEDED
+2026-10-17T21:20:50.564+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.DlqService                : Adding entry to DLQ for jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5. Failure cause: MAX_TIME_EXCEEDED
+Hibernate: 
+    select
+        fj1_0.job_id,
+        fj1_0.arrived_at,
+        fj1_0.discarded_at,
+        fj1_0.failure_cause,
+        fj1_0.first_tried_at,
+        fj1_0.job_tier,
+        fj1_0.total_retries 
+    from
+        failed_jobs fj1_0 
+    where
+        fj1_0.job_id=?
+Hibernate: 
+    insert 
+    into
+        failed_jobs
+        (arrived_at, discarded_at, failure_cause, first_tried_at, job_tier, total_retries, job_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-10-17T21:20:50.571+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : JobId:01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5 discarded with ttl:600
+2026-10-17T21:20:50.571+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5 discarded at: 1792252250571
+2026-10-17T21:21:00.268+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792252260268
+2026-10-17T21:21:00.268+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write start for jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5 at 1792252260268
+2026-10-17T21:21:00.269+05:30  WARN 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.services.ResultService             : Job status mismatch, discarding save, jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5
+2026-10-17T21:21:00.269+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write ends at 1792252260269
+2026-10-17T21:21:00.269+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Performing completeProcessingScript for jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5 at 1792252260269
+2026-10-17T21:21:00.269+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.CurrentProcessingJobService      : Completing processing for job 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5
+2026-10-17T21:21:00.271+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.CurrentProcessingJobService      : Job completed and set ttl as 86400
+2026-10-17T21:21:00.271+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] completeProcessingScript succeeds for jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5 at 1792252260271
+2026-10-17T21:21:00.271+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5 at 1792252260271
+2026-10-17T21:21:00.271+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5 worker detail: 1191032053
+2026-10-17T21:21:10.581+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792252270581
+2026-10-17T21:21:10.581+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write start for jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5 at 1792252270581
+2026-10-17T21:21:10.581+05:30  WARN 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.services.ResultService             : Job status mismatch, discarding save, jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5
+2026-10-17T21:21:10.581+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write ends at 1792252270581
+2026-10-17T21:21:10.581+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Performing completeProcessingScript for jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5 at 1792252270581
+2026-10-17T21:21:10.581+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.CurrentProcessingJobService      : Completing processing for job 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5
+2026-10-17T21:21:10.582+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.CurrentProcessingJobService      : Job completed and set ttl as 86400
+2026-10-17T21:21:10.582+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] completeProcessingScript succeeds for jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5 at 1792252270582
+2026-10-17T21:21:10.582+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a8e-a6d4-7bb1-8ce6-af91cf4cafd5 at 1792252270582
+2026-10-17T21:21:21.257+05:30  INFO 43631 --- [traffic-control-service] [io-8080-exec-10] c.v.t.services.RequestService            : Trying new job admission, jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14
+2026-10-17T21:21:21.260+05:30  INFO 43631 --- [traffic-control-service] [io-8080-exec-10] c.v.t.services.RequestService            : Job submission succeeded jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14
+2026-10-17T21:21:21.260+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14, query start time: 1792252281258
+2026-10-17T21:21:21.260+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14 at 1792252281260
+2026-10-17T21:21:21.260+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14 35s sleep at 1792252281260
+2026-10-17T21:21:35.577+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : Attempting to recover stuck job with jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14
+2026-10-17T21:21:35.577+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] performing recoverOneJob script for jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14 at: 1792252295577
+2026-10-17T21:21:35.577+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] recoverOneJob script ends for jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14 at: 1792252295577
+2026-10-17T21:21:35.577+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] jobId:01a14a8f-81a9-7c05-ba84-530d7e8a7b14 at: 1792252295577 has been identified as a stuck job and will be retried
+2026-10-17T21:21:35.593+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14, query start time: 1792252295593
+2026-10-17T21:21:35.593+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14 at 1792252295593
+2026-10-17T21:21:35.593+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14 worker detail: 1391169097
+2026-10-17T21:21:35.593+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14 35s sleep at 1792252295593
+2026-10-17T21:21:50.579+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : Attempting to recover stuck job with jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14
+2026-10-17T21:21:50.579+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] performing recoverOneJob script for jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14 at: 1792252310579
+2026-10-17T21:21:50.579+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] recoverOneJob script ends for jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14 at: 1792252310579
+2026-10-17T21:21:50.579+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] Max retries exhausted and job is getting discarded: jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14 at: 1792252310579
+2026-10-17T21:21:50.579+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Discarding jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14, failureCause: MAX_TIME_EXCEEDED
+2026-10-17T21:21:50.580+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Adding jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14 to DLQ with failure cause: MAX_TIME_EXCEEDED
+2026-10-17T21:21:50.580+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.DlqService                : Adding entry to DLQ for jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14. Failure cause: MAX_TIME_EXCEEDED
+Hibernate: 
+    select
+        fj1_0.job_id,
+        fj1_0.arrived_at,
+        fj1_0.discarded_at,
+        fj1_0.failure_cause,
+        fj1_0.first_tried_at,
+        fj1_0.job_tier,
+        fj1_0.total_retries 
+    from
+        failed_jobs fj1_0 
+    where
+        fj1_0.job_id=?
+Hibernate: 
+    insert 
+    into
+        failed_jobs
+        (arrived_at, discarded_at, failure_cause, first_tried_at, job_tier, total_retries, job_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-10-17T21:21:50.587+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : JobId:01a14a8f-81a9-7c05-ba84-530d7e8a7b14 discarded with ttl:600
+2026-10-17T21:21:50.587+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14 discarded at: 1792252310587
+2026-10-17T21:21:56.260+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792252316260
+2026-10-17T21:21:56.260+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write start for jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14 at 1792252316260
+2026-10-17T21:21:56.261+05:30  WARN 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.services.ResultService             : Job status mismatch, discarding save, jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14
+2026-10-17T21:21:56.261+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write ends at 1792252316261
+2026-10-17T21:21:56.261+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Performing completeProcessingScript for jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14 at 1792252316261
+2026-10-17T21:21:56.261+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.CurrentProcessingJobService      : Completing processing for job 01a14a8f-81a9-7c05-ba84-530d7e8a7b14
+2026-10-17T21:21:56.263+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.CurrentProcessingJobService      : Job completed and set ttl as 86400
+2026-10-17T21:21:56.263+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] completeProcessingScript succeeds for jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14 at 1792252316263
+2026-10-17T21:21:56.263+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14 at 1792252316263
+2026-10-17T21:21:56.263+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14 worker detail: 1193094285
+2026-10-17T21:22:10.593+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792252330593
+2026-10-17T21:22:10.593+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write start for jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14 at 1792252330593
+2026-10-17T21:22:10.594+05:30  WARN 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.services.ResultService             : Job status mismatch, discarding save, jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14
+2026-10-17T21:22:10.594+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write ends at 1792252330594
+2026-10-17T21:22:10.594+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Performing completeProcessingScript for jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14 at 1792252330594
+2026-10-17T21:22:10.594+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.CurrentProcessingJobService      : Completing processing for job 01a14a8f-81a9-7c05-ba84-530d7e8a7b14
+2026-10-17T21:22:10.596+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.CurrentProcessingJobService      : Job completed and set ttl as 86400
+2026-10-17T21:22:10.596+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] completeProcessingScript succeeds for jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14 at 1792252330596
+2026-10-17T21:22:10.596+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a8f-81a9-7c05-ba84-530d7e8a7b14 at 1792252330596
+2026-10-17T21:22:17.278+05:30  INFO 43631 --- [traffic-control-service] [nio-8080-exec-1] c.v.t.services.RequestService            : Trying new job admission, jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5
+2026-10-17T21:22:17.281+05:30  INFO 43631 --- [traffic-control-service] [nio-8080-exec-1] c.v.t.services.RequestService            : Job submission succeeded jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5
+2026-10-17T21:22:17.317+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5, query start time: 1792252337317
+2026-10-17T21:22:17.318+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5 at 1792252337318
+2026-10-17T21:22:17.318+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5 35s sleep at 1792252337318
+2026-10-17T21:22:30.590+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : Attempting to recover stuck job with jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5
+2026-10-17T21:22:30.590+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] performing recoverOneJob script for jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5 at: 1792252350590
+2026-10-17T21:22:30.591+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] recoverOneJob script ends for jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5 at: 1792252350591
+2026-10-17T21:22:30.591+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] jobId:01a14a90-5c7e-73eb-a77c-c456860417f5 at: 1792252350591 has been identified as a stuck job and will be retried
+2026-10-17T21:22:30.605+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5, query start time: 1792252350604
+2026-10-17T21:22:30.605+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5 at 1792252350605
+2026-10-17T21:22:30.605+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5 worker detail: 524091321
+2026-10-17T21:22:30.605+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5 35s sleep at 1792252350605
+2026-10-17T21:22:45.592+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : Attempting to recover stuck job with jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5
+2026-10-17T21:22:45.592+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] performing recoverOneJob script for jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5 at: 1792252365592
+2026-10-17T21:22:45.593+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] recoverOneJob script ends for jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5 at: 1792252365593
+2026-10-17T21:22:45.593+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] Max retries exhausted and job is getting discarded: jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5 at: 1792252365593
+2026-10-17T21:22:45.593+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Discarding jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5, failureCause: MAX_TIME_EXCEEDED
+2026-10-17T21:22:45.593+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Adding jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5 to DLQ with failure cause: MAX_TIME_EXCEEDED
+2026-10-17T21:22:45.593+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.DlqService                : Adding entry to DLQ for jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5. Failure cause: MAX_TIME_EXCEEDED
+Hibernate: 
+    select
+        fj1_0.job_id,
+        fj1_0.arrived_at,
+        fj1_0.discarded_at,
+        fj1_0.failure_cause,
+        fj1_0.first_tried_at,
+        fj1_0.job_tier,
+        fj1_0.total_retries 
+    from
+        failed_jobs fj1_0 
+    where
+        fj1_0.job_id=?
+Hibernate: 
+    insert 
+    into
+        failed_jobs
+        (arrived_at, discarded_at, failure_cause, first_tried_at, job_tier, total_retries, job_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-10-17T21:22:45.602+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : JobId:01a14a90-5c7e-73eb-a77c-c456860417f5 discarded with ttl:600
+2026-10-17T21:22:45.602+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5 discarded at: 1792252365602
+2026-10-17T21:22:52.318+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792252372318
+2026-10-17T21:22:52.318+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write start for jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5 at 1792252372318
+2026-10-17T21:22:52.318+05:30  WARN 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.services.ResultService             : Job status mismatch, discarding save, jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5
+2026-10-17T21:22:52.318+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write ends at 1792252372318
+2026-10-17T21:22:52.318+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Performing completeProcessingScript for jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5 at 1792252372318
+2026-10-17T21:22:52.318+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.CurrentProcessingJobService      : Completing processing for job 01a14a90-5c7e-73eb-a77c-c456860417f5
+2026-10-17T21:22:52.321+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.CurrentProcessingJobService      : Job completed and set ttl as 86400
+2026-10-17T21:22:52.321+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] completeProcessingScript succeeds for jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5 at 1792252372321
+2026-10-17T21:22:52.321+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5 at 1792252372321
+2026-10-17T21:22:52.321+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5 worker detail: 941598649
+2026-10-17T21:23:05.605+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792252385605
+2026-10-17T21:23:05.605+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write start for jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5 at 1792252385605
+2026-10-17T21:23:05.605+05:30  WARN 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.services.ResultService             : Job status mismatch, discarding save, jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5
+2026-10-17T21:23:05.605+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write ends at 1792252385605
+2026-10-17T21:23:05.605+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Performing completeProcessingScript for jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5 at 1792252385605
+2026-10-17T21:23:05.605+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.CurrentProcessingJobService      : Completing processing for job 01a14a90-5c7e-73eb-a77c-c456860417f5
+2026-10-17T21:23:05.606+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.CurrentProcessingJobService      : Job completed and set ttl as 86400
+2026-10-17T21:23:05.606+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] completeProcessingScript succeeds for jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5 at 1792252385606
+2026-10-17T21:23:05.606+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a90-5c7e-73eb-a77c-c456860417f5 at 1792252385606
+2026-10-17T21:23:13.299+05:30  INFO 43631 --- [traffic-control-service] [nio-8080-exec-2] c.v.t.services.RequestService            : Trying new job admission, jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c
+2026-10-17T21:23:13.300+05:30  INFO 43631 --- [traffic-control-service] [nio-8080-exec-2] c.v.t.services.RequestService            : Job submission succeeded jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c
+2026-10-17T21:23:13.306+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c, query start time: 1792252393306
+2026-10-17T21:23:13.307+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c at 1792252393307
+2026-10-17T21:23:13.307+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c 35s sleep at 1792252393307
+2026-10-17T21:23:25.605+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : Attempting to recover stuck job with jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c
+2026-10-17T21:23:25.605+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] performing recoverOneJob script for jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c at: 1792252405605
+2026-10-17T21:23:25.606+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] recoverOneJob script ends for jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c at: 1792252405606
+2026-10-17T21:23:25.606+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] jobId:01a14a91-3753-7a26-afb6-514f4f786d1c at: 1792252405606 has been identified as a stuck job and will be retried
+2026-10-17T21:23:25.623+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c, query start time: 1792252405623
+2026-10-17T21:23:25.623+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c at 1792252405623
+2026-10-17T21:23:25.623+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c worker detail: 1633506643
+2026-10-17T21:23:25.623+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c 35s sleep at 1792252405623
+2026-10-17T21:23:40.607+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : Attempting to recover stuck job with jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c
+2026-10-17T21:23:40.607+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] performing recoverOneJob script for jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c at: 1792252420607
+2026-10-17T21:23:40.608+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] recoverOneJob script ends for jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c at: 1792252420608
+2026-10-17T21:23:40.608+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] Max retries exhausted and job is getting discarded: jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c at: 1792252420608
+2026-10-17T21:23:40.608+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Discarding jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c, failureCause: MAX_TIME_EXCEEDED
+2026-10-17T21:23:40.608+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Adding jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c to DLQ with failure cause: MAX_TIME_EXCEEDED
+2026-10-17T21:23:40.608+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.DlqService                : Adding entry to DLQ for jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c. Failure cause: MAX_TIME_EXCEEDED
+Hibernate: 
+    select
+        fj1_0.job_id,
+        fj1_0.arrived_at,
+        fj1_0.discarded_at,
+        fj1_0.failure_cause,
+        fj1_0.first_tried_at,
+        fj1_0.job_tier,
+        fj1_0.total_retries 
+    from
+        failed_jobs fj1_0 
+    where
+        fj1_0.job_id=?
+Hibernate: 
+    insert 
+    into
+        failed_jobs
+        (arrived_at, discarded_at, failure_cause, first_tried_at, job_tier, total_retries, job_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-10-17T21:23:40.616+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : JobId:01a14a91-3753-7a26-afb6-514f4f786d1c discarded with ttl:600
+2026-10-17T21:23:40.617+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c discarded at: 1792252420617
+2026-10-17T21:23:48.307+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792252428307
+2026-10-17T21:23:48.307+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write start for jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c at 1792252428307
+2026-10-17T21:23:48.307+05:30  WARN 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.services.ResultService             : Job status mismatch, discarding save, jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c
+2026-10-17T21:23:48.307+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write ends at 1792252428307
+2026-10-17T21:23:48.307+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Performing completeProcessingScript for jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c at 1792252428307
+2026-10-17T21:23:48.307+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.CurrentProcessingJobService      : Completing processing for job 01a14a91-3753-7a26-afb6-514f4f786d1c
+2026-10-17T21:23:48.308+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.CurrentProcessingJobService      : Job completed and set ttl as 86400
+2026-10-17T21:23:48.308+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] completeProcessingScript succeeds for jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c at 1792252428308
+2026-10-17T21:23:48.308+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c at 1792252428308
+2026-10-17T21:23:48.308+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-2] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c worker detail: 16110834
+2026-10-17T21:24:00.624+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792252440624
+2026-10-17T21:24:00.624+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write start for jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c at 1792252440624
+2026-10-17T21:24:00.624+05:30  WARN 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.services.ResultService             : Job status mismatch, discarding save, jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c
+2026-10-17T21:24:00.624+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write ends at 1792252440624
+2026-10-17T21:24:00.624+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Performing completeProcessingScript for jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c at 1792252440624
+2026-10-17T21:24:00.624+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.CurrentProcessingJobService      : Completing processing for job 01a14a91-3753-7a26-afb6-514f4f786d1c
+2026-10-17T21:24:00.627+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.CurrentProcessingJobService      : Job completed and set ttl as 86400
+2026-10-17T21:24:00.627+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] completeProcessingScript succeeds for jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c at 1792252440627
+2026-10-17T21:24:00.627+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a91-3753-7a26-afb6-514f4f786d1c at 1792252440627
+2026-10-17T21:24:09.319+05:30  INFO 43631 --- [traffic-control-service] [nio-8080-exec-3] c.v.t.services.RequestService            : Trying new job admission, jobId: 01a14a92-1227-7b76-b321-d2065adc21e9
+2026-10-17T21:24:09.321+05:30  INFO 43631 --- [traffic-control-service] [nio-8080-exec-3] c.v.t.services.RequestService            : Job submission succeeded jobId: 01a14a92-1227-7b76-b321-d2065adc21e9
+2026-10-17T21:24:09.368+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a92-1227-7b76-b321-d2065adc21e9, query start time: 1792252449367
+2026-10-17T21:24:09.368+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a92-1227-7b76-b321-d2065adc21e9 at 1792252449368
+2026-10-17T21:24:09.368+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a92-1227-7b76-b321-d2065adc21e9 35s sleep at 1792252449368
+2026-10-17T21:24:20.620+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : Attempting to recover stuck job with jobId: 01a14a92-1227-7b76-b321-d2065adc21e9
+2026-10-17T21:24:20.620+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] performing recoverOneJob script for jobId: 01a14a92-1227-7b76-b321-d2065adc21e9 at: 1792252460620
+2026-10-17T21:24:20.621+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] recoverOneJob script ends for jobId: 01a14a92-1227-7b76-b321-d2065adc21e9 at: 1792252460621
+2026-10-17T21:24:20.621+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] jobId:01a14a92-1227-7b76-b321-d2065adc21e9 at: 1792252460621 has been identified as a stuck job and will be retried
+2026-10-17T21:24:20.646+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Job found, jobId: 01a14a92-1227-7b76-b321-d2065adc21e9, query start time: 1792252460646
+2026-10-17T21:24:20.646+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Starting heart beat for jobId: 01a14a92-1227-7b76-b321-d2065adc21e9 at 1792252460646
+2026-10-17T21:24:20.646+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a92-1227-7b76-b321-d2065adc21e9 worker detail: 1934245252
+2026-10-17T21:24:20.646+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] jobId: 01a14a92-1227-7b76-b321-d2065adc21e9 35s sleep at 1792252460646
+2026-10-17T21:24:35.622+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : Attempting to recover stuck job with jobId: 01a14a92-1227-7b76-b321-d2065adc21e9
+2026-10-17T21:24:35.622+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] performing recoverOneJob script for jobId: 01a14a92-1227-7b76-b321-d2065adc21e9 at: 1792252475622
+2026-10-17T21:24:35.623+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] recoverOneJob script ends for jobId: 01a14a92-1227-7b76-b321-d2065adc21e9 at: 1792252475623
+2026-10-17T21:24:35.623+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] Max retries exhausted and job is getting discarded: jobId: 01a14a92-1227-7b76-b321-d2065adc21e9 at: 1792252475623
+2026-10-17T21:24:35.623+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Discarding jobId: 01a14a92-1227-7b76-b321-d2065adc21e9, failureCause: MAX_TIME_EXCEEDED
+2026-10-17T21:24:35.623+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : Adding jobId: 01a14a92-1227-7b76-b321-d2065adc21e9 to DLQ with failure cause: MAX_TIME_EXCEEDED
+2026-10-17T21:24:35.623+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.DlqService                : Adding entry to DLQ for jobId: 01a14a92-1227-7b76-b321-d2065adc21e9. Failure cause: MAX_TIME_EXCEEDED
+Hibernate: 
+    select
+        fj1_0.job_id,
+        fj1_0.arrived_at,
+        fj1_0.discarded_at,
+        fj1_0.failure_cause,
+        fj1_0.first_tried_at,
+        fj1_0.job_tier,
+        fj1_0.total_retries 
+    from
+        failed_jobs fj1_0 
+    where
+        fj1_0.job_id=?
+Hibernate: 
+    insert 
+    into
+        failed_jobs
+        (arrived_at, discarded_at, failure_cause, first_tried_at, job_tier, total_retries, job_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-10-17T21:24:35.632+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.JobDiscardService         : JobId:01a14a92-1227-7b76-b321-d2065adc21e9 discarded with ttl:600
+2026-10-17T21:24:35.632+05:30  INFO 43631 --- [traffic-control-service] [   scheduling-1] c.v.t.services.StuckJobRecoveryService   : [Stuck Scheduler] jobId: 01a14a92-1227-7b76-b321-d2065adc21e9 discarded at: 1792252475632
+2026-10-17T21:24:44.368+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792252484368
+2026-10-17T21:24:44.368+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write start for jobId: 01a14a92-1227-7b76-b321-d2065adc21e9 at 1792252484368
+2026-10-17T21:24:44.368+05:30  WARN 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.services.ResultService             : Job status mismatch, discarding save, jobId: 01a14a92-1227-7b76-b321-d2065adc21e9
+2026-10-17T21:24:44.368+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write ends at 1792252484368
+2026-10-17T21:24:44.368+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Performing completeProcessingScript for jobId: 01a14a92-1227-7b76-b321-d2065adc21e9 at 1792252484368
+2026-10-17T21:24:44.368+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.CurrentProcessingJobService      : Completing processing for job 01a14a92-1227-7b76-b321-d2065adc21e9
+2026-10-17T21:24:44.371+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.CurrentProcessingJobService      : Job completed and set ttl as 86400
+2026-10-17T21:24:44.371+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] completeProcessingScript succeeds for jobId: 01a14a92-1227-7b76-b321-d2065adc21e9 at 1792252484371
+2026-10-17T21:24:44.371+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a92-1227-7b76-b321-d2065adc21e9 at 1792252484371
+2026-10-17T21:24:44.371+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-1] c.v.t.services.WorkerHeartBeatService    : HeartBeat stopped jobId: 01a14a92-1227-7b76-b321-d2065adc21e9 worker detail: 835466135
+2026-10-17T21:24:55.646+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] sleep ends at 1792252495646
+2026-10-17T21:24:55.646+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write start for jobId: 01a14a92-1227-7b76-b321-d2065adc21e9 at 1792252495646
+2026-10-17T21:24:55.647+05:30  WARN 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.services.ResultService             : Job status mismatch, discarding save, jobId: 01a14a92-1227-7b76-b321-d2065adc21e9
+2026-10-17T21:24:55.647+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] DB write ends at 1792252495647
+2026-10-17T21:24:55.647+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Performing completeProcessingScript for jobId: 01a14a92-1227-7b76-b321-d2065adc21e9 at 1792252495647
+2026-10-17T21:24:55.647+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.CurrentProcessingJobService      : Completing processing for job 01a14a92-1227-7b76-b321-d2065adc21e9
+2026-10-17T21:24:55.649+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.CurrentProcessingJobService      : Job completed and set ttl as 86400
+2026-10-17T21:24:55.649+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] completeProcessingScript succeeds for jobId: 01a14a92-1227-7b76-b321-d2065adc21e9 at 1792252495649
+2026-10-17T21:24:55.649+05:30  INFO 43631 --- [traffic-control-service] [pool-4-thread-3] c.v.t.s.JobProcessingWorkerService       : [Worker] Heartbeat stop calling for, jobId: 01a14a92-1227-7b76-b321-d2065adc21e9 at 1792252495649

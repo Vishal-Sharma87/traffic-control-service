@@ -18,7 +18,6 @@ public class RequestRepository {
     public boolean enqueueJobRequestIfAllowed(
             RedisScript<Long> enqueueJobRequestIfAllowedScript,
             List<String> keys,
-            String maxSystemCapacity,
             String jobId,
             Long jobScore,
             String jobTier,
@@ -28,7 +27,6 @@ public class RequestRepository {
         return 1L ==  stringRedisTemplate.execute(
                 enqueueJobRequestIfAllowedScript,
                 keys,
-                maxSystemCapacity,
                 jobId,
                 String.valueOf(jobScore),
                 jobTier,

@@ -43,7 +43,7 @@ public class StuckJobRecoveryService {
             Instant currentTime = Instant.now();
 
             Set<String> stuckJobs = currentProcessingJobService.getStuckJobs(currentTime);
-            if(stuckJobs.isEmpty()) {
+            if (stuckJobs.isEmpty()) {
                 systemHealthService.stuckSchedulerSuccess();
                 return;
             }
@@ -62,29 +62,35 @@ public class StuckJobRecoveryService {
     private void recoverOneStuckJob(String jobId) {
         log.info("Attempting to recover stuck job with jobId: {}", jobId);
 
-        List<String> recoverOneStuckJobKeys =  List.of(
+        List<String> recoverOneStuckJobKeys = List.of(
                 RedisKeys.getMainQueueKey(),
                 RedisKeys.getJobMetadataKey(UUID.fromString(jobId)),
                 RedisKeys.getProcessingStorageByHeartbeatKey(),
                 RedisKeys.getProcessingStorageByStartedAtKey(),
                 RedisKeys.getSystemConfigTieredKeyPrefix()
         );
-        String status =  jobRecoveryRepository.recoverOneJob(
+
+        log.info("[Stuck Scheduler] performing recoverOneJob script for jobId: {}", jobId);
+        String status = jobRecoveryRepository.recoverOneJob(
                 LuaScripts.getRecoverOneJobScript(),
                 recoverOneStuckJobKeys,
                 jobId
         );
 
-        if (status == null || status.isEmpty() || JobStatus.fromString(status).equals(JobStatus.NEED_DISCARD)){
-            log.info("Job with jobId:{} has been identified as a stuck job that has exceeded max retry attempts and will be discarded", jobId);
+        log.info("[Stuck Scheduler] recoverOneJob script ends for jobId: {}", jobId);
 
+
+        if (status == null || status.isEmpty() || JobStatus.fromString(status).equals(JobStatus.NEED_DISCARD)) {
+            log.info("[Stuck Scheduler] Max retries exhausted and job is getting discarded: jobId: {}", jobId);
             jobDiscardService.discard(
                     UUID.fromString(jobId),
                     FailureCause.MAX_TIME_EXCEEDED,
                     systemConfigs.getTtlOfFailedJobSeconds());
+
+            log.info("[Stuck Scheduler] discarded jobId: {}", jobId);
             return;
         }
 
-        log.info("Job with jobId:{} has been identified as a stuck job and will be retried", jobId);
+        log.info("[Stuck Scheduler] jobId:{}   has been identified as a stuck job and will be retried", jobId);
     }
 }
