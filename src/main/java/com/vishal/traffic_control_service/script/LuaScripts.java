@@ -100,11 +100,11 @@ public class LuaScripts {
      *   <li>{@code KEYS[1]}: System capacity counter key</li>
      *   <li>{@code KEYS[2]}: Main Queue Sorted Set key</li>
      *   <li>{@code KEYS[3]}: Full job hash key</li>
-     *   <li>{@code ARGV[1]}: Maximum allowed capacity (numeric)</li>
-     *   <li>{@code ARGV[2]}: Job ID</li>
-     *   <li>{@code ARGV[3]}: Priority score for the queue</li>
-     *   <li>{@code ARGV[4]}: Job tier name</li>
-     *   <li>{@code ARGV[5]}: Arrival timestamp</li>
+     *   <li>{@code KEYS[4]}: Main Queue Capacity key</li>
+     *   <li>{@code ARGV[1]}: Job ID</li>
+     *   <li>{@code ARGV[2]}: Priority score for the queue</li>
+     *   <li>{@code ARGV[3]}: Job tier name</li>
+     *   <li>{@code ARGV[4]}: Arrival timestamp</li>
      * </ul>
      *
      * @return {@code 1} if enqueued, {@code 0} if capacity exceeded.
@@ -115,14 +115,14 @@ public class LuaScripts {
                 local mainQueueKey = KEYS[2]
                 local jobHashKey = KEYS[3]
                 
-                local maxCapacity = ARGV[1]
-                local jobId = ARGV[2]
-                local queueScore = ARGV[3]
-                local jobTier = ARGV[4]
-                local arrivedAt = ARGV[5]
-
+                local jobId = ARGV[1]
+                local queueScore = ARGV[2]
+                local jobTier = ARGV[3]
+                local arrivedAt = ARGV[4]
+                
+                local mainQueueCapacity = redis.call('GET', 'mainQueueCapacity');
                 local currentQueuedJobsCount = redis.call('GET', capacityCounterKey)
-                if tonumber(currentQueuedJobsCount or '0') >= tonumber(maxCapacity) then
+                if tonumber(currentQueuedJobsCount or '0') >= tonumber(mainQueueCapacity) then
                     return 0
                 end
                 
