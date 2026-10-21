@@ -77,13 +77,22 @@ public class SystemConfigs {
 
     @PostConstruct
     public void seedConfigInRedis(){
-        log.info("Seeding system configs in Redis if not already present...");
+        log.info("Seeding Tiered configs in Redis if not already present...");
+
+        seedCounterConfigs();
 
         JobTier.getAllTiers().
                 forEach(jobTier -> {
                     log.info("Creating system configs for tier {}", jobTier.name());
                     seedTieredConfigs(jobTier);
                 });
+    }
+
+    private void seedCounterConfigs() {
+
+        log.info("Seeding counter configs in Redis if not already present...");
+
+        stringRedisTemplate.opsForValue().set("mainQueueCapacity", String.valueOf(queueCapacity));
     }
 
     private void seedTieredConfigs(JobTier jobTier) {
