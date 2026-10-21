@@ -45,7 +45,6 @@ traffic-control:
         # Returned when jobId does not exist or has expired
         need-discard: "${JOB_NEED_DISCARD_ERROR_MESSAGE}"
         expired-or-not-exists: "${JOB_EXPIRED_OR_NOT_EXISTS_ERROR_MESSAGE}"
-        metadata-null: "${JOB_METADATA_NULL_ERROR_MESSAGE}"
       success:
         completed: "${JOB_COMPLETED_MESSAGE}"
         pending:   "${JOB_PENDING_MESSAGE}"
